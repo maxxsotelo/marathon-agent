@@ -1,6 +1,6 @@
 # 🏃‍♂️ Marathon Agent (`marathon-agent`)
 
-> An autonomous physiological rules engine, biometric pipeline, and Garmin-compatible workout generator — now powered by the **Kiat Engine**, a custom physiological intelligence layer built through AI-assisted collaborative engineering.
+> An autonomous physiological rules engine, biometric pipeline, and Garmin-compatible workout generator — now powered by the **Kiat Engine**, a custom physiological intelligence layer emulating Forerunner 970-class metrics from Forerunner 165 telemetry.
 
 [![Python Version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
@@ -17,7 +17,7 @@
 This system represents a major milestone in my development journey:
 
 1. **The Origin:** The direct successor of my first-generation **Automated ETL Data Pipeline** (which passively loaded performance metrics into Google Sheets).
-2. **The Innovation Gap:** Passive dashboards leave a gap — they don't actively adapt or prevent overtraining in real time. `marathon-agent` closes that gap with an active, autonomous coaching loop.
+2. **The Innovation Gap:** Passive dashboards leave a gap — they don't actively adapt or prevent overtraining in real time. `marathon-agent` closes that gap with an active, autonomous coaching loop. As of **May 2026**, the Kiat Engine has been upgraded to emulate **Forerunner 970-class** advanced physiological stress metrics (TRIMP, PA:HR Decoupling, Cardiac Drift, Max HR Drop, EPOC) computed from raw lap DTOs — closing the hardware capability gap entirely through software.
 3. **AI-Agent Co-Engineering:** Rather than manually writing thousands of lines of low-level API orchestration code, I acted as a **Systems Architect**, leveraging an advanced **AI Coding Agent (Antigravity / Gemini 2.5)** to co-engineer, debug, and extend this production-grade pipeline. This project demonstrates the power of AI-assisted systems design, rapid prototyping, and iterative domain-specific engineering.
 
 ---
@@ -36,9 +36,10 @@ graph TD
     E -->|ACWR > 1.5| G[Auto Speed Veto Engaged]
     E -->|Training Status| H[Productive / Strained / Peaking / Recovery]
     E -->|Lap Kinematics| I[REI + FBI Form Collapse Detection]
+    E -->|TRIMP / PA-HR / Cardiac Drift / EPOC| J2[Advanced 970-Emulated HR Metrics]
 
     C -->|HRV / Sleep / Stress| J{antigravity_core.py}
-    E -->|Kiat Engine Metrics Block| J
+    E -->|Full Kiat Engine Metrics Block| J
     J -->|Gemini 2.5 Flash LLM| K[Daily GO/NO-GO Briefing]
     K -->|Physiology-Grounded Recommendation| L[Athlete]
 
@@ -57,9 +58,9 @@ graph TD
 
 ## ⚡ Core Features & Capabilities
 
-### 🧠 1. Kiat Engine — Physiological Intelligence Layer ([physiological_engine.py](physiological_engine.py)) *(New)*
+### 🧠 1. Kiat Engine — Physiological Intelligence Layer ([physiological_engine.py](physiological_engine.py))
 
-The flagship module. Named from the Hokkien word *Kiat* (傑) — meaning **to surpass, to go beyond**. The Kiat Engine computes four premium physiological metrics from raw Forerunner 165 telemetry, completely bypassing any hardware limitation through software intelligence.
+The flagship module. Named from the Hokkien word *Kiat* (傑) — meaning **to surpass, to go beyond**. The Kiat Engine computes four premium physiological metrics from raw Forerunner 165 telemetry, completely bypassing any hardware limitation through software intelligence. As of **May 2026**, the engine now also emulates **Forerunner 970-class advanced HR and physiological stress metrics** built directly into the core engine — available in every daily briefing and sync report.
 
 #### Training Readiness Score (TRS) — 0 to 100
 A weighted composite index computed every morning before any training decision is made:
@@ -103,6 +104,19 @@ A deterministic state machine classifying the athlete's current physiological st
 #### Running Economy Index (REI) & Fatigue Biomechanics Index (FBI)
 - **REI:** Computes `Speed (m/s) ÷ Normalized Power (W) × 1000` over Zone 2 laps (145–162 bpm). Falls back to HR-based economy when power data is unavailable.
 - **FBI:** Compares kinematic data (cadence, stride length, ground contact time) between the first and last 3 active laps. A score below 70 triggers a form collapse flag, blocking interval prescriptions for the next session.
+
+#### Advanced HR & Physiological Stress Metrics (Forerunner 970-Emulated) *(New — May 2026)*
+Computed directly from lap telemetry and injected into every daily briefing and sync report:
+
+| Metric | Formula | What It Measures |
+|---|---|---|
+| **TRIMP (Banister)** | `duration_min × dHR_ratio × 0.64 × e^(1.92 × dHR_ratio)` | True cardiovascular training stress in AU |
+| **Edwards TRIMP** | Zone-weighted minutes (Z1×1 … Z5×5) | Cross-check via zone distribution |
+| **PA:HR Decoupling** | `(EF_first_half - EF_second_half) / EF_first_half × 100` | Aerobic ceiling test — is HR drifting from pace? |
+| **Cardiac Drift (Absolute)** | First-third vs last-third avg HR delta | Heat-driven plasma volume loss signal (bpm) |
+| **Cardiac Drift Index** | HR/speed ratio first vs last quarter | Pace-controlled drift — isolates thermal from effort |
+| **Max HR Drop** | Largest consecutive-lap HR decrease | Walk break / cooling event detector |
+| **EPOC (Knuttgen)** | `0.096 × e^(0.0284 × %HRmax) × duration_min` | Session-level O2 recovery debt (mL/kg) |
 
 ---
 
