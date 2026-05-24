@@ -1,0 +1,35 @@
+# Security & Credentials
+.env
+.env.local
+.env.*
+.garminconnect
+token_store
+
+# Personal Biometrics & Local Log Files
+biometrics_log.md
+garmin_output.txt
+garmin_output_utf8.txt
+my_garmin_output.txt
+my_garmin_output_utf8.txt
+coach_skills.md
+training_status_test.txt
+training_status_test_utf8.txt
+daily_chart.png
+training_load.png
+plot_load.py
+
+# Python Environment
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# OS-specific files
+DS_Store
+Thumbs.db

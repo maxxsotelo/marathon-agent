@@ -1,0 +1,622 @@
+"""
+Workout Generator Module for Antigravity Marathon Agent
+========================================================
+Creates structured Garmin-compatible workouts and schedules them
+to the athlete's Garmin Connect calendar.
+
+Athlete Profile (from coach_skills.md & operating_manual.md):
+    - Max HR: 206 bpm
+    - LTHR: 190-196 bpm
+    - Zone 1 (Recovery):       < 145 bpm
+    - Zone 2 (Aerobic Base):   145 - 162 bpm
+    - Zone 3 (Marathon Tempo):  163 - 184 bpm
+    - Zone 4 (Threshold):      185 - 196 bpm
+    - Zone 5 (Anaerobic):      197+ bpm
+    - Easy Cadence:            170-172 spm
+    - Speed Cadence:           175-182+ spm
+    - Easy/Long Pace:          6:00-6:45 /km
+    - Threshold Pace:          4:35-4:45 /km (heat adjusted)
+    - 5K Pace:                 ~4:49 /km
+"""
+
+import os
+from datetime import date
+from dotenv import load_dotenv
+from garminconnect import Garmin
+from garminconnect.workout import (
+    RunningWorkout,
+    WorkoutSegment,
+    ExecutableStep,
+    RepeatGroup,
+    create_warmup_step,
+    create_interval_step,
+    create_recovery_step,
+    create_cooldown_step,
+    create_repeat_group,
+    SportType,
+    StepType,
+    ConditionType,
+    TargetType,
+)
+
+load_dotenv()
+email = os.getenv("GARMIN_EMAIL")
+password = os.getenv("GARMIN_PASSWORD")
+
+TOKEN_STORE = os.path.expanduser("~/.garminconnect")
+
+# ──────────────────────────────────────────────────────────────────────
+# ATHLETE HEART RATE ZONES (Verified Jan 2026 - operating_manual.md)
+# ──────────────────────────────────────────────────────────────────────
+HR_ZONES = {
+    1: {"name": "Recovery",       "low": 100, "high": 144},
+    2: {"name": "Aerobic Base",   "low": 145, "high": 162},
+    3: {"name": "Marathon Tempo", "low": 163, "high": 184},
+    4: {"name": "Threshold",      "low": 185, "high": 196},
+    5: {"name": "Anaerobic Max",  "low": 197, "high": 206},
+}
+
+MAX_HR = 206
+ZONE2_CAP = 162  # The strict "162 Cap" rule
+
+# ──────────────────────────────────────────────────────────────────────
+# PACE BENCHMARKS (operating_manual.md, heat-adjusted for Marikina)
+# Garmin target speed is in meters/second.
+# ──────────────────────────────────────────────────────────────────────
+def pace_to_mps(min_per_km: str) -> float:
+    """Convert a pace string like '6:00' (min/km) to meters per second."""
+    parts = min_per_km.split(":")
+    total_seconds = int(parts[0]) * 60 + int(parts[1])
+    return 1000.0 / total_seconds
+
+PACE_BENCHMARKS = {
+    "recovery":   {"low": pace_to_mps("7:30"), "high": pace_to_mps("6:45")},
+    "easy":       {"low": pace_to_mps("6:45"), "high": pace_to_mps("6:00")},
+    "marathon":   {"low": pace_to_mps("5:50"), "high": pace_to_mps("5:30")},
+    "threshold":  {"low": pace_to_mps("4:55"), "high": pace_to_mps("4:35")},
+    "vo2max":     {"low": pace_to_mps("4:50"), "high": pace_to_mps("4:30")},
+}
+
+
+# ──────────────────────────────────────────────────────────────────────
+# HELPER: Build target dicts + extra kwargs for workout steps
+# ──────────────────────────────────────────────────────────────────────
+# Garmin API NOTE:
+#   The `targetType` dict on ExecutableStep only identifies the TARGET
+#   KIND (HR, pace, no-target). The actual VALUES (targetValueOne,
+#   targetValueTwo, zoneNumber) must be set as *sibling* fields on the
+#   ExecutableStep itself — NOT nested inside targetType.
+#
+#   ExecutableStep uses Pydantic's `extra="allow"`, so we can pass any
+#   extra kwargs when constructing the step and they will serialize.
+# ──────────────────────────────────────────────────────────────────────
+
+def _hr_target_type() -> dict:
+    """Return the targetType identifier dict for custom absolute BPM targets.
+    Using 'heart.rate' (not 'heart.rate.zone') so Garmin reads our exact
+    BPM values rather than its own miscalibrated zone table.
+    """
+    return {
+        "workoutTargetTypeId": TargetType.HEART_RATE,
+        "workoutTargetTypeKey": "heart.rate",
+        "displayOrder": 3,
+    }
+
+
+def _hr_target_values(zone: int) -> dict:
+    """
+    Return the extra kwargs (targetValueOne, targetValueTwo) that must be
+    set directly on ExecutableStep for custom absolute BPM targets.
+    No zoneNumber — we bypass Garmin's zone table entirely.
+    """
+    z = HR_ZONES[zone]
+    return {
+        "targetValueOne": float(z["low"]),
+        "targetValueTwo": float(z["high"]),
+    }
+
+
+def _pace_target_type() -> dict:
+    """Return the targetType identifier dict for speed/pace targets."""
+    return {
+        "workoutTargetTypeId": TargetType.SPEED,
+        "workoutTargetTypeKey": "speed.zone",
+        "displayOrder": 5,
+    }
+
+
+def _pace_target_values(intensity: str) -> dict:
+    """
+    Return the extra kwargs (targetValueOne, targetValueTwo) that must
+    be set directly on ExecutableStep for pace/speed targets.
+    """
+    p = PACE_BENCHMARKS[intensity]
+    return {
+        "targetValueOne": p["low"],
+        "targetValueTwo": p["high"],
+    }
+
+
+def _no_target_type() -> dict:
+    """Return the targetType dict for steps with no target."""
+    return {
+        "workoutTargetTypeId": TargetType.NO_TARGET,
+        "workoutTargetTypeKey": "no.target",
+        "displayOrder": 1,
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────
+# HELPER: Build a complete step with HR and/or pace targets
+# ──────────────────────────────────────────────────────────────────────
+# Pydantic V2 with extra="allow" requires extra fields to be passed
+# at construction time — object.__setattr__ does NOT register them
+# in the model's serialization. We construct ExecutableStep directly.
+# ──────────────────────────────────────────────────────────────────────
+
+# Step type descriptors (matching the library's convention)
+_STEP_TYPES = {
+    "warmup":   {"stepTypeId": StepType.WARMUP,   "stepTypeKey": "warmup",   "displayOrder": 1},
+    "interval": {"stepTypeId": StepType.INTERVAL,  "stepTypeKey": "interval", "displayOrder": 3},
+    "recovery": {"stepTypeId": StepType.RECOVERY,  "stepTypeKey": "recovery", "displayOrder": 4},
+    "cooldown": {"stepTypeId": StepType.COOLDOWN,  "stepTypeKey": "cooldown", "displayOrder": 2},
+}
+
+_TIME_CONDITION = {
+    "conditionTypeId": ConditionType.TIME,
+    "conditionTypeKey": "time",
+    "displayOrder": 2,
+    "displayable": True,
+}
+
+
+def _build_step(step_key: str, duration_secs: float, step_order: int,
+                zone: int, pace_intensity: str | None = None) -> ExecutableStep:
+    """
+    Construct an ExecutableStep with HR zone values and optional pace
+    as top-level fields (the way Garmin's API actually expects them).
+    """
+    hr_vals = _hr_target_values(zone)
+
+    # Build the constructor kwargs
+    kwargs = {
+        "stepOrder": step_order,
+        "stepType": _STEP_TYPES[step_key],
+        "endCondition": _TIME_CONDITION,
+        "endConditionValue": duration_secs,
+        "targetType": _hr_target_type(),
+        "targetValueOne": hr_vals["targetValueOne"],
+        "targetValueTwo": hr_vals["targetValueTwo"],
+    }
+
+    # Add pace as secondary target if specified
+    if pace_intensity:
+        pv = _pace_target_values(pace_intensity)
+        kwargs["secondaryTargetType"] = _pace_target_type()
+        kwargs["secondaryTargetValueOne"] = pv["targetValueOne"]
+        kwargs["secondaryTargetValueTwo"] = pv["targetValueTwo"]
+
+    return ExecutableStep(**kwargs)
+
+
+def _make_warmup(duration_secs: float, step_order: int, zone: int,
+                 pace_intensity: str | None = None) -> ExecutableStep:
+    """Create a warmup step with HR zone target and optional pace."""
+    return _build_step("warmup", duration_secs, step_order, zone, pace_intensity)
+
+
+def _make_interval(duration_secs: float, step_order: int, zone: int,
+                   pace_intensity: str | None = None) -> ExecutableStep:
+    """Create an interval step with HR zone target and optional pace."""
+    return _build_step("interval", duration_secs, step_order, zone, pace_intensity)
+
+
+def _make_recovery(duration_secs: float, step_order: int, zone: int = 1,
+                   pace_intensity: str | None = None) -> ExecutableStep:
+    """Create a recovery step with HR zone target."""
+    return _build_step("recovery", duration_secs, step_order, zone, pace_intensity)
+
+
+def _make_cooldown(duration_secs: float, step_order: int, zone: int = 1,
+                   pace_intensity: str | None = None) -> ExecutableStep:
+    """Create a cooldown step with HR zone target."""
+    return _build_step("cooldown", duration_secs, step_order, zone, pace_intensity)
+
+
+# ──────────────────────────────────────────────────────────────────────
+# CORE: create_workout()
+# ──────────────────────────────────────────────────────────────────────
+def create_workout(
+    workout_type: str,
+    duration_mins: int,
+    intensity: str = "easy",
+) -> RunningWorkout:
+    """
+    Create a Garmin-compatible structured running workout.
+
+    Parameters
+    ----------
+    workout_type : str
+        One of: 'easy', 'long_run', 'tempo', 'intervals', 'recovery'
+    duration_mins : int
+        Total estimated workout duration in minutes.
+    intensity : str
+        Target intensity key: 'recovery', 'easy', 'marathon',
+        'threshold', 'vo2max'. Maps to the athlete's verified
+        HR zones and pace benchmarks.
+
+    Returns
+    -------
+    RunningWorkout
+        A Pydantic model ready for upload via
+        client.upload_running_workout(workout).
+    """
+    workout_type = workout_type.lower().strip()
+    intensity = intensity.lower().strip()
+    total_secs = duration_mins * 60
+
+    # Map intensity string to the closest HR zone number.
+    # NOTE: For this athlete, 'vo2max' maps to Zone 4 (185-196 bpm),
+    # NOT Zone 5. His verified LTHR is 190-196 bpm, meaning Zone 4 IS
+    # the VO2 Max stimulus. Zone 5 (197+ bpm) is pure anaerobic sprint
+    # territory — only appropriate for <30 second efforts.
+    intensity_to_zone = {
+        "recovery":  1,
+        "easy":      2,
+        "marathon":  3,
+        "threshold": 4,
+        "vo2max":    4,  # LTHR-anchored: 185-196 bpm = VO2 Max for Max
+    }
+    zone = intensity_to_zone.get(intensity, 2)
+
+    # ── Build steps based on workout type ──────────────────────────
+    if workout_type == "recovery":
+        steps = _build_recovery_steps(total_secs)
+        name = f"Recovery Run – Zone 1 ({duration_mins}min)"
+
+    elif workout_type == "easy":
+        steps = _build_easy_steps(total_secs, zone)
+        name = f"Easy Run – Zone {zone} ({duration_mins}min)"
+
+    elif workout_type == "long_run":
+        steps = _build_long_run_steps(total_secs)
+        name = f"Long Run – Aerobic Base ({duration_mins}min)"
+
+    elif workout_type == "tempo":
+        steps = _build_tempo_steps(total_secs, zone)
+        name = f"Tempo Run – Zone {zone} ({duration_mins}min)"
+
+    elif workout_type == "intervals":
+        steps = _build_interval_steps(total_secs, zone, intensity)
+        name = f"Interval Session – Zone {zone} ({duration_mins}min)"
+
+    else:
+        raise ValueError(
+            f"Unknown workout_type '{workout_type}'. "
+            f"Choose from: easy, long_run, tempo, intervals, recovery"
+        )
+
+    workout = RunningWorkout(
+        workoutName=name,
+        description=f"Auto-generated by Antigravity Coach for Max. "
+                    f"Intensity: {intensity} | Custom HR: {HR_ZONES[zone]['low']}-{HR_ZONES[zone]['high']} bpm (physiology-calibrated)",
+        estimatedDurationInSecs=total_secs,
+        workoutSegments=[
+            WorkoutSegment(
+                segmentOrder=1,
+                sportType={
+                    "sportTypeId": SportType.RUNNING,
+                    "sportTypeKey": "running",
+                },
+                workoutSteps=steps,
+            )
+        ],
+    )
+
+    print(f"[WORKOUT] Created: {name}")
+    print(f"[WORKOUT] Target HR Zone {zone}: "
+          f"{HR_ZONES[zone]['low']}-{HR_ZONES[zone]['high']} bpm")
+    return workout
+
+
+# ──────────────────────────────────────────────────────────────────────
+# STEP BUILDERS (each returns a list of ExecutableStep / RepeatGroup)
+# All steps now use _make_*() helpers that correctly set HR zone values
+# and optional pace targets as top-level fields on ExecutableStep.
+# ──────────────────────────────────────────────────────────────────────
+
+# Map intensity string → pace benchmark key for secondary pace targets
+INTENSITY_TO_PACE = {
+    "recovery":  "recovery",
+    "easy":      "easy",
+    "marathon":  "marathon",
+    "threshold": "threshold",
+    "vo2max":    "vo2max",
+}
+
+
+def _build_recovery_steps(total_secs: int) -> list:
+    """Zone 1 only. No structure needed — just easy movement."""
+    warmup_secs = 300.0  # 5 min
+    cooldown_secs = 300.0  # 5 min
+    main_secs = float(total_secs) - warmup_secs - cooldown_secs
+    if main_secs < 300:
+        main_secs = float(total_secs)
+        return [
+            _make_warmup(main_secs, step_order=1, zone=1,
+                         pace_intensity="recovery"),
+        ]
+    return [
+        _make_warmup(warmup_secs, step_order=1, zone=1,
+                     pace_intensity="recovery"),
+        _make_interval(main_secs, step_order=2, zone=1,
+                       pace_intensity="recovery"),
+        _make_cooldown(cooldown_secs, step_order=3, zone=1,
+                       pace_intensity="recovery"),
+    ]
+
+
+def _build_easy_steps(total_secs: int, zone: int) -> list:
+    """Aerobic base: warm up → steady Zone 2 → cool down."""
+    warmup_secs = 600.0  # 10 min
+    cooldown_secs = 300.0  # 5 min
+    main_secs = float(total_secs) - warmup_secs - cooldown_secs
+    if main_secs < 600:
+        # Short run — skip formal warm/cool
+        return [
+            _make_warmup(float(total_secs), step_order=1, zone=zone,
+                         pace_intensity="easy"),
+        ]
+    return [
+        _make_warmup(warmup_secs, step_order=1, zone=1,
+                     pace_intensity="recovery"),
+        _make_interval(main_secs, step_order=2, zone=zone,
+                       pace_intensity="easy"),
+        _make_cooldown(cooldown_secs, step_order=3, zone=1,
+                       pace_intensity="recovery"),
+    ]
+
+
+def _build_long_run_steps(total_secs: int) -> list:
+    """
+    Long run protocol from operating_manual.md:
+    First ~70% at Zone 2 easy, final ~30% at Marathon Pace (Zone 3).
+    Always includes warm-up and cool-down.
+    """
+    warmup_secs = 600.0  # 10 min
+    cooldown_secs = 600.0  # 10 min
+    body_secs = float(total_secs) - warmup_secs - cooldown_secs
+    easy_secs = body_secs * 0.70
+    mp_secs = body_secs * 0.30
+
+    return [
+        _make_warmup(warmup_secs, step_order=1, zone=1,
+                     pace_intensity="recovery"),
+        # Main aerobic block — strict 162 cap
+        _make_interval(easy_secs, step_order=2, zone=2,
+                       pace_intensity="easy"),
+        # Finish strong at Marathon Pace
+        _make_interval(mp_secs, step_order=3, zone=3,
+                       pace_intensity="marathon"),
+        _make_cooldown(cooldown_secs, step_order=4, zone=1,
+                       pace_intensity="recovery"),
+    ]
+
+
+def _build_tempo_steps(total_secs: int, zone: int) -> list:
+    """
+    Continuous tempo run at the specified zone.
+    Warm-up 10 min → Sustained effort → Cool-down 10 min.
+    """
+    warmup_secs = 600.0
+    cooldown_secs = 600.0
+    tempo_secs = float(total_secs) - warmup_secs - cooldown_secs
+    if tempo_secs < 600:
+        tempo_secs = 600.0  # minimum 10-min tempo block
+
+    # Map zone to the matching pace intensity
+    pace_key = {3: "marathon", 4: "threshold"}.get(zone, "easy")
+
+    return [
+        _make_warmup(warmup_secs, step_order=1, zone=1,
+                     pace_intensity="recovery"),
+        _make_interval(tempo_secs, step_order=2, zone=zone,
+                       pace_intensity=pace_key),
+        _make_cooldown(cooldown_secs, step_order=3, zone=1,
+                       pace_intensity="recovery"),
+    ]
+
+
+def _build_interval_steps(total_secs: int, zone: int, intensity: str) -> list:
+    """
+    Structured interval session.
+
+    FT-dominant athlete protocol (from training_fast_vs_slow_twitch):
+    - Short work bouts (2 min) with long passive recovery (3 min)
+    - For VO2 Max: 600m reps (~2:40 at 4:30/km pace)
+
+    Builds a warm-up → repeat(work + rest) → cool-down structure.
+    """
+    warmup_secs = 600.0   # 10 min
+    cooldown_secs = 600.0  # 10 min
+
+    # Work and rest durations based on intensity
+    if intensity == "vo2max":
+        work_secs = 160.0   # ~2:40 (600m at ~4:30/km)
+        rest_secs = 180.0   # 3:00 passive recovery
+    elif intensity == "threshold":
+        work_secs = 300.0   # 5:00 threshold reps
+        rest_secs = 120.0   # 2:00 recovery jog
+    else:
+        work_secs = 240.0   # 4:00 moderate reps
+        rest_secs = 120.0   # 2:00 recovery
+
+    available_secs = float(total_secs) - warmup_secs - cooldown_secs
+    reps = max(1, int(available_secs / (work_secs + rest_secs)))
+
+    # Build the work + rest steps inside the repeat group
+    # Pace target for work bouts matches the intensity
+    pace_key = INTENSITY_TO_PACE.get(intensity, "easy")
+    work_step = _make_interval(work_secs, step_order=1, zone=zone,
+                               pace_intensity=pace_key)
+    rest_step = _make_recovery(rest_secs, step_order=2, zone=1,
+                               pace_intensity="recovery")
+
+    repeat = create_repeat_group(
+        iterations=reps,
+        workout_steps=[work_step, rest_step],
+        step_order=2,
+    )
+
+    return [
+        _make_warmup(warmup_secs, step_order=1, zone=1,
+                     pace_intensity="recovery"),
+        repeat,
+        _make_cooldown(cooldown_secs, step_order=3, zone=1,
+                       pace_intensity="recovery"),
+    ]
+
+
+# ──────────────────────────────────────────────────────────────────────
+# UPLOAD & SCHEDULE
+# ──────────────────────────────────────────────────────────────────────
+
+def _get_client() -> Garmin:
+    """Authenticate and return a Garmin client using saved tokens."""
+    client = Garmin(
+        email=email,
+        password=password,
+        prompt_mfa=lambda: input("Garmin MFA code: "),
+    )
+    client.login(TOKEN_STORE)
+    return client
+
+
+def upload_workout(workout: RunningWorkout) -> dict:
+    """
+    Upload a workout to Garmin Connect.
+
+    Returns the API response dict which includes 'workoutId'.
+    """
+    client = _get_client()
+    result = client.upload_running_workout(workout)
+    workout_id = result.get("workoutId", "unknown")
+    print(f"[UPLOAD] Workout uploaded successfully. ID: {workout_id}")
+    return result
+
+
+def schedule_workout(workout_id: int, target_date: str) -> dict:
+    """
+    Schedule an existing workout to a specific date on the
+    athlete's Garmin Connect calendar.
+
+    Parameters
+    ----------
+    workout_id : int
+        The workout ID returned from upload_workout().
+    target_date : str
+        Date string in 'YYYY-MM-DD' format.
+
+    Returns
+    -------
+    dict
+        API response from Garmin Connect.
+    """
+    client = _get_client()
+    result = client.schedule_workout(workout_id, target_date)
+    print(f"[SCHEDULE] Workout {workout_id} scheduled for {target_date}")
+    return result
+
+
+def create_and_schedule(
+    workout_type: str,
+    duration_mins: int,
+    intensity: str,
+    target_date: str,
+) -> dict:
+    """
+    End-to-end convenience: create → upload → schedule.
+
+    Parameters
+    ----------
+    workout_type : str
+        One of: 'easy', 'long_run', 'tempo', 'intervals', 'recovery'
+    duration_mins : int
+        Total estimated workout duration in minutes.
+    intensity : str
+        Target intensity: 'recovery', 'easy', 'marathon',
+        'threshold', 'vo2max'.
+    target_date : str
+        Date string in 'YYYY-MM-DD' format.
+
+    Returns
+    -------
+    dict
+        Contains 'workout' (the RunningWorkout object),
+        'upload_result', and 'schedule_result'.
+    """
+    workout = create_workout(workout_type, duration_mins, intensity)
+    upload_result = upload_workout(workout)
+    workout_id = upload_result.get("workoutId")
+    schedule_result = schedule_workout(workout_id, target_date)
+    return {
+        "workout": workout,
+        "upload_result": upload_result,
+        "schedule_result": schedule_result,
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────
+# CLI INTERFACE
+# ──────────────────────────────────────────────────────────────────────
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Antigravity Workout Generator — Create & schedule "
+                    "Garmin workouts from the command line."
+    )
+    parser.add_argument(
+        "type",
+        choices=["easy", "long_run", "tempo", "intervals", "recovery"],
+        help="Workout type",
+    )
+    parser.add_argument(
+        "duration",
+        type=int,
+        help="Duration in minutes",
+    )
+    parser.add_argument(
+        "--intensity",
+        default="easy",
+        choices=["recovery", "easy", "marathon", "threshold", "vo2max"],
+        help="Target intensity (default: easy)",
+    )
+    parser.add_argument(
+        "--date",
+        default=None,
+        help="Schedule date (YYYY-MM-DD). If omitted, creates without scheduling.",
+    )
+    parser.add_argument(
+        "--upload",
+        action="store_true",
+        help="Upload the workout to Garmin Connect.",
+    )
+
+    args = parser.parse_args()
+
+    workout = create_workout(args.type, args.duration, args.intensity)
+
+    if args.upload:
+        result = upload_workout(workout)
+        wid = result.get("workoutId")
+
+        if args.date and wid:
+            schedule_workout(wid, args.date)
+    elif args.date:
+        print("[INFO] Use --upload together with --date to schedule.")
+
+    print("\n[DONE] Workout object ready.")
+    print(f"  Name:     {workout.workoutName}")
+    print(f"  Duration: {args.duration} min")
+    print(f"  Steps:    {len(workout.workoutSegments[0].workoutSteps)}")
