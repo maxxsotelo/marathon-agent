@@ -1,14 +1,14 @@
 # 🏃‍♂️ Marathon Agent (`marathon-agent`)
 
-> An autonomous physiological rules engine, biometric pipeline, and Garmin-compatible workout generator — now powered by the **Kiat Engine**, a custom physiological intelligence layer emulating Forerunner 970-class metrics from Forerunner 165 telemetry.
+> An autonomous physiological rules engine, biometric pipeline, and Garmin-compatible workout generator — powered by the **Kiat Engine**, a custom physiological intelligence layer emulating Forerunner 970-class metrics from Forerunner 165 telemetry, with deterministic LLM grounding to eliminate hallucination in recovery prescriptions.
 
 [![Python Version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Garmin Integration](https://img.shields.io/badge/Garmin-Connect-brightgreen.svg)](https://connect.garmin.com)
 [![Data Modeling: Pydantic V2](https://img.shields.io/badge/Data%20Modeling-Pydantic%20V2-red.svg)](https://docs.pydantic.dev/)
-[![AI Powered](https://img.shields.io/badge/AI--Powered-Gemini%202.5-orange.svg)](https://deepmind.google/technologies/gemini/)
+[![Multi-LLM](https://img.shields.io/badge/LLM-Gemini%20%7C%20Claude-orange.svg)](https://deepmind.google/technologies/gemini/)
 
-`marathon-agent` is an intelligent personal coaching system that bridges the gap between raw biometric logs and real-world training execution. Co-engineered in partnership with an **AI Coding Agent**, it pulls physical data (HRV, Sleep Architecture, Strength Session Loads, MyFitnessPal nutrition) from Garmin Connect, runs the **Kiat Engine** — a custom physiological intelligence layer — to compute premium coaching metrics beyond the athlete's hardware capabilities, and automatically generates and schedules structured, physiology-calibrated running workouts directly to the Garmin watch calendar.
+`marathon-agent` is an intelligent personal coaching system that bridges the gap between raw biometric logs and real-world training execution. Co-engineered in partnership with an **AI Coding Agent**, it pulls physical data (HRV, Sleep Architecture, Strength Session Loads) from Garmin Connect, runs the **Kiat Engine** — a custom physiological intelligence layer — to compute premium coaching metrics beyond the athlete's hardware capabilities, and automatically generates and schedules structured, physiology-calibrated running workouts directly to the Garmin watch calendar.
 
 ---
 
@@ -18,8 +18,9 @@ This system represents a major milestone in my development journey:
 
 1. **The Origin:** The direct successor of my first-generation **Automated ETL Data Pipeline** (which passively loaded performance metrics into Google Sheets).
 2. **The Innovation Gap:** Passive dashboards leave a gap — they don't actively adapt or prevent overtraining in real time. `marathon-agent` closes that gap with an active, autonomous coaching loop. As of **May 2026**, the Kiat Engine has been upgraded to emulate **Forerunner 970-class** advanced physiological stress metrics (TRIMP, PA:HR Decoupling, Cardiac Drift, Max HR Drop, EPOC) computed from raw lap DTOs — closing the hardware capability gap entirely through software.
-3. **Solving LLM Temporal Hallucination:** LLMs are stateless and inherently lack a sense of time, leading to dangerous coaching errors when guessing recovery windows. This architecture explicitly strips reasoning away from the LLM for critical safety gates. The Python layer computes precise temporal facts (e.g., exact hours elapsed since the last run ended, anchored to PHT) and feeds a hardcoded "Recovery Context" block directly into the LLM as absolute, unalterable ground truth.
-4. **AI-Agent Co-Engineering:** Rather than manually writing thousands of lines of low-level API orchestration code, I acted as a **Systems Architect**, leveraging an advanced **AI Coding Agent (Antigravity / Gemini)** to co-engineer, debug, and extend this production-grade pipeline. This project demonstrates the power of AI-assisted systems design, rapid prototyping, and iterative domain-specific engineering.
+3. **Solving LLM Temporal Hallucination *(New — May 2026)*:** LLMs are stateless and have no inherent sense of time — a critical failure mode for coaching systems where a 12-hour error in recovery estimation can mean the difference between a productive session and an overtraining injury. This architecture explicitly strips temporal reasoning away from the LLM. The Python layer computes a precise float for `hours_since_last_run_end` from exact Garmin `startTimeLocal + duration` timestamps (anchored to Philippine Time, UTC+8), then injects a hardcoded "Recovery Context" block into the LLM prompt as absolute, unalterable ground truth. The LLM is instructed never to reinterpret or override this block.
+4. **Multi-LLM Backbone:** The system is not locked to a single model provider. The coaching brain switches between **Google Gemini** (Flash / Pro) and **Anthropic Claude** (Sonnet / Opus) depending on the session's complexity and depth required. This model-agnostic design ensures the best reasoning is always applied to the data.
+5. **AI-Agent Co-Engineering:** Rather than manually writing thousands of lines of low-level API orchestration code, I acted as a **Systems Architect**, leveraging an advanced **AI Coding Agent (Antigravity)** to co-engineer, debug, and extend this production-grade pipeline. This project demonstrates the power of AI-assisted systems design, rapid prototyping, and iterative domain-specific engineering.
 
 ---
 
@@ -29,8 +30,6 @@ This system represents a major milestone in my development journey:
 graph TD
     A[Garmin Forerunner 165] -->|Syncs Telemetry| B(Garmin Connect Cloud)
     B -->|Biometrics / Sleep / Workouts| C[fetch_garmin.py]
-    B -->|Nutrition Sync| D(MyFitnessPal)
-    D -->|Kcal & Macros| C
 
     C -->|30-Day Activity Window| E{Kiat Engine}
     E -->|Training Readiness Score| F[TRS: 0-100 Weighted Composite]
@@ -41,7 +40,9 @@ graph TD
 
     C -->|HRV / Sleep / Stress| J{antigravity_core.py}
     E -->|Full Kiat Engine Metrics Block| J
-    J -->|Gemini 2.5 Flash LLM| K[Daily GO/NO-GO Briefing]
+    J -->|PHT-Anchored hours_since_last_run_end| K2[Python-Computed Recovery Context]
+    K2 -->|6-Tier Priority Stack injected as ground truth| J
+    J -->|Gemini Flash/Pro or Claude Sonnet/Opus| K[Daily GO/NO-GO Briefing]
     K -->|Physiology-Grounded Recommendation| L[Athlete]
 
     L -->|Approves Session| M[workout_generator.py]
@@ -61,7 +62,7 @@ graph TD
 
 ### 🧠 1. Kiat Engine — Physiological Intelligence Layer ([physiological_engine.py](physiological_engine.py))
 
-The flagship module. Named from the Hokkien word *Kiat* (傑) — meaning **to surpass, to go beyond**. The Kiat Engine computes four premium physiological metrics from raw Forerunner 165 telemetry, completely bypassing any hardware limitation through software intelligence. As of **May 2026**, the engine now also emulates **Forerunner 970-class advanced HR and physiological stress metrics** built directly into the core engine — available in every daily briefing and sync report.
+The flagship module. Named from the Hokkien word *Kiat* (傑) — meaning **to surpass, to go beyond**. The Kiat Engine computes premium physiological metrics from raw Forerunner 165 telemetry, completely bypassing hardware limitations through software intelligence. As of **May 2026**, it also emulates **Forerunner 970-class advanced HR and physiological stress metrics** — available in every daily briefing and sync report.
 
 #### Training Readiness Score (TRS) — 0 to 100
 A weighted composite index computed every morning before any training decision is made:
@@ -82,9 +83,9 @@ A weighted composite index computed every morning before any training decision i
 Tracks progressive overload safety using a rolling 7-day vs. 28-day running distance window.
 
 ```
-Acute Load  = Total running km over last 7 days
+Acute Load   = Total running km over last 7 days
 Chronic Load = Average weekly running km over last 28 days
-ACWR = Acute ÷ Chronic
+ACWR         = Acute ÷ Chronic
 ```
 
 | ACWR Zone | Label | Action |
@@ -95,7 +96,7 @@ ACWR = Acute ÷ Chronic
 | 1.31 – 1.49 | High | Reduce volume 3–5 days |
 | **> 1.50** | **DANGER** | **Auto Speed Veto engaged** |
 
-> **The Speed Veto:** Any ACWR > 1.50 autonomously blocks all interval, tempo, VO2Max, and heavy lower-body lift sessions — injecting a hard constraint directly into the LLM system prompt with no override path.
+> **The Speed Veto:** Any ACWR > 1.50 autonomously blocks all interval, tempo, VO2Max, and heavy lower-body lift sessions — injecting a hard constraint directly into the LLM prompt with no override path.
 
 #### Training Status Engine
 A deterministic state machine classifying the athlete's current physiological state each session:
@@ -118,29 +119,76 @@ Computed directly from lap telemetry and injected into every daily briefing and 
 | **Cardiac Drift Index** | HR/speed ratio first vs last quarter | Pace-controlled drift — isolates thermal from effort |
 | **Max HR Drop** | Largest consecutive-lap HR decrease | Walk break / cooling event detector |
 | **EPOC (Knuttgen)** | `0.096 × e^(0.0284 × %HRmax) × duration_min` | Session-level O2 recovery debt (mL/kg) |
+| **Per-Lap EPOC %** | `(HR/HRmax)² × duration` normalized | Relative contribution of each lap to total EPOC |
 
 ---
 
 ### 🔍 2. Biometric Ingestion & MFA Caching ([fetch_garmin.py](fetch_garmin.py))
 - Connects securely to Garmin Connect via reverse-engineered endpoints.
 - **Token Caching:** Stores OAuth session tokens in `~/.garminconnect` after the initial execution, bypassing repetitive MFA prompts on every run.
-- Pulls sleep stage breakdowns (Deep, Light, REM, Awake %), HRV, body battery, resting HR, and nutrition balance from MyFitnessPal sync.
+- Pulls sleep stage breakdowns (Deep, Light, REM, Awake %), HRV, body battery, resting HR, and nutrition balance.
 - **Expanded to a 30-day activity window** (35 activities) to power the ACWR chronic workload baseline.
 - Runs the physiological engine at the end of every sync — printing the full 970-emulated metrics report.
 
+---
+
 ### 🤖 3. AI Daily Briefing ([antigravity_core.py](antigravity_core.py))
-- Connects to **Gemini Flash/Pro** with a structured, highly deterministic system prompt built from:
-  - Live Garmin telemetry (HRV, body battery, stress, last workout)
-  - The full **Kiat Engine** metrics report (TRS, ACWR, Training Status, REI, FBI)
-  - **The Python-Computed Recovery Context:** Precise float calculations of hours elapsed since the last run ended (anchored to UTC+8 PHT) mapped to 6 strict recovery tiers.
-  - The knowledge base operating manual (athlete thresholds, periodisation rules)
-- **Deterministic Priority Stack Enforcement:** The LLM does not "guess" safety. It is forced to evaluate P1 (ACWR > 1.5 veto) → P2 (HRV Gate) → P3 (Hours-Since-Last-Run Gate) → P4 (TRS Advisory) in strict order.
-- Outputs a clinical GO / NO-GO verdict, a Training Status classification, a biomechanics commentary, and a specific session recommendation with target HR zone and duration.
+
+The execution core. Connects to a **multi-LLM backend** (Google Gemini Flash/Pro or Anthropic Claude Sonnet/Opus) with a highly structured, deterministic system prompt. The key architectural decision is that the LLM is the *narrator*, not the *calculator* — all safety-critical decisions are pre-computed in Python before the model ever sees the data.
+
+#### ⏱️ PHT-Anchored Temporal Engine *(New — May 2026)*
+All date/time logic is anchored to **Philippine Time (UTC+8)** via a module-level constant:
+```python
+PHT = timezone(timedelta(hours=8))
+```
+The script fetches `startTimeLocal + duration` from Garmin to compute the **exact workout end time** in PHT, then derives:
+```python
+hours_since_last_run_end = (now_pht - end_pht).total_seconds() / 3600.0
+```
+This float is the **PRIMARY RECOVERY SIGNAL** — displayed in the briefing header and used to gate all coaching decisions.
+
+#### 🔢 6-Tier Recovery Gate *(New — May 2026)*
+Replaces the previous coarse day-bucket logic. All thresholds are hours-based and operate on the exact workout end time:
+
+| Hours Since Run Ended | Recovery State | Coaching Rule |
+|---|---|---|
+| < 6h | Just Finished | Zone 1 or complete rest ONLY |
+| 6 – 24h | Within 24h | Zone 1-2 MAXIMUM. No Zone 3/4/5 regardless of HRV/TRS |
+| 24 – 36h | ~1 Day | Zone 2 safe. Zone 3-4 ONLY if last run was < 15 km easy |
+| 36 – 48h | ~2 Days | Zone 3-4 cleared if HRV ≥ 116 ms & TRS green. Zone 5 blocked unless last run < 15 km |
+| 48 – 72h | ~3 Days | All zones permitted — defer to TRS, HRV, ACWR |
+| > 72h | Extended Rest | Full clearance. Detraining risk if gap > 5 days |
+
+#### 🧱 Hardcoded Priority Stack *(New — May 2026)*
+The LLM is forced to evaluate all gates in strict order before forming a recommendation:
+
+| Priority | Gate | Rule |
+|---|---|---|
+| P1 | ACWR Veto | ACWR > 1.5 → automatic Speed Veto. No debate. |
+| P2 | HRV Gate | HRV < 116 ms → No Zone 4/5 or heavy lower-body |
+| P3 | Recovery Gate | hours_since_last_run_end mapped to 6-tier table above |
+| P4 | TRS Advisory | TRS < 50 → Downgrade all sessions to Zone 2 max |
+| P5 | Biomechanics | FBI < 70 → Shorten session, add mobility work |
+| P6 | Standard | Training Status guides periodisation prescription |
+
+The LLM receives the Python-computed Recovery Context as a labeled block with the instruction: *"Do NOT reinterpret or override this block. It is pre-computed from exact PHT timestamps by the Python layer."*
+
+#### Output Structure
+Every briefing produces 5 sections:
+1. **GO / NO-GO** — cites specific metric values and the P3 tier hit
+2. **Training Status** — state + metric combination that produced it
+3. **REI & FBI Commentary** — flags form collapse or economy regression
+4. **Today's Session Recommendation** — session type, target HR zone, duration, justification
+5. **Recovery Outlook** — tomorrow's training window based on today's prescription
+
+---
 
 ### 🛠️ 4. Pydantic V2 Workout Generator ([workout_generator.py](workout_generator.py))
 - Constructs complex running workouts (warmup, work intervals, recovery intervals, cooldowns) programmatically.
 - Serializes API-compliant payloads using **Pydantic V2**, bypassing Garmin's inaccurate automatic HR zone tables by sending precise absolute BPM targets and speed metrics (m/s).
 - Schedules workouts directly to specific dates on the Garmin Connect Calendar.
+
+---
 
 ### 🔴 5. Physiological Safety Rules ("Red Lines")
 - **The HRV Gate:** 7-day RMSSD < 116 ms → vetoes Zone 4/5 sessions → schedules Zone 1/2 recovery.
@@ -149,17 +197,23 @@ Computed directly from lap telemetry and injected into every daily briefing and 
 - **Zone-2 Heat Cap:** Strict 162 BPM ceiling for base runs accounting for Marikina tropical climate cardiac drift.
 - **FBI Form Collapse:** FBI < 70 → next session shortened; intervals blocked.
 
+---
+
 ### 📐 6. Post-Workout Biomechanics Auditor
 Per-lap decoding of Garmin telemetry for completed runs:
 - Cadence (spm), stride length (m), Ground Contact Time (ms), Vertical Oscillation (cm), Vertical Ratio (%)
 - Normalized Power (W) and W/kg per lap
 - Grade Adjusted Pace (GAP) and moving pace delta
 
+---
+
 ### 📈 7. Rolling Block Auditor ([block_auditor.py](block_auditor.py))
 - Retro audits over rolling 3-week training blocks.
 - Week-over-week deltas: running volume, longest run, elevation gain, cross-training distance, strength presence.
 
-### 🔬 8. Exhaustive Run Analysis Engine (`run_analysis.py`) *(New — May 2026)*
+---
+
+### 🔬 8. Exhaustive Run Analysis Engine ([run_analysis.py](run_analysis.py)) *(New — May 2026)*
 A coaching-grade, lap-by-lap post-run analytics report generator. Pulls every available field from the Garmin API and computes advanced metrics entirely absent from Garmin's native platform:
 
 | Metric | Formula | What It Measures |
@@ -176,7 +230,9 @@ A coaching-grade, lap-by-lap post-run analytics report generator. Pulls every av
 - Generates a full Markdown report covering 11 sections: Activity Overview, Environmental Conditions (Heat Tax), HR Analysis, Power Analysis, Training Effect, Biomechanics, Best Efforts, and exhaustive lap-by-lap table with all 18+ fields per lap.
 - Accepts a date argument: `python run_analysis.py 2026-05-23`
 
-### 📧 9. Automated HTML Email Report (`send_report_email.py`) *(New — May 2026)*
+---
+
+### 📧 9. Automated HTML Email Report ([send_report_email.py](send_report_email.py)) *(New — May 2026)*
 Sends a professionally designed dark-mode HTML email directly to the athlete's Gmail after every significant session. Includes:
 - Kiat Engine vitals dashboard (TRS, ACWR, HRV, Training Status)
 - Advanced HR metrics block (TRIMP, PA:HR, Cardiac Drift, EPOC, Max HR Drop)
@@ -191,8 +247,8 @@ Sends a professionally designed dark-mode HTML email directly to the athlete's G
 
 ```
 marathon-agent/
-├── physiological_engine.py   # Kiat Engine -- TRS, ACWR, Training Status, REI, FBI
-├── antigravity_core.py       # AI daily briefing -- Gemini 2.5 + Kiat Engine integration
+├── physiological_engine.py   # Kiat Engine -- TRS, ACWR, Training Status, REI, FBI, 970-emulated metrics
+├── antigravity_core.py       # AI daily briefing -- Multi-LLM + PHT-anchored deterministic recovery gate
 ├── fetch_garmin.py           # Biometric ingestion -- 30-day window, sleep, HRV, nutrition
 ├── workout_generator.py      # Pydantic V2 workout builder & Garmin Calendar uploader
 ├── run_analysis.py           # Exhaustive run analytics -- TRIMP, EPOC, PA:HR, Cardiac Drift
@@ -216,7 +272,7 @@ marathon-agent/
 ### Prerequisites
 - Python 3.10 or higher
 - A Garmin Connect account
-- A Google Gemini API key (for the AI daily briefing)
+- A Google Gemini API key **or** an Anthropic API key (system is multi-LLM)
 
 ### Installation & Setup
 
@@ -228,7 +284,7 @@ cd marathon-agent
 
 **Install dependencies:**
 ```bash
-pip install garminconnect google-genai python-dotenv pydantic
+pip install garminconnect google-genai anthropic python-dotenv pydantic
 ```
 
 **Create a `.env` file in the root directory:**
@@ -236,6 +292,10 @@ pip install garminconnect google-genai python-dotenv pydantic
 GARMIN_EMAIL="your_garmin_email@example.com"
 GARMIN_PASSWORD="your_secure_password"
 GEMINI_API_KEY="your_gemini_api_key"
+# ANTHROPIC_API_KEY="your_claude_api_key"  # Optional: for Claude Sonnet/Opus sessions
+GMAIL_SENDER="your_gmail@gmail.com"
+GMAIL_APP_PASSWORD="your_gmail_app_password"
+GMAIL_RECIPIENT="your_email@gmail.com"
 ```
 
 > **Security Note:** The `.gitignore` is pre-configured to exclude `.env`, `~/.garminconnect` token files, and all cache/output files. Your credentials will never be committed.
@@ -256,7 +316,7 @@ Pulls all Garmin data, prints a full biometrics audit, and outputs the Kiat Engi
 ```bash
 python antigravity_core.py
 ```
-Fetches live telemetry, runs the physiological engine, consults Gemini 2.5, and outputs a full clinical coaching briefing with training status, biomechanics commentary, and a specific session recommendation.
+Fetches live telemetry, runs the physiological engine, computes exact hours elapsed since last run (PHT-anchored), applies the 6-tier recovery gate and priority stack, consults the configured LLM (Gemini or Claude), and outputs a full clinical coaching briefing with training status, biomechanics commentary, and a specific session recommendation.
 
 ### Generate and Upload a Workout to Garmin Calendar
 ```bash
