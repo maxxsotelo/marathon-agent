@@ -18,7 +18,8 @@ This system represents a major milestone in my development journey:
 
 1. **The Origin:** The direct successor of my first-generation **Automated ETL Data Pipeline** (which passively loaded performance metrics into Google Sheets).
 2. **The Innovation Gap:** Passive dashboards leave a gap — they don't actively adapt or prevent overtraining in real time. `marathon-agent` closes that gap with an active, autonomous coaching loop. As of **May 2026**, the Kiat Engine has been upgraded to emulate **Forerunner 970-class** advanced physiological stress metrics (TRIMP, PA:HR Decoupling, Cardiac Drift, Max HR Drop, EPOC) computed from raw lap DTOs — closing the hardware capability gap entirely through software.
-3. **AI-Agent Co-Engineering:** Rather than manually writing thousands of lines of low-level API orchestration code, I acted as a **Systems Architect**, leveraging an advanced **AI Coding Agent (Antigravity / Gemini 2.5)** to co-engineer, debug, and extend this production-grade pipeline. This project demonstrates the power of AI-assisted systems design, rapid prototyping, and iterative domain-specific engineering.
+3. **Solving LLM Temporal Hallucination:** LLMs are stateless and inherently lack a sense of time, leading to dangerous coaching errors when guessing recovery windows. This architecture explicitly strips reasoning away from the LLM for critical safety gates. The Python layer computes precise temporal facts (e.g., exact hours elapsed since the last run ended, anchored to PHT) and feeds a hardcoded "Recovery Context" block directly into the LLM as absolute, unalterable ground truth.
+4. **AI-Agent Co-Engineering:** Rather than manually writing thousands of lines of low-level API orchestration code, I acted as a **Systems Architect**, leveraging an advanced **AI Coding Agent (Antigravity / Gemini)** to co-engineer, debug, and extend this production-grade pipeline. This project demonstrates the power of AI-assisted systems design, rapid prototyping, and iterative domain-specific engineering.
 
 ---
 
@@ -128,12 +129,13 @@ Computed directly from lap telemetry and injected into every daily briefing and 
 - Runs the physiological engine at the end of every sync — printing the full 970-emulated metrics report.
 
 ### 🤖 3. AI Daily Briefing ([antigravity_core.py](antigravity_core.py))
-- Connects to **Gemini 2.5 Flash** with a structured system prompt built from:
+- Connects to **Gemini Flash/Pro** with a structured, highly deterministic system prompt built from:
   - Live Garmin telemetry (HRV, body battery, stress, last workout)
   - The full **Kiat Engine** metrics report (TRS, ACWR, Training Status, REI, FBI)
+  - **The Python-Computed Recovery Context:** Precise float calculations of hours elapsed since the last run ended (anchored to UTC+8 PHT) mapped to 6 strict recovery tiers.
   - The knowledge base operating manual (athlete thresholds, periodisation rules)
+- **Deterministic Priority Stack Enforcement:** The LLM does not "guess" safety. It is forced to evaluate P1 (ACWR > 1.5 veto) → P2 (HRV Gate) → P3 (Hours-Since-Last-Run Gate) → P4 (TRS Advisory) in strict order.
 - Outputs a clinical GO / NO-GO verdict, a Training Status classification, a biomechanics commentary, and a specific session recommendation with target HR zone and duration.
-- **Enforces automatic speed vetoes** at the prompt level when ACWR > 1.5 — the LLM is instructed it has no override authority.
 
 ### 🛠️ 4. Pydantic V2 Workout Generator ([workout_generator.py](workout_generator.py))
 - Constructs complex running workouts (warmup, work intervals, recovery intervals, cooldowns) programmatically.
