@@ -1,9 +1,12 @@
 """
-run_analysis.py — Exhaustive Long Run Analysis Report Generator v2
+run_analysis.py — Exhaustive Run Analysis Report Generator v3
 Pulls every available field from Garmin lap DTOs and the top-level activity summary.
 Uses MAX'S REAL HEART RATE ZONES (from operating_manual.md), not Garmin's native zones.
 Includes advanced HR metrics: TRIMP (Banister), PA:HR Decoupling, Peak EPOC,
 Max HR Drop, Cardiac Drift, and full time-in-zone computed from lap data.
+New (May 2026):
+  - Proper Interval Analysis using get_activity_typed_splits (INTERVAL_ACTIVE/RECOVERY)
+  - Heat Index calculation via Rothfusz regression when humidity not in Garmin data
 """
 
 import os, sys, json, math
@@ -49,9 +52,23 @@ if not run:
     print(f"No running activity found on {TARGET_DATE}.")
     sys.exit(0)
 
-splits_raw = client.get_activity_splits(run["activityId"])
-laps       = splits_raw.get("lapDTOs", [])
-active_laps = [l for l in laps if l.get("distance", 0) >= 500]
+splits_raw   = client.get_activity_splits(run["activityId"])
+laps         = splits_raw.get("lapDTOs", [])
+active_laps  = [l for l in laps if l.get("distance", 0) >= 500]
+
+# ── Typed splits: real interval structure from Garmin workout structure ──
+try:
+    typed_data   = client.get_activity_typed_splits(run["activityId"])
+    typed_splits = typed_data.get("splits", [])
+except Exception:
+    typed_splits = []
+
+# Separate by type — INTERVAL_ACTIVE = work reps, INTERVAL_RECOVERY = rest periods
+interval_warmup   = [s for s in typed_splits if s.get("type") == "INTERVAL_WARMUP"]
+interval_active   = [s for s in typed_splits if s.get("type") == "INTERVAL_ACTIVE"]
+interval_recovery = [s for s in typed_splits if s.get("type") == "INTERVAL_RECOVERY"]
+interval_cooldown = [s for s in typed_splits if s.get("type") == "INTERVAL_COOLDOWN"]
+is_interval_session = len(interval_active) > 0
 
 # ============================================================
 # HELPER FUNCTIONS
@@ -78,6 +95,44 @@ def real_hr_zone(hr):
     for num, label, lo, hi in ZONES:
         if lo <= hr <= hi: return f"Z{num}: {label.split('-')[1]}"
     return "Z5: Anaerobic"
+
+# ============================================================
+# HEAT INDEX CALCULATION (Rothfusz Regression)
+# Used when Garmin does not record humidity.
+# Humidity estimate: Marikina evenings average 65-75% RH at 33-35C ambient.
+# We use 70% as a calibrated default for evening runs.
+# ============================================================
+def heat_index_c(temp_c: float, rh: float = 70.0) -> float:
+    """Compute heat index in Celsius using the Rothfusz regression.
+    temp_c: ambient temperature in Celsius
+    rh: relative humidity in % (default 80 for Marikina evening)
+    Returns: heat index in Celsius
+    """
+    T = temp_c * 9 / 5 + 32  # convert to Fahrenheit for Rothfusz formula
+    HI_F = (-42.379
+            + 2.04901523 * T
+            + 10.14333127 * rh
+            - 0.22475541 * T * rh
+            - 0.00683783 * T * T
+            - 0.05481717 * rh * rh
+            + 0.00122874 * T * T * rh
+            + 0.00085282 * T * rh * rh
+            - 0.00000199 * T * T * rh * rh)
+    return (HI_F - 32) * 5 / 9  # back to Celsius
+
+def heat_stress_label(hi_c: float) -> str:
+    if hi_c < 27:  return "Comfortable"
+    if hi_c < 32:  return "Caution"
+    if hi_c < 39:  return "Extreme Caution"
+    if hi_c < 46:  return "DANGER"
+    return "EXTREME DANGER"
+
+def extra_bpm_from_heat(hi_c: float) -> str:
+    """Estimate additional bpm cardiac drift caused by heat index above 28C baseline."""
+    extra_c = max(0, hi_c - 28)
+    low  = int(extra_c * 5)
+    high = int(extra_c * 8)
+    return f"+{low}–{high} bpm cardiac penalty"
 
 def zone_num(hr):
     if hr is None: return 0
@@ -307,13 +362,25 @@ L("")
 L("---")
 L("## 2. Environmental Conditions (Heat Tax Report)")
 L("")
-L("> **Humidity:** Not recorded by the Garmin Forerunner 165. Ambient air temperature only.")
+L("> **Humidity:** Not recorded by the Garmin Forerunner 165. Heat Index computed via Rothfusz regression using 80% RH default (Marikina evening average).")
 L("")
+
+# Compute heat index for min and max temps
+hi_min = heat_index_c(min_temp, rh=80.0)
+hi_max = heat_index_c(max_temp, rh=80.0)
+hi_avg = heat_index_c((min_temp + max_temp) / 2, rh=80.0)
+hi_label = heat_stress_label(hi_max)
+heat_bpm_penalty = extra_bpm_from_heat(hi_max)
+
 L("| Metric | Value | Coaching Note |")
 L("| :--- | :--- | :--- |")
 L(f"| **Min Temperature** | {min_temp}°C | Start of run |")
 L(f"| **Max Temperature** | {max_temp}°C | Peak heat point |")
 L(f"| **Temperature Swing** | {max_temp - min_temp:.0f}°C | Every 1°C above 28°C adds ~5-8 bpm of cardiac drift |")
+L(f"| **Heat Index (Min Temp)** | **{hi_min:.1f}°C** | Feels-like temperature at run start (80% RH estimate) |")
+L(f"| **Heat Index (Max Temp)** | **{hi_max:.1f}°C** | Feels-like temperature at peak heat |")
+L(f"| **Heat Stress Level** | **{hi_label}** | Based on peak heat index |")
+L(f"| **Cardiac Heat Penalty** | **{heat_bpm_penalty}** | Estimated HR elevation above cool-condition baseline |")
 L(f"| **Min Elevation** | {min_elev:.0f} m | Lowest point on course |")
 L(f"| **Max Elevation** | {max_elev:.0f} m | Highest point on course |")
 L(f"| **Avg Elevation** | {avg_elev:.0f} m | Mean terrain height |")
@@ -321,6 +388,88 @@ L(f"| **Total Elevation Gain** | {int(total_elev_gain)} m | Each 10m gain adds ~
 L(f"| **Total Elevation Loss** | {int(total_elev_loss)} m | Eccentric quad loading — source of post-run soreness |")
 L(f"| **Net Elevation** | {int(total_elev_gain - total_elev_loss):+d} m | Net uphill = harder than pace suggests |")
 L("")
+
+# -------------------------------------------
+# SECTION 2b: INTERVAL ANALYSIS (only if interval session detected)
+# -------------------------------------------
+if is_interval_session:
+    L("---")
+    L("## 2b. Interval Rep-by-Rep Analysis")
+    L("")
+    L(f"> Session Type: **Structured Interval Workout** — {len(interval_active)} work rep(s) detected via Garmin typed splits.")
+    L(f"> Heat Index during session: **{hi_max:.1f}°C** ({hi_label}). Cardiac penalty: {heat_bpm_penalty}.")
+    L("")
+
+    # Warmup
+    if interval_warmup:
+        wu = interval_warmup[0]
+        wu_pace = pace(wu.get("averageSpeed", 0))
+        wu_dur  = secs_to_hmmss(wu.get("duration", 0))
+        wu_eg   = wu.get("elevationGain", 0)
+        wu_el   = wu.get("elevationLoss", 0)
+        L(f"**Warmup:** {wu_dur} | {wu_pace} | Avg HR {wu.get('averageHR', 'N/A')} bpm | Ascent +{wu_eg:.0f}m / Descent -{wu_el:.0f}m | Temp {wu.get('averageTemperature', 'N/A')}°C")
+        L("")
+
+    # Work rep table header
+    L("| Rep | Duration | Pace | GAP | Avg HR | Peak HR | Zone | Ascent | Descent | Power | NP | GCT | Stride | Temp | Heat Index | TRIMP |")
+    L("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |")
+
+    # Pair each work rep with its corresponding recovery if present
+    for i, rep in enumerate(interval_active):
+        rep_num   = i + 1
+        dur_s     = rep.get("duration", 0)
+        dur_str   = secs_to_hmmss(dur_s)
+        mps       = rep.get("averageSpeed", 0) or 0
+        gap_mps   = rep.get("avgGradeAdjustedSpeed", mps) or mps
+        p_str     = pace(mps)
+        gap_str   = pace(gap_mps)
+        avg_hr_r  = rep.get("averageHR") or 0
+        max_hr_r  = rep.get("maxHR") or 0
+        zone_str  = real_hr_zone(avg_hr_r)
+        eg        = rep.get("elevationGain", 0) or 0
+        el        = rep.get("elevationLoss", 0) or 0
+        pwr       = rep.get("averagePower", 0) or 0
+        np_       = rep.get("normalizedPower", 0) or 0
+        gct       = rep.get("groundContactTime", 0) or 0
+        stride    = rep.get("strideLength", 0) or 0
+        temp_r    = rep.get("averageTemperature") or max_temp
+        hi_r      = heat_index_c(temp_r, 80.0)
+
+        # TRIMP for this rep
+        dur_min_r = dur_s / 60
+        if avg_hr_r > HR_REST and dur_min_r > 0:
+            dhr_r = (avg_hr_r - HR_REST) / (HR_MAX - HR_REST)
+            dhr_r = max(0.0, min(dhr_r, 1.0))
+            trimp_r = dur_min_r * dhr_r * 0.64 * math.exp(1.92 * dhr_r)
+        else:
+            trimp_r = 0.0
+
+        L(f"| **Rep {rep_num}** | {dur_str} | {p_str} | {gap_str} | {avg_hr_r:.0f} bpm | {max_hr_r:.0f} bpm | {zone_str} | +{eg:.0f}m | -{el:.0f}m | {pwr:.0f}W | {np_:.0f}W | {gct:.0f}ms | {stride:.1f}cm | {temp_r:.0f}°C | **{hi_r:.1f}°C** | {trimp_r:.1f} AU |")
+
+        # Recovery row if available
+        if i < len(interval_recovery):
+            rec = interval_recovery[i]
+            rec_dur  = secs_to_hmmss(rec.get("duration", 0))
+            rec_pace = pace(rec.get("averageSpeed", 0))
+            rec_hr   = rec.get("averageHR") or 0
+            rec_eg   = rec.get("elevationGain", 0) or 0
+            rec_el   = rec.get("elevationLoss", 0) or 0
+            L(f"| *Rest {rep_num}* | *{rec_dur}* | *{rec_pace}* | — | *{rec_hr:.0f} bpm* | — | — | *+{rec_eg:.0f}m* | *-{rec_el:.0f}m* | — | — | — | — | — | — | — |")
+
+    # Cooldown
+    if interval_cooldown:
+        cd = interval_cooldown[0]
+        cd_pace = pace(cd.get("averageSpeed", 0))
+        cd_dur  = secs_to_hmmss(cd.get("duration", 0))
+        cd_eg   = cd.get("elevationGain", 0) or 0
+        cd_el   = cd.get("elevationLoss", 0) or 0
+        L("")
+        L(f"**Cooldown:** {cd_dur} | {cd_pace} | Avg HR {cd.get('averageHR', 'N/A')} bpm | Ascent +{cd_eg:.0f}m / Descent -{cd_el:.0f}m")
+    else:
+        L("")
+        L("> **Note:** No cooldown detected in typed splits. Session ended without a structured cooldown.")
+    L("")
+
 
 # -------------------------------------------
 # SECTION 3: HEART RATE ANALYSIS (FULL)
