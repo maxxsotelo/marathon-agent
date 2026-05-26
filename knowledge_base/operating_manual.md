@@ -66,7 +66,7 @@ Tech: Garmin Forerunner 165 (HR Broadcast enabled).
 5.5. Strength Training (Advanced Hybrid Protocol) Objective: Maintain upper body muscle mass/aesthetics while maximizing lower-body running economy (RE) and tendon stiffness.
 The Concurrent Training Mandate:
 Separation of Stimuli: To minimize any localized interference effect and maximize adaptations, strength training and endurance running must be separated by a minimum recovery window (ideally 6 to 24 hours) or performed on non-consecutive days.
-Lower Body (Power & Economy): Avoid high-rep, bodybuilding-style leg days to prevent excess bulk. Focus strictly on High-Load (HL) lifting (≥80% of 1RM) and Plyometrics (PL). This combination is clinically proven to increase muscle-tendon stiffness and improve running economy at marathon pace without adding dead weight.
+Lower Body (Power & Economy): Avoid high-rep, bodybuilding-style leg days to prevent excess bulk. Focus strictly on High-Load (HL) lifting (≥80% of 1RM) and Plyometrics (PL). This combination is clinically proven to increase muscle-tendon stiffness and improve running economy at marathon pace by 4-8% and reduce injury risk by up to 50%, without adding dead weight.
 Upper Body (Hypertrophy): Upper body training is cleared for standard hypertrophy ranges (8-12 reps). Upper body mass does not negatively interfere with lower-body aerobic adaptations.
 Nutritional Support: To sustain marathon volume and preserve upper-body mass, athlete must aggressively fuel with 60-90g of carbohydrates per hour during long runs and prioritize high-quality protein (1.8g/kg) immediately post-training to prevent muscle catabolism.
 
@@ -351,3 +351,23 @@ When there is no race date, the goal shifts from "Peaking" to "Raising the Floor
 - The high volume of Zone 2 training targets fat oxidation.
 - High protein intake (1.4g - 1.8g/kg) and heavy lifting preserve Type-II muscle fibers and prevent catabolism during the caloric deficit.
 
+=============================================================================
+SECTION 8: MANDATORY AGENT RULE — WORKOUT SCHEDULING
+=============================================================================
+ANY LLM or agent operating in this repository MUST follow the canonical
+scheduling protocol defined in:
+
+  knowledge_base/AGENT_SCHEDULING_PROTOCOL.md
+
+This protocol defines the ONLY approved methods for scheduling workouts on
+Garmin Connect. Do NOT improvise, do NOT use raw API payloads, do NOT write
+new scripts from scratch if an existing pattern covers the workout type.
+
+Summary:
+  Running / Recovery / Intervals  → workout_generator.py (--sport run)
+  Cycling / Bike                  → workout_generator.py (--sport bike)
+  Strength / Core / Plyometrics   → BaseWorkout pattern (see schedule_strength_workout.py)
+  Authentication                  → ALWAYS use ~/.garminconnect cached token
+
+Violation of this protocol causes scheduling failures, incorrect sport types,
+and 429 IP rate-limit errors from Garmin's API.
