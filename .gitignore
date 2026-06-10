@@ -16,6 +16,7 @@ training_status_test.txt
 training_status_test_utf8.txt
 daily_chart.png
 training_load.png
+biometrics_trend.png
 plot_load.py
 
 # Python Environment
