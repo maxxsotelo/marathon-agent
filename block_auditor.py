@@ -19,7 +19,11 @@ def parse_week(activities):
         'run_time': 0.0,
         'walk_time': 0.0,
         'bike_dist': 0.0,
-        'strength': False
+        'strength': False,
+        'run_sessions': 0,
+        'strength_count': 0,
+        'hr_sum': 0.0,
+        'hr_count': 0,
     }
     
     if not activities:
@@ -30,11 +34,16 @@ def parse_week(activities):
         dist_km = (act.get('distance') or 0) / 1000
         dur_sec = act.get('duration') or 0
         elev_m = act.get('elevationGain') or 0
+        avg_hr = act.get('averageHR') or 0
         
         if act_type == 'running':
             data['run_dist'] += dist_km
             data['run_time'] += dur_sec
             data['run_elev'] += elev_m
+            data['run_sessions'] += 1
+            if avg_hr > 0:
+                data['hr_sum'] += avg_hr
+                data['hr_count'] += 1
             if dist_km > data['longest_run']:
                 data['longest_run'] = dist_km
                 
@@ -47,6 +56,9 @@ def parse_week(activities):
             
         elif act_type == 'strength_training':
             data['strength'] = True
+            # Only count towards the 2x/week target if it's a substantive session (> 15 minutes)
+            if dur_sec >= 900:
+                data['strength_count'] += 1
             
     return data
 
@@ -116,13 +128,60 @@ def run_rolling_audit(num_weeks=3):
             date_label = f"{t_start.strftime('%b %d')}-{t_end.strftime('%d')}"
             
             print(f"--- BLOCK: {date_label} ---")
+            print(f"Run Sessions:        {curr_data['run_sessions']}")
             print(f"Run Mileage:         {curr_data['run_dist']:.2f} km ({total_run_pct})")
             print(f"Longest Run:         {curr_data['longest_run']:.2f} km ({long_run_pct})")
             print(f"Total Time:          {format_time(total_time_sec)}")
             print(f"Avg. Pace (Run):     {get_pace(curr_data['run_time'], curr_data['run_dist'])} /km")
+            avg_hr = curr_data['hr_sum'] / curr_data['hr_count'] if curr_data['hr_count'] else 0
+            print(f"Avg HR (Run):        {avg_hr:.0f} bpm" if avg_hr else "Avg HR (Run):        N/A")
             print(f"Run Elev:            {curr_data['run_elev']:.0f} m")
             print(f"Cross-Train (Bike):  {curr_data['bike_dist']:.2f} km")
-            print(f"Strength Logged:     {'YES' if curr_data['strength'] else 'NO'}\n")
+            print(f"Strength Sessions:   {curr_data['strength_count']} {'[OK]' if curr_data['strength_count'] >= 2 else '[!! BELOW 2/WEEK TARGET]'}")
+            
+            # 10% rule check
+            if prev_data['run_dist'] > 0:
+                pct_change = ((curr_data['run_dist'] - prev_data['run_dist']) / prev_data['run_dist']) * 100
+                if pct_change > 10:
+                    print(f"10% Rule:            [!! EXCEEDED] {pct_change:+.1f}% week-over-week")
+                else:
+                    print(f"10% Rule:            [OK] {pct_change:+.1f}% week-over-week")
+            print()
+
+        # ── CURRENT (PARTIAL) WEEK ────────────────────────────────────────────
+        # Show the current Mon-Today partial week so athlete can see mid-week status
+        days_since_monday = today.weekday()  # 0=Mon, 6=Sun
+        curr_monday = today - timedelta(days=days_since_monday)
+        curr_acts = client.get_activities_by_date(curr_monday.isoformat(), today.isoformat())
+        curr_partial = parse_week(curr_acts)
+        
+        # Use the most recent completed week as the comparison baseline
+        last_complete_start, last_complete_end = blocks[-1]
+        last_complete_acts = client.get_activities_by_date(last_complete_start.isoformat(), last_complete_end.isoformat())
+        last_complete = parse_week(last_complete_acts)
+        
+        days_elapsed = days_since_monday + 1  # 1 = Monday only, 7 = full week
+        projected_km = (curr_partial['run_dist'] / days_elapsed) * 7 if days_elapsed > 0 else 0
+        
+        print(f"--- CURRENT WEEK (Partial): {curr_monday.strftime('%b %d')}-{today.strftime('%b %d')} ({days_elapsed}/7 days) ---")
+        print(f"Run Sessions:        {curr_partial['run_sessions']}")
+        print(f"Run Mileage:         {curr_partial['run_dist']:.2f} km")
+        print(f"Longest Run:         {curr_partial['longest_run']:.2f} km")
+        if curr_partial['run_time'] > 0:
+            print(f"Total Time:          {format_time(curr_partial['run_time'] + curr_partial['walk_time'])}")
+            print(f"Avg. Pace (Run):     {get_pace(curr_partial['run_time'], curr_partial['run_dist'])} /km")
+        avg_hr_p = curr_partial['hr_sum'] / curr_partial['hr_count'] if curr_partial['hr_count'] else 0
+        if avg_hr_p:
+            print(f"Avg HR (Run):        {avg_hr_p:.0f} bpm")
+        print(f"Run Elev:            {curr_partial['run_elev']:.0f} m")
+        print(f"Cross-Train (Bike):  {curr_partial['bike_dist']:.2f} km")
+        print(f"Strength Sessions:   {curr_partial['strength_count']} {'[OK]' if curr_partial['strength_count'] >= 2 else '[PENDING -- target 2/week]'}")
+        if projected_km > 0:
+            print(f"Projected Weekly km: {projected_km:.1f} km (if current rate continues)")
+            if last_complete['run_dist'] > 0:
+                proj_pct = ((projected_km - last_complete['run_dist']) / last_complete['run_dist']) * 100
+                print(f"Projected vs Last:   {proj_pct:+.1f}%")
+        print()
 
     except Exception as e:
         print(f"Sync Error: {e}")

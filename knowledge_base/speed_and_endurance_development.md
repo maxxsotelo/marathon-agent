@@ -36,7 +36,14 @@ Work these sessions in order of priority within your weekly block:
 - **Key rule:** Stay RELAXED. This is not a sprint. Drive elbows, lift knees, let the acceleration happen naturally.
 - **Cadence target:** ≥ 180 spm by the end of each stride
 
-### B. VO2 Max Intervals (Critical Speed Development)
+### B. Hill Sprints (Alactic Power & Economy)
+- **What:** 8–10 × 10-second ALL-OUT uphill sprints. Walk back down and wait a full 2 minutes between reps.
+- **When:** Once a week (can replace flat strides). Best done at the end of a long easy run or on a dedicated speed day.
+- **Purpose:** Develops explosive power, increases running efficiency/economy, and forces perfect knee-drive mechanics.
+- **Advantage over Flat Sprints:** Much lower impact forces. You cannot run as fast uphill, significantly reducing injury risk to hamstrings and Achilles, while still maximizing heart rate and fast-twitch muscle recruitment.
+- **Key rule:** Do not cut the 2-minute rest short. This is an alactic (ATP-PCr) system workout; you need full phosphocreatine replenishment between sprints.
+
+### C. VO2 Max Intervals (Critical Speed Development)
 - **What:** 5–8 × 600m–1200m at ~5K pace with 1:1 work-to-rest ratio
 - **When:** Once per week, only after completing a proper warm-up
 - **Purpose:** Raises the ceiling — elevates maximal oxygen uptake so all paces feel easier.
@@ -45,7 +52,7 @@ Work these sessions in order of priority within your weekly block:
 - **Key rule:** The last rep should feel like the hardest, but form should NOT break down. If you are collapsing, the rep length is too long.
 - **Progressive overload:** Add one rep every 2 weeks, not more pace.
 
-### C. Threshold / Tempo Runs (Lactate Clearance)
+### D. Threshold / Tempo Runs (Lactate Clearance)
 - **What:** 20–40 minutes of sustained running at "comfortably hard" effort
 - **When:** Once per week, typically mid-week
 - **Purpose:** Raises the lactate threshold — the pace you can sustain before lactic acid accumulates faster than it clears.

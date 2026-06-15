@@ -98,14 +98,40 @@ def real_hr_zone(hr):
 
 # ============================================================
 # HEAT INDEX CALCULATION (Rothfusz Regression)
-# Used when Garmin does not record humidity.
-# Humidity estimate: Marikina evenings average 65-75% RH at 33-35C ambient.
-# We use 70% as a calibrated default for evening runs.
+# Calibrated May 31, 2026 against Runalyze/Apple WeatherKit reference.
+#
+# KEY CORRECTIONS:
+# 1. WRIST SENSOR BIAS: The Garmin FR 165 thermistor sits on the wrist
+#    and reads 3-5C above true ambient due to body heat radiation, solar
+#    load on the watch face, and skin surface temperature. We subtract
+#    GARMIN_TEMP_BIAS (4C) from the raw Garmin reading to estimate ambient.
+#    Validation: Garmin reported 32-34C on May 31 evening; Apple WeatherKit
+#    (via PAGASA weather station) reported 29C ambient. Difference = 3-5C.
+#
+# 2. HUMIDITY DEFAULT: Marikina evening RH averages 65-75% (PAGASA data).
+#    Previous code documented 70% but passed 80% at the call site.
+#    Fixed to 70% everywhere. This better matches Apple WeatherKit output.
+#
+# 3. CARDIAC PENALTY: Previous formula used 5-8 bpm per degree above 28C,
+#    producing absurd values (e.g., +165-265 bpm) at inflated heat indices.
+#    Recalibrated to 1.5-2.5 bpm per degree, consistent with exercise
+#    physiology literature (Periard et al., 2021; Sawka et al., 2011).
+#
+# Validation result: May 31 run — Runalyze HI = 35C, our corrected HI = ~34-35C.
 # ============================================================
-def heat_index_c(temp_c: float, rh: float = 70.0) -> float:
+GARMIN_TEMP_BIAS = 4.0  # Celsius to subtract from FR 165 wrist sensor
+DEFAULT_RH = 70.0       # Marikina evening average relative humidity
+
+def garmin_to_ambient(garmin_temp_c: float) -> float:
+    """Convert Garmin wrist sensor temperature to estimated ambient.
+    The FR 165 thermistor reads 3-5C above true ambient due to body heat.
+    """
+    return garmin_temp_c - GARMIN_TEMP_BIAS
+
+def heat_index_c(temp_c: float, rh: float = DEFAULT_RH) -> float:
     """Compute heat index in Celsius using the Rothfusz regression.
-    temp_c: ambient temperature in Celsius
-    rh: relative humidity in % (default 80 for Marikina evening)
+    temp_c: AMBIENT air temperature in Celsius (NOT raw Garmin sensor reading)
+    rh: relative humidity in % (default 70 for Marikina evening)
     Returns: heat index in Celsius
     """
     T = temp_c * 9 / 5 + 32  # convert to Fahrenheit for Rothfusz formula
@@ -128,10 +154,14 @@ def heat_stress_label(hi_c: float) -> str:
     return "EXTREME DANGER"
 
 def extra_bpm_from_heat(hi_c: float) -> str:
-    """Estimate additional bpm cardiac drift caused by heat index above 28C baseline."""
+    """Estimate additional bpm cardiac drift caused by heat index above 28C.
+    Literature-calibrated: ~1.5-2.5 bpm per degree C above 28C baseline.
+    Sources: Periard et al. (2021), Sawka et al. (2011).
+    At HI 35C: +10-18 bpm. At HI 40C: +18-30 bpm.
+    """
     extra_c = max(0, hi_c - 28)
-    low  = int(extra_c * 5)
-    high = int(extra_c * 8)
+    low  = int(extra_c * 1.5)
+    high = int(extra_c * 2.5)
     return f"+{low}–{high} bpm cardiac penalty"
 
 def zone_num(hr):
@@ -362,23 +392,24 @@ L("")
 L("---")
 L("## 2. Environmental Conditions (Heat Tax Report)")
 L("")
-L("> **Humidity:** Not recorded by the Garmin Forerunner 165. Heat Index computed via Rothfusz regression using 80% RH default (Marikina evening average).")
+L("> **Humidity:** Not recorded by the Garmin Forerunner 165. Heat Index computed via Rothfusz regression using 70% RH default (Marikina evening avg). Garmin wrist sensor temperature corrected by -4C to estimate ambient (calibrated against Apple WeatherKit via Runalyze).")
 L("")
 
-# Compute heat index for min and max temps
-hi_min = heat_index_c(min_temp, rh=80.0)
-hi_max = heat_index_c(max_temp, rh=80.0)
-hi_avg = heat_index_c((min_temp + max_temp) / 2, rh=80.0)
+# Compute heat index — correct Garmin wrist sensor to ambient first
+amb_min = garmin_to_ambient(min_temp)
+amb_max = garmin_to_ambient(max_temp)
+hi_min = heat_index_c(amb_min, rh=DEFAULT_RH)
+hi_max = heat_index_c(amb_max, rh=DEFAULT_RH)
 hi_label = heat_stress_label(hi_max)
 heat_bpm_penalty = extra_bpm_from_heat(hi_max)
 
 L("| Metric | Value | Coaching Note |")
 L("| :--- | :--- | :--- |")
-L(f"| **Min Temperature** | {min_temp}°C | Start of run |")
-L(f"| **Max Temperature** | {max_temp}°C | Peak heat point |")
-L(f"| **Temperature Swing** | {max_temp - min_temp:.0f}°C | Every 1°C above 28°C adds ~5-8 bpm of cardiac drift |")
-L(f"| **Heat Index (Min Temp)** | **{hi_min:.1f}°C** | Feels-like temperature at run start (80% RH estimate) |")
-L(f"| **Heat Index (Max Temp)** | **{hi_max:.1f}°C** | Feels-like temperature at peak heat |")
+L(f"| **Garmin Sensor Temp** | {min_temp}–{max_temp}°C | Raw wrist sensor (reads +3-5°C above ambient) |")
+L(f"| **Est. Ambient Temp** | {amb_min:.0f}–{amb_max:.0f}°C | Corrected for wrist bias (-{GARMIN_TEMP_BIAS:.0f}°C) |")
+L(f"| **Temperature Swing** | {max_temp - min_temp:.0f}°C | Every 1°C above 28°C adds ~1.5-2.5 bpm of cardiac drift |")
+L(f"| **Heat Index (Min Temp)** | **{hi_min:.1f}°C** | Feels-like at run start (ambient {amb_min:.0f}°C, {DEFAULT_RH:.0f}% RH) |")
+L(f"| **Heat Index (Max Temp)** | **{hi_max:.1f}°C** | Feels-like at peak heat (ambient {amb_max:.0f}°C, {DEFAULT_RH:.0f}% RH) |")
 L(f"| **Heat Stress Level** | **{hi_label}** | Based on peak heat index |")
 L(f"| **Cardiac Heat Penalty** | **{heat_bpm_penalty}** | Estimated HR elevation above cool-condition baseline |")
 L(f"| **Min Elevation** | {min_elev:.0f} m | Lowest point on course |")
@@ -433,7 +464,7 @@ if is_interval_session:
         gct       = rep.get("groundContactTime", 0) or 0
         stride    = rep.get("strideLength", 0) or 0
         temp_r    = rep.get("averageTemperature") or max_temp
-        hi_r      = heat_index_c(temp_r, 80.0)
+        hi_r      = heat_index_c(garmin_to_ambient(temp_r), DEFAULT_RH)
 
         # TRIMP for this rep
         dur_min_r = dur_s / 60
