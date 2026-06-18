@@ -42,6 +42,36 @@ wrong exercise choices, and unsupported weekly volume — as occurred on 2026-06
 
 ---
 
+## RULE 01: Deep Run Audit — MANDATORY After Every Run (NO EXCEPTIONS)
+
+Whenever the user returns after a run (any phrase like "I just got back", "I finished my run",
+"just got home", "give me my run analysis"), the agent MUST immediately run:
+
+```bash
+python "C:\Users\Max\.gemini\antigravity\brain\3a089547-6db7-486f-9c49-05bc442734f2\scratch\deep_run_audit.py"
+```
+
+This script pulls ALL of the following from Garmin automatically:
+- Full activity summary (distance, pace, GAP, HR, cadence, power, stride, GCT, vert osc)
+- Lap-by-lap breakdown with HR zones labeled per the CURRENT LTHR method
+- Environment data (temp) + Heat Index via Rothfusz regression
+- Terrain summary (elevation gain/loss, terrain score, rolling vs flat classification)
+- HR zone distribution (time in each zone as percentage)
+- TRIMP (Banister training load score)
+
+The agent MUST NOT give a run analysis based on only a summary-level API call.
+The agent MUST NOT guess or paraphrase telemetry. Only data from the script is authoritative.
+
+If today's run is not yet synced, wait and retry with `--id <activityId>` once the user
+confirms the activity is visible on Garmin Connect.
+
+### Why this rule exists
+On 2026-06-18, the agent gave a shallow analysis (distance, pace, avg HR only) when the
+user asked for a full breakdown. The deep script was already available but not used.
+This caused a second request and wasted time.
+
+---
+
 ## RULE 0: Check Before You Create
 Before writing any new scheduling script, ALWAYS check:
 1. `marathon-agent/workout_generator.py` for running and cycling workouts.
