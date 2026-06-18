@@ -4,16 +4,17 @@ Workout Generator Module for Antigravity Marathon Agent
 Creates structured Garmin-compatible workouts and schedules them
 to the athlete's Garmin Connect calendar.
 
-Athlete Profile (from coach_skills.md & operating_manual.md):
+Athlete Profile (from operating_manual.md — LTHR Method, Updated June 6 2026):
     - Max HR: 206 bpm
-    - LTHR: 190-196 bpm
-    - Zone 1 (Recovery):       < 145 bpm
-    - Zone 2 (Aerobic Base):   145 - 162 bpm
-    - Zone 3 (Marathon Tempo):  163 - 184 bpm
-    - Zone 4 (Threshold):      185 - 196 bpm
-    - Zone 5 (Anaerobic):      197+ bpm
-    - Easy Cadence:            170-172 spm
-    - Speed Cadence:           175-182+ spm
+    - LTHR: ~191 bpm | RHR: 39 bpm
+    - Zone 1 (Easy Aerobic):   < 162 bpm      (< 85% LTHR) — all easy/long runs
+    - Zone 2 (Extensive):      162 – 174 bpm  (85–91% LTHR)
+    - Zone 3 (Tempo):          174 – 181 bpm  (91–95% LTHR)
+    - Zone 4 (Threshold):      181 – 191 bpm  (95–100% LTHR)
+    - Zone 5 (VO2 Max):        > 191 bpm      (> 100% LTHR)
+    - MAF Cross-check ceiling: 155 bpm (conservative floor for pure aerobic)
+    - Easy Cadence:            Self-select (~163–170 spm at easy pace)
+    - Speed Cadence:           175–182+ spm at tempo/threshold
     - Easy/Long Pace:          6:00-6:45 /km
     - Threshold Pace:          4:35-4:45 /km (heat adjusted)
     - 5K Pace:                 ~4:49 /km
@@ -47,18 +48,22 @@ password = os.getenv("GARMIN_PASSWORD")
 TOKEN_STORE = os.path.expanduser("~/.garminconnect")
 
 # ──────────────────────────────────────────────────────────────────────
-# ATHLETE HEART RATE ZONES (Verified Jan 2026 - operating_manual.md)
+# ATHLETE HEART RATE ZONES (LTHR Method — Updated June 6 2026)
+# Source: operating_manual.md Section 1 — LTHR ~191 bpm, RHR 39 bpm
+# IMPORTANT: Zone naming follows LTHR convention, NOT Garmin's 5-zone model.
+# Zone 1 = Easy Aerobic (<162 bpm). Zone 2 = Extensive (162-174 bpm).
 # ──────────────────────────────────────────────────────────────────────
 HR_ZONES = {
-    1: {"name": "Recovery",       "low": 100, "high": 144},
-    2: {"name": "Aerobic Base",   "low": 145, "high": 162},
-    3: {"name": "Marathon Tempo", "low": 163, "high": 184},
-    4: {"name": "Threshold",      "low": 185, "high": 196},
-    5: {"name": "Anaerobic Max",  "low": 197, "high": 206},
+    1: {"name": "Easy Aerobic",  "low": 130, "high": 161},  # <162 bpm — all easy/long runs
+    2: {"name": "Extensive",     "low": 162, "high": 174},  # 85-91% LTHR
+    3: {"name": "Tempo",         "low": 174, "high": 181},  # 91-95% LTHR
+    4: {"name": "Threshold",     "low": 181, "high": 191},  # 95-100% LTHR
+    5: {"name": "VO2 Max",       "low": 191, "high": 206},  # >100% LTHR
 }
 
-MAX_HR = 206
-ZONE2_CAP = 162  # The strict "162 Cap" rule
+MAX_HR   = 206
+ZONE1_CAP = 162  # Hard cap for all easy/long runs
+ZONE2_CAP = 174  # New Zone 2 ceiling (LTHR method, June 6 2026)
 
 # ──────────────────────────────────────────────────────────────────────
 # PACE BENCHMARKS (operating_manual.md, heat-adjusted for Marikina)
@@ -593,10 +598,10 @@ def create_and_schedule(
 # CLI INTERFACE
 # ──────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    import argparse
+    import argparse, subprocess, sys
 
     parser = argparse.ArgumentParser(
-        description="Antigravity Workout Generator — Create & schedule "
+        description="Antigravity Workout Generator -- Create & schedule "
                     "Garmin workouts from the command line."
     )
     parser.add_argument(
@@ -631,8 +636,43 @@ if __name__ == "__main__":
         action="store_true",
         help="Upload the workout to Garmin Connect.",
     )
+    parser.add_argument(
+        "--skip-check",
+        action="store_true",
+        help="[EMERGENCY ONLY] Skip pre_schedule_check.py gate. "
+             "This must never be used routinely. Every use is a protocol violation."
+    )
 
     args = parser.parse_args()
+
+    # ── MANDATORY PRE-SCHEDULE GATE (RULE 00) ──────────────────────────────
+    # This block runs pre_schedule_check.py before EVERY --upload.
+    # It cannot be removed. --skip-check exists for true emergencies only
+    # and prints a loud warning when used.
+    if args.upload:
+        if args.skip_check:
+            print("[!!!!] --skip-check flag used. PROTOCOL VIOLATION.")
+            print("       This bypasses pre_schedule_check.py. Every use must be")
+            print("       explicitly justified in the session log. Do not use routinely.")
+        else:
+            print("[GATE] Running mandatory pre_schedule_check.py...")
+            check_script = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                "pre_schedule_check.py"
+            )
+            result = subprocess.run(
+                [sys.executable, check_script,
+                 "--type",      args.type,
+                 "--duration",  str(args.duration),
+                 "--intensity", args.intensity],
+                capture_output=False  # let it print directly to terminal
+            )
+            if result.returncode != 0:
+                print("[GATE] Pre-schedule check BLOCKED the upload. Exiting.")
+                print("       Resolve the issue flagged above before scheduling.")
+                sys.exit(1)
+            print("[GATE] Pre-schedule check CLEARED. Proceeding with upload.\n")
+    # ── END GATE ────────────────────────────────────────────────────────────
 
     workout = create_workout(args.type, args.duration, args.intensity, args.sport)
 
@@ -649,3 +689,4 @@ if __name__ == "__main__":
     print(f"  Name:     {workout.workoutName}")
     print(f"  Duration: {args.duration} min")
     print(f"  Steps:    {len(workout.workoutSegments[0].workoutSteps)}")
+

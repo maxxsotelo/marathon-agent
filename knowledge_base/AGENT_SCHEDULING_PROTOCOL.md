@@ -6,6 +6,42 @@
 # attempt to improvise a new scheduling method.
 # =============================================================================
 
+## RULE 00: Mandatory Pre-Schedule Justification Gate (NO EXCEPTIONS)
+
+### Step 1 — Load the Weekly Plan
+Before giving ANY daily training advice or answering "what should I do today":
+
+```bash
+python current_week_plan.py
+```
+
+`marathon-agent/current_week_plan.py` is the SINGLE SOURCE OF TRUTH for the
+active training week. Updated every Sunday. Never use conversation memory instead.
+
+### Step 2 — Run the Pre-Schedule Check before EVERY upload
+Before calling `workout_generator.py --upload` for ANY workout, the agent MUST
+first run:
+
+```bash
+python pre_schedule_check.py --type <type> --duration <minutes> --intensity <intensity>
+```
+
+This script:
+- Loads today's session from `current_week_plan.py`
+- Computes verified ACWR from live Garmin data (not check_vitals.py which has a known bug)
+- Prints the last 8 weeks of mileage history to justify the load target
+- Prints current LTHR HR zones so the agent doesn't use stale zone data
+- Blocks scheduling (exit code 1) if ACWR > 1.5 and a quality session is requested
+- Prints a final CLEARED / BLOCKED verdict
+
+If `pre_schedule_check.py` exits with code 1, do NOT proceed. Respect the veto.
+If it exits with code 0, proceed with `workout_generator.py --upload`.
+
+Violating this rule causes the agent to schedule wrong sessions, wrong HR zones,
+wrong exercise choices, and unsupported weekly volume — as occurred on 2026-06-18.
+
+---
+
 ## RULE 0: Check Before You Create
 Before writing any new scheduling script, ALWAYS check:
 1. `marathon-agent/workout_generator.py` for running and cycling workouts.
