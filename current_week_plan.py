@@ -6,18 +6,19 @@
 
 week_start = "2026-06-15"
 week_end   = "2026-06-21"
-generated  = "2026-06-15"  # Date this plan was created
+generated  = "2026-06-18"  # Updated Jun 18 — marathon pivot approved
 
 plan = {
     "meta": {
         "week":        "June 15 – June 21, 2026",
-        "phase":       "Perpetual Base / Efficiency Protocol (No Race Date)",
-        "load_target": "30–32 km running",
-        "objective":   "Solidify aerobic base at new LTHR zones. Hold volume steady (post-high-load week). ACWR target: 0.9–1.15.",
-        "acwr_context":"Prior acute load was 40.4 km. This week deliberately absorbs that work.",
+        "phase":       "Base Rebuild — Marathon Prep (Phase 1 of 5) | Race: Capas Marathon TBD ~Nov 30",
+        "load_target": "42–45 km running",
+        "objective":   "First week of marathon base rebuild. Step up Sunday long run to 17 km. Keep all easy runs Zone 1 (<162 bpm). Treadmill cleared for all weekday runs at 1.5-2% incline.",
+        "acwr_context":"ACWR target: 0.9–1.2. Current ACWR ~0.94 post-Thu run. Load is safe to build.",
         "zone_update": "New Zone 2 ceiling: 174 bpm (LTHR method, updated June 6 2026). Zone 1 cap: 162 bpm.",
         "injury_note": "Achilles Insurance is MANDATORY on every leg day: 4x20 Seated Calf Raises @ 70 kg, 3s eccentric phase.",
         "wrist_note":  "Right wrist injury as of June 16. Avoid push movements (bench, push-ups, dips). Pull movements cleared.",
+        "marathon_note": "See marathon_plan.py for 26-week block structure, long run progression, and weight targets.",
     },
     "days": {
         "2026-06-15": {

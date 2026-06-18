@@ -72,6 +72,38 @@ This caused a second request and wasted time.
 
 ---
 
+## RULE 02: Consult marathon_plan.py Before Any Training Prescription (2026-06-18)
+
+Now that a race target exists, agents MUST run:
+
+```bash
+python marathon_plan.py
+```
+
+before prescribing any weekly training session, long run target, or calorie guidance.
+
+This script provides:
+- Current training block (Base Rebuild / Build I / Build II / Race Specific / Taper)
+- Weekly km target for the current phase
+- This Sunday's long run distance from the 26-week progression
+- Current calorie deficit target per phase
+- Treadmill rules (incline, max indoor long run)
+- Weeks remaining to race
+
+### What changes based on the block:
+- **Base Rebuild (now - Aug 3):** 42-52 km/wk | -450 kcal deficit | LR 17-22 km | Treadmill OK weekdays
+- **Build I (Aug 4 - Sep 14):** 52-60 km/wk | -175 kcal deficit | LR 22-28 km
+- **Build II/Peak (Sep 15 - Oct 26):** 58-65 km/wk | NO deficit | LR 28-35 km
+- **Race Specific (Oct 27 - Nov 9):** 50-56 km/wk | NO deficit | LR 25-30 km
+- **Taper (Nov 10 - Nov 29):** 15-40 km/wk | NO deficit | LR 10-20 km
+
+### Race date note:
+Race date is TBD (Capas Marathon, official announcement pending).
+When confirmed: update `RACE_DATE` and set `RACE_DATE_TBD = False` in marathon_plan.py.
+Also update `ATHLETE['current_weight']` in marathon_plan.py weekly on Sundays.
+
+---
+
 ## RULE 0: Check Before You Create
 Before writing any new scheduling script, ALWAYS check:
 1. `marathon-agent/workout_generator.py` for running and cycling workouts.
