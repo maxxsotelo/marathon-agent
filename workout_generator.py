@@ -505,9 +505,13 @@ class SpeedVetoError(Exception):
 
 def calculate_current_acwr(client: Garmin) -> float:
     """Calculate ACWR using the last 28 days of activities (running)."""
-    from datetime import date
-    activities = client.get_activities(0, 35)
+    from datetime import date, timedelta
     today = date.today()
+    start_date = today - timedelta(days=28)
+    
+    # Fetch all activities in the last 28 days to prevent undercounting
+    activities = client.get_activities_by_date(start_date.isoformat(), today.isoformat())
+    
     acute_km = 0.0
     chronic_km = 0.0
     
@@ -524,14 +528,13 @@ def calculate_current_acwr(client: Garmin) -> float:
             continue
             
         days_ago = (today - act_date).days
-        if days_ago < 0:
+        if days_ago < 0 or days_ago > 28:
             continue
             
         dist_km = (a.get("distance") or 0) / 1000.0
         if days_ago <= 7:
             acute_km += dist_km
-        if days_ago <= 28:
-            chronic_km += dist_km
+        chronic_km += dist_km
             
     chronic_avg = chronic_km / 4.0
     return acute_km / chronic_avg if chronic_avg > 0 else 0.0
