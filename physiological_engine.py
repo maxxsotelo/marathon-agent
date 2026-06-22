@@ -473,7 +473,7 @@ class PhysiologicalEngine:
 
         runs_28d = [
             r for r in window.runs
-            if r.get('activity_type') == 'running'
+            if r.get('activity_type') in ('running', 'treadmill_running', 'trail_running', 'indoor_running')
             and r.get('date') is not None
             and r['date'] >= cutoff_28d
         ]

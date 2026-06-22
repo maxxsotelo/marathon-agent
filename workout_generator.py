@@ -411,19 +411,13 @@ def _build_long_run_steps(total_secs: int) -> list:
     warmup_secs = 600.0  # 10 min
     cooldown_secs = 600.0  # 10 min
     body_secs = float(total_secs) - warmup_secs - cooldown_secs
-    easy_secs = body_secs * 0.70
-    mp_secs = body_secs * 0.30
-
     return [
         _make_warmup(warmup_secs, step_order=1, zone=1,
                      pace_intensity="recovery"),
-        # Main aerobic block — strict 162 cap
-        _make_interval(easy_secs, step_order=2, zone=2,
+        # Main aerobic block — respect the requested intensity zone
+        _make_interval(body_secs, step_order=2, zone=2,
                        pace_intensity="easy"),
-        # Finish strong at Marathon Pace
-        _make_interval(mp_secs, step_order=3, zone=3,
-                       pace_intensity="marathon"),
-        _make_cooldown(cooldown_secs, step_order=4, zone=1,
+        _make_cooldown(cooldown_secs, step_order=3, zone=1,
                        pace_intensity="recovery"),
     ]
 
@@ -503,6 +497,67 @@ def _build_interval_steps(total_secs: int, zone: int, intensity: str) -> list:
 
 
 # ──────────────────────────────────────────────────────────────────────
+# ACWR SAFETY SYSTEM
+# ──────────────────────────────────────────────────────────────────────
+
+class SpeedVetoError(Exception):
+    pass
+
+def calculate_current_acwr(client: Garmin) -> float:
+    """Calculate ACWR using the last 28 days of activities (running)."""
+    from datetime import date
+    activities = client.get_activities(0, 35)
+    today = date.today()
+    acute_km = 0.0
+    chronic_km = 0.0
+    
+    run_types = ("running", "treadmill_running", "trail_running", "indoor_running")
+    for a in activities:
+        atype = a.get("activityType", {}).get("typeKey")
+        if atype not in run_types:
+            continue
+            
+        start_str = a.get("startTimeLocal", "2000-01-01")[:10]
+        try:
+            act_date = date.fromisoformat(start_str)
+        except ValueError:
+            continue
+            
+        days_ago = (today - act_date).days
+        if days_ago < 0:
+            continue
+            
+        dist_km = (a.get("distance") or 0) / 1000.0
+        if days_ago <= 7:
+            acute_km += dist_km
+        if days_ago <= 28:
+            chronic_km += dist_km
+            
+    chronic_avg = chronic_km / 4.0
+    return acute_km / chronic_avg if chronic_avg > 0 else 0.0
+
+def enforce_acwr_safety(client: Garmin, workout):
+    """Enforce the Speed Veto if ACWR is > 1.5 and the workout contains high intensity."""
+    if not isinstance(workout, RunningWorkout):
+        return  # We don't block cycling or other cross-training
+        
+    has_speed = False
+    name = getattr(workout, "workoutName", "").lower()
+    desc = (getattr(workout, "description", "") or "").lower()
+    
+    speed_keywords = ["threshold", "tempo", "vo2", "vo2max", "interval", "fartlek", "speed"]
+    if any(k in name or k in desc for k in speed_keywords):
+        has_speed = True
+        
+    if has_speed:
+        acwr = calculate_current_acwr(client)
+        if acwr > 1.5:
+            raise SpeedVetoError(
+                f"SPEED VETO ENGAGED: Your ACWR is {acwr:.3f}. "
+                "You cannot schedule speedwork or threshold runs while in the Danger Zone."
+            )
+
+# ──────────────────────────────────────────────────────────────────────
 # UPLOAD & SCHEDULE
 # ──────────────────────────────────────────────────────────────────────
 
@@ -524,6 +579,10 @@ def upload_workout(workout) -> dict:
     Returns the API response dict which includes 'workoutId'.
     """
     client = _get_client()
+    
+    # [KIAT ENGINE] Enforce physiological constraints before upload
+    enforce_acwr_safety(client, workout)
+    
     if isinstance(workout, CyclingWorkout):
         result = client.upload_cycling_workout(workout)
     else:

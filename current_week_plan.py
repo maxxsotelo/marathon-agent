@@ -4,64 +4,64 @@
 # ANY agent or script that plans daily training MUST read this file first.
 # Do NOT rely on chat memory or conversation history for the weekly plan.
 
-week_start = "2026-06-15"
-week_end   = "2026-06-21"
-generated  = "2026-06-18"  # Updated Jun 18 — marathon pivot approved
+week_start = "2026-06-22"
+week_end   = "2026-06-28"
+generated  = "2026-06-22"
 
 plan = {
     "meta": {
-        "week":        "June 15 – June 21, 2026",
-        "phase":       "Base Rebuild — Marathon Prep (Phase 1 of 5) | Race: Capas Marathon TBD ~Nov 30",
+        "week":        "June 22 – June 28, 2026",
+        "phase":       "Base Rebuild (Marathon Prep) | Race: Capas Marathon TBD ~Nov 30",
         "load_target": "42–45 km running",
-        "objective":   "First week of marathon base rebuild. Step up Sunday long run to 17 km. Keep all easy runs Zone 1 (<162 bpm). Treadmill cleared for all weekday runs at 1.5-2% incline.",
-        "acwr_context":"ACWR target: 0.9–1.2. Current ACWR ~0.94 post-Thu run. Load is safe to build.",
-        "zone_update": "New Zone 2 ceiling: 174 bpm (LTHR method, updated June 6 2026). Zone 1 cap: 162 bpm.",
+        "objective":   "First official week of the Base Rebuild phase using the new treadmill-heavy weekday structure. Long run steps up to 18 km.",
+        "acwr_context":"[KIAT ENGINE ALERT] ACWR spiked to 2.180 (Danger Zone) due to the June volume cut lowering chronic load to 21 km/wk. Auto Speed Veto is ACTIVE.",
+        "zone_update": "Zone 2 ceiling: 174 bpm. Zone 1 cap: 161 bpm.",
         "injury_note": "Achilles Insurance is MANDATORY on every leg day: 4x20 Seated Calf Raises @ 70 kg, 3s eccentric phase.",
         "wrist_note":  "Right wrist injury as of June 16. Avoid push movements (bench, push-ups, dips). Pull movements cleared.",
         "marathon_note": "See marathon_plan.py for 26-week block structure, long run progression, and weight targets.",
     },
     "days": {
-        "2026-06-15": {
-            "label":   "Monday | Active Recovery",
-            "session": "Complete Rest or Light Mobility",
-            "detail":  "Let the 15 km long run from Sunday fully absorb into the legs. Eat slightly below maintenance.",
+        "2026-06-22": {
+            "label":   "Monday | ACTIVE RECOVERY (KIAT ENGINE VETO)",
+            "session": "Complete Rest or Light Non-Impact Mobility",
+            "detail":  "Kiat Engine AUTO VETO: Your ACWR is 2.180 (Danger) and EPOC is 79.4 mL/kg (Major). The planned 8-10 km treadmill run is CANCELLED. Do not run today.",
             "run_km":  0,
             "gym":     False,
             "plyo":    False,
         },
-        "2026-06-16": {
-            "label":   "Tuesday | Upper Body (Push/Pull)",
-            "session": "Gym — Upper Body",
-            "detail":  "Standard heavy Push/Pull block. Push movements to be skipped or modified due to wrist injury. Pull movements cleared. Keep protein high.",
-            "run_km":  0,
+        "2026-06-23": {
+            "label":   "Tuesday | Quality Session + Upper Body",
+            "session": "Gym — Upper Body (Pull only) + 8 km Quality Run (Treadmill)",
+            "detail":  "Gym: Pull movements only due to wrist injury. Run: 8 km total, including a 3-4 km tempo or fartlek block in the middle. Let HR rise into Z3/Z4 during the quality portion.",
+            "run_km":  8,
             "gym":     True,
             "plyo":    False,
         },
-        "2026-06-17": {
-            "label":   "Wednesday | Speed Work (Speed Reserve)",
-            "session": "6–8 km Fartlek or Strides (Santa Elena or UP)",
-            "detail":  "5x 1-minute surges at 3:55–4:10/km pace (sub-3 marathon speed reserve). First 1 km warmup MUST be under 130 bpm. Let HR climb into Zone 4/5 during surges.",
-            "run_km":  7,
+        "2026-06-24": {
+            "label":   "Wednesday | Easy Aerobic",
+            "session": "7–9 km Easy Aerobic (Treadmill, 1.5–2% incline)",
+            "detail":  "Recovery focused aerobic run. HR in Zone 1. Keep it light and easy.",
+            "run_km":  8,
             "gym":     False,
             "plyo":    False,
         },
-        "2026-06-18": {
+        "2026-06-25": {
             "label":   "Thursday | Legs + Core (Base)",
             "session": "Gym — Legs + Core",
-            "detail":  "Leg Press (120 kg+), Hamstring Curls, Core circuit. NO heavy plyometrics today — this is a base/volume leg day. ACHILLES INSURANCE MANDATORY: 4x20 Seated Calf Raises @ 70 kg, 3s eccentric.",
+            "detail":  "Base leg day (Leg press, hamstring curls, core). No heavy plyometrics. ACHILLES INSURANCE MANDATORY: 4x20 Seated Calf Raises @ 70 kg, 3s eccentric.",
             "run_km":  0,
             "gym":     True,
-            "plyo":    False,  # Thursday is BASE legs, NOT the plyometric day
+            "plyo":    False,
         },
-        "2026-06-19": {
-            "label":   "Friday | Zone 2 Easy Run",
-            "session": "8–10 km Zone 2 (Concepcion Uno)",
-            "detail":  "Aerobic flush. HR ceiling: 174 bpm (new Zone 2). Tired Legs Protocol: if legs feel heavy, let pace drop. If loose, allow down to 6:00/km as long as HR stays under 174 bpm.",
-            "run_km":  9,
+        "2026-06-26": {
+            "label":   "Friday | Rest or Active Recovery",
+            "session": "Complete Rest or 0–5 km Very Short Easy",
+            "detail":  "Listen to your legs. If feeling fatigued, take complete rest. Otherwise, a very slow 5 km shakeout on the treadmill is fine.",
+            "run_km":  0,
             "gym":     False,
             "plyo":    False,
         },
-        "2026-06-20": {
+        "2026-06-27": {
             "label":   "Saturday | Pre-Fatigue Protocol (Moderate Legs + Core)",
             "session": "Gym — Legs + Core (Light/Moderate)",
             "detail":  "Pre-loading quads and hamstrings for Sunday long run. Moderate weight only. ACHILLES INSURANCE MANDATORY: 4x20 Seated Calf Raises @ 70 kg, 3s eccentric.",
@@ -69,11 +69,11 @@ plan = {
             "gym":     True,
             "plyo":    False,
         },
-        "2026-06-21": {
+        "2026-06-28": {
             "label":   "Sunday | The Long Run",
-            "session": "16–18 km Zone 2 Long Run",
-            "detail":  "Accumulated Fatigue Protocol on pre-loaded legs from Saturday. Allow cadence to self-select. First km under 130 bpm. HR cap: 174 bpm (or 180 bpm if heat index >= 33 degrees C).",
-            "run_km":  17,
+            "session": "18 km Zone 2 Long Run (OUTSIDE)",
+            "detail":  "Outside is MANDATORY for heat adaptation and terrain. Zone 2 effort, HR cap: 174 bpm (180 bpm if heat index is high).",
+            "run_km":  18,
             "gym":     False,
             "plyo":    False,
         },
