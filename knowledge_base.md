@@ -29,11 +29,11 @@ valid and beneficial, but more conservative than required.
 
 | Zone | Name | HR Range | Purpose |
 |---|---|---|---|
-| Z1 | Recovery | < 157 bpm | Shakeout, pure recovery runs |
-| Z2 | Aerobic / Base | 157-174 bpm | Long runs, easy runs, aerobic base |
-| Z3 | Grey Zone | 175-185 bpm | Minimize — no productive adaptation, high fatigue cost |
-| Z4 | Threshold | 186-194 bpm | Cruise intervals, tempo runs, marathon pace work |
-| Z5 | VO2 Max / Neuromuscular | >= 196 bpm | Short surges, strides, max intervals |
+| Z1 | Easy Aerobic | < 162 bpm | All easy/long runs, shakeouts, base building |
+| Z2 | Extensive | 162-174 bpm | Long runs, aerobic stimulus |
+| Z3 | Tempo | 175-181 bpm | Marathon pace work |
+| Z4 | Threshold | 182-191 bpm | Cruise intervals, tempo runs |
+| Z5 | VO2 Max | >= 192 bpm | Short surges, strides, max intervals |
 
 ### Thermal Correction (Manila Outdoor Conditions)
 - Heat Index 30-35°C inflates HR by 5-8 bpm

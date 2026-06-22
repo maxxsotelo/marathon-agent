@@ -56,11 +56,11 @@ READINESS_LOW       = 25
 
 # Real HR Zones (from operating_manual.md Section 6) — used for TRIMP & zone time
 REAL_ZONES = [
-    (1, "Z1-Recovery",   0,   144),
-    (2, "Z2-Aerobic",    145, 162),
-    (3, "Z3-Grey/MP",    163, 184),
-    (4, "Z4-Threshold",  185, 196),
-    (5, "Z5-Anaerobic",  197, 999),
+    (1, "Z1-Easy_Aerobic",  0,   161),
+    (2, "Z2-Extensive",     162, 174),
+    (3, "Z3-Tempo",         175, 181),
+    (4, "Z4-Threshold",     182, 191),
+    (5, "Z5-VO2_Max",       192, 999),
 ]
 
 

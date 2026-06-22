@@ -307,7 +307,7 @@ def get_agent_recommendation(kb_context, daily_metrics, phys_report=None, recove
     Max HR: 206 bpm | LTHR: 190-196 bpm | Resting HR: 38-42 bpm
     HRV Floor: 116 ms RMSSD — non-negotiable recovery gate.
     Zone 2 Cap: 162 bpm (heat-tax adjusted for Marikina tropical conditions).
-    HR Zones: Z1 <145 | Z2 145-162 | Z3 163-184 | Z4 185-196 | Z5 197+
+    HR Zones: Z1 <162 | Z2 162-174 | Z3 175-181 | Z4 182-191 | Z5 192+
     Training Phase: Perpetual Base / No-Race State.
       - 80/20 rule enforced: 80% Zone 2, 20% quality.
       - Max 1 hard running session per week.
