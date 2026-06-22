@@ -14,7 +14,7 @@ plan = {
         "phase":       "Base Rebuild (Marathon Prep) | Race: Capas Marathon TBD ~Nov 30",
         "load_target": "42–45 km running",
         "objective":   "First official week of the Base Rebuild phase using the new treadmill-heavy weekday structure. Long run steps up to 18 km.",
-        "acwr_context":"[KIAT ENGINE ALERT] ACWR spiked to 2.180 (Danger Zone) due to the June volume cut lowering chronic load to 21 km/wk. Auto Speed Veto is ACTIVE.",
+        "acwr_context":"ACWR is healthy at 1.225. However, due to the 43C heat index run and EPOC 79.4 mL/kg from Saturday, structural deload is active.",
         "zone_update": "Zone 2 ceiling: 174 bpm. Zone 1 cap: 161 bpm.",
         "injury_note": "Achilles Insurance is MANDATORY on every leg day: 4x20 Seated Calf Raises @ 70 kg, 3s eccentric phase.",
         "wrist_note":  "Right wrist injury as of June 16. Avoid push movements (bench, push-ups, dips). Pull movements cleared.",
@@ -22,9 +22,9 @@ plan = {
     },
     "days": {
         "2026-06-22": {
-            "label":   "Monday | ACTIVE RECOVERY (KIAT ENGINE VETO)",
-            "session": "Complete Rest or Light Non-Impact Mobility",
-            "detail":  "Kiat Engine AUTO VETO: Your ACWR is 2.180 (Danger) and EPOC is 79.4 mL/kg (Major). The planned 8-10 km treadmill run is CANCELLED. Do not run today.",
+            "label":   "Monday | ACTIVE RECOVERY",
+            "session": "45-minute Recovery Bike Spin + Core",
+            "detail":  "Physiological Veto: ACWR is safe (1.225), but EPOC is 79.4 mL/kg (Major). The planned treadmill run is CANCELLED to protect the Achilles. Complete the scheduled 45-minute recovery spin on the stationary bike.",
             "run_km":  0,
             "gym":     False,
             "plyo":    False,
