@@ -22,10 +22,10 @@ plan = {
     },
     "days": {
         "2026-06-22": {
-            "label":   "Monday | ACTIVE RECOVERY",
-            "session": "45-minute Recovery Bike Spin + Core",
-            "detail":  "Physiological Veto: ACWR is safe (1.225), but EPOC is 79.4 mL/kg (Major). The planned treadmill run is CANCELLED to protect the Achilles. Complete the scheduled 45-minute recovery spin on the stationary bike.",
-            "run_km":  0,
+            "label":   "Monday | Easy Aerobic",
+            "session": "8–10 km Easy Aerobic (Treadmill, 1.5–2% incline)",
+            "detail":  "Aerobic base building. Keep HR in Zone 1 (<162 bpm). The 1.5-2% incline is mandatory to compensate for lack of wind resistance/belt assist.",
+            "run_km":  9,
             "gym":     False,
             "plyo":    False,
         },
