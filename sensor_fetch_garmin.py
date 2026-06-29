@@ -3,7 +3,7 @@ from datetime import date, datetime, timezone, timedelta
 from dotenv import load_dotenv
 from garminconnect import Garmin
 
-from physiological_engine import (
+from core_physiological_engine import (
     PhysiologicalEngine,
     parse_sleep_data,
     parse_hrv_data,

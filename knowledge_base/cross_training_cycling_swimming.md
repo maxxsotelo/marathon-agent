@@ -46,7 +46,7 @@ Note: Cycling HR typically runs **10–15 bpm LOWER** than running HR at the sam
 - No vertical oscillation
 - No impact absorption cost
 
-**Therefore:** If your running Zone 2 cap is 162 bpm, your cycling Zone 2 equivalent is approximately **145–150 bpm** on the bike.
+**Therefore:** If your running Zone 2 cap is 162 bpm, your cycling Zone 2 equivalent is approximately **150–155 bpm** on the bike.
 
 ---
 

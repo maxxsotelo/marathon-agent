@@ -15,3 +15,11 @@ These rules apply strictly to any AI agent working within the `marathon-agent` w
   - **Recovery Hours** dictated by Garmin.
   - **Heat Index / Environmental Stress** if applicable.
 - If the physiological strain from recent sessions (e.g., a TE 4.0 run 48 hours ago) contraindicates high-intensity work, you must VETO the request, even if the user claims to feel fully recovered. Rely strictly on cold hard numbers.
+
+## 3. Exhaustive Scheduling Rationale
+- **ALWAYS** print the EXACT thought process behind any scheduling decision or workout generation.
+- Do not gloss over obvious facts. You must explicitly output an analysis covering:
+  1. **Historical Context:** What did the athlete do in the past 7-14 days?
+  2. **Telemetry & Core Engines:** What are the ACWR, EPOC, and Mechanical ACWR telling us right now?
+  3. **Overnight Vitals:** HRV, Body Battery, and RHR status.
+  4. **Knowledge Base Constraints:** Align the decision strictly with `brain_knowledge_base.md` (e.g., shoe mileage limits, injury notes, weight goals).

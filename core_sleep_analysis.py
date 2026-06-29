@@ -1,5 +1,5 @@
 """
-sleep_analysis.py
+core_sleep_analysis.py
 Fetches sleep data from Garmin Connect for the past 14 days,
 analyzes sleep stages (Deep, Light, REM, Awake), and outputs a summary report.
 """

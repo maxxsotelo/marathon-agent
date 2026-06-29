@@ -11,7 +11,7 @@ from garminconnect import Garmin
 # time naively — always derive from this constant.
 PHT = timezone(timedelta(hours=8))
 
-from physiological_engine import (
+from core_physiological_engine import (
     PhysiologicalEngine,
     PhysiologicalReport,
     parse_sleep_data,

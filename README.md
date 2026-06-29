@@ -29,7 +29,7 @@ This system represents a major milestone in my development journey:
 ```mermaid
 graph TD
     A[Garmin Forerunner 165] -->|Syncs Telemetry| B(Garmin Connect Cloud)
-    B -->|Biometrics / Sleep / Workouts| C[fetch_garmin.py]
+    B -->|Biometrics / Sleep / Workouts| C[sensor_fetch_garmin.py]
 
     C -->|30-Day Activity Window| E{Kiat Engine}
     E -->|Training Readiness Score| F[TRS: 0-100 Weighted Composite]
@@ -38,21 +38,21 @@ graph TD
     E -->|Lap Kinematics| I[REI + FBI Form Collapse Detection]
     E -->|TRIMP / PA-HR / Cardiac Drift / EPOC| J2[Advanced 970-Emulated HR Metrics]
 
-    C -->|HRV / Sleep / Stress| J{antigravity_core.py}
+    C -->|HRV / Sleep / Stress| J{core_antigravity_core.py}
     E -->|Full Kiat Engine Metrics Block| J
     J -->|PHT-Anchored hours_since_last_run_end| K2[Python-Computed Recovery Context]
     K2 -->|6-Tier Priority Stack injected as ground truth| J
     J -->|Gemini Flash/Pro or Claude Sonnet/Opus| K[Daily GO/NO-GO Briefing]
     K -->|Physiology-Grounded Recommendation| L[Athlete]
 
-    L -->|Approves Session| M[workout_generator.py]
+    L -->|Approves Session| M[actuator_workout_generator.py]
     M -->|Pydantic V2 Serialization| N[Garmin Calendar Upload API]
     N -->|Structured Calendar Card| B
     B -->|Automatic Watch Sync| A
 
-    B -->|Completed Run Lap DTOs| Q[run_analysis.py]
+    B -->|Completed Run Lap DTOs| Q[core_run_analysis.py]
     Q -->|TRIMP / PA:HR / EPOC / Cardiac Drift| R[11-Section Coaching Report]
-    R -->|Athlete HR Zones + Advanced Metrics| S[send_report_email.py]
+    R -->|Athlete HR Zones + Advanced Metrics| S[actuator_send_report_email.py]
     S -->|Dark-Mode HTML Report| T[Gmail Inbox]
 ```
 
@@ -60,7 +60,7 @@ graph TD
 
 ## ⚡ Core Features & Capabilities
 
-### 🧠 1. Kiat Engine — Physiological Intelligence Layer ([physiological_engine.py](physiological_engine.py))
+### 🧠 1. Kiat Engine — Physiological Intelligence Layer ([core_physiological_engine.py](core_physiological_engine.py))
 
 The flagship module. Named from the Hokkien word *Kiat* (傑) — meaning **to surpass, to go beyond**. The Kiat Engine computes premium physiological metrics from raw Forerunner 165 telemetry, completely bypassing hardware limitations through software intelligence. As of **May 2026**, it also emulates **Forerunner 970-class advanced HR and physiological stress metrics** — available in every daily briefing and sync report.
 
@@ -123,7 +123,7 @@ Computed directly from lap telemetry and injected into every daily briefing and 
 
 ---
 
-### 🔍 2. Biometric Ingestion & MFA Caching ([fetch_garmin.py](fetch_garmin.py))
+### 🔍 2. Biometric Ingestion & MFA Caching ([sensor_fetch_garmin.py](sensor_fetch_garmin.py))
 - Connects securely to Garmin Connect via reverse-engineered endpoints.
 - **Token Caching:** Stores OAuth session tokens in `~/.garminconnect` after the initial execution, bypassing repetitive MFA prompts on every run.
 - Pulls sleep stage breakdowns (Deep, Light, REM, Awake %), HRV, body battery, resting HR, and nutrition balance.
@@ -132,7 +132,7 @@ Computed directly from lap telemetry and injected into every daily briefing and 
 
 ---
 
-### 🤖 3. AI Daily Briefing ([antigravity_core.py](antigravity_core.py))
+### 🤖 3. AI Daily Briefing ([core_antigravity_core.py](core_antigravity_core.py))
 
 The execution core. Connects to a **multi-LLM backend** (Google Gemini Flash/Pro or Anthropic Claude Sonnet/Opus) with a highly structured, deterministic system prompt. The key architectural decision is that the LLM is the *narrator*, not the *calculator* — all safety-critical decisions are pre-computed in Python before the model ever sees the data.
 
@@ -183,7 +183,7 @@ Every briefing produces 5 sections:
 
 ---
 
-### 🛠️ 4. Pydantic V2 Workout Generator ([workout_generator.py](workout_generator.py))
+### 🛠️ 4. Pydantic V2 Workout Generator ([actuator_workout_generator.py](actuator_workout_generator.py))
 - Constructs complex running workouts (warmup, work intervals, recovery intervals, cooldowns) programmatically.
 - Serializes API-compliant payloads using **Pydantic V2**, bypassing Garmin's inaccurate automatic HR zone tables by sending precise absolute BPM targets and speed metrics (m/s).
 - Schedules workouts directly to specific dates on the Garmin Connect Calendar.
@@ -207,13 +207,13 @@ Per-lap decoding of Garmin telemetry for completed runs:
 
 ---
 
-### 📈 7. Rolling Block Auditor ([block_auditor.py](block_auditor.py))
+### 📈 7. Rolling Block Auditor ([core_block_auditor.py](core_block_auditor.py))
 - Retro audits over rolling 3-week training blocks.
 - Week-over-week deltas: running volume, longest run, elevation gain, cross-training distance, strength presence.
 
 ---
 
-### 🔬 8. Exhaustive Run Analysis Engine ([run_analysis.py](run_analysis.py)) *(New — May 2026)*
+### 🔬 8. Exhaustive Run Analysis Engine ([core_run_analysis.py](core_run_analysis.py)) *(New — May 2026)*
 A coaching-grade, lap-by-lap post-run analytics report generator. Pulls every available field from the Garmin API and computes advanced metrics entirely absent from Garmin's native platform:
 
 | Metric | Formula | What It Measures |
@@ -228,11 +228,11 @@ A coaching-grade, lap-by-lap post-run analytics report generator. Pulls every av
 
 - Uses **Max's verified personal HR zones** (from `operating_manual.md`) — never Garmin's inaccurate native zones.
 - Generates a full Markdown report covering 11 sections: Activity Overview, Environmental Conditions (Heat Tax), HR Analysis, Power Analysis, Training Effect, Biomechanics, Best Efforts, and exhaustive lap-by-lap table with all 18+ fields per lap.
-- Accepts a date argument: `python run_analysis.py 2026-05-23`
+- Accepts a date argument: `python core_run_analysis.py 2026-05-23`
 
 ---
 
-### 📧 9. Automated HTML Email Report ([send_report_email.py](send_report_email.py)) *(New — May 2026)*
+### 📧 9. Automated HTML Email Report ([actuator_send_report_email.py](actuator_send_report_email.py)) *(New — May 2026)*
 Sends a professionally designed dark-mode HTML email directly to the athlete's Gmail after every significant session. Includes:
 - Kiat Engine vitals dashboard (TRS, ACWR, HRV, Training Status)
 - Advanced HR metrics block (TRIMP, PA:HR, Cardiac Drift, EPOC, Max HR Drop)
@@ -247,14 +247,14 @@ Sends a professionally designed dark-mode HTML email directly to the athlete's G
 
 ```
 marathon-agent/
-├── physiological_engine.py   # Kiat Engine -- TRS, ACWR, Training Status, REI, FBI, 970-emulated metrics
-├── antigravity_core.py       # AI daily briefing -- Multi-LLM + PHT-anchored deterministic recovery gate
-├── fetch_garmin.py           # Biometric ingestion -- 30-day window, sleep, HRV, nutrition
-├── workout_generator.py      # Pydantic V2 workout builder & Garmin Calendar uploader
-├── run_analysis.py           # Exhaustive run analytics -- TRIMP, EPOC, PA:HR, Cardiac Drift
-├── send_report_email.py      # Automated dark-mode HTML email report via Gmail SMTP
-├── block_auditor.py          # 3-week rolling block audit & volume delta analysis
-├── audit_14d.py              # 14-day retrospective analytics script
+├── core_physiological_engine.py   # Kiat Engine -- TRS, ACWR, Training Status, REI, FBI, 970-emulated metrics
+├── core_antigravity_core.py       # AI daily briefing -- Multi-LLM + PHT-anchored deterministic recovery gate
+├── sensor_fetch_garmin.py           # Biometric ingestion -- 30-day window, sleep, HRV, nutrition
+├── actuator_workout_generator.py      # Pydantic V2 workout builder & Garmin Calendar uploader
+├── core_run_analysis.py           # Exhaustive run analytics -- TRIMP, EPOC, PA:HR, Cardiac Drift
+├── actuator_send_report_email.py      # Automated dark-mode HTML email report via Gmail SMTP
+├── core_block_auditor.py          # 3-week rolling block audit & volume delta analysis
+├── sensor_audit_14d.py              # 14-day retrospective analytics script
 ├── knowledge_base/
 │   ├── operating_manual.md   # Athlete profile, thresholds, Kiat Engine rules (Sections 1-7)
 │   ├── 80_20_running.md
@@ -306,7 +306,7 @@ GMAIL_RECIPIENT="your_email@gmail.com"
 
 ### Daily Biometrics Sync + Kiat Engine Report
 ```bash
-python fetch_garmin.py
+python sensor_fetch_garmin.py
 ```
 Pulls all Garmin data, prints a full biometrics audit, and outputs the Kiat Engine metrics (TRS, ACWR, Training Status, REI, FBI) at the end.
 
@@ -314,33 +314,33 @@ Pulls all Garmin data, prints a full biometrics audit, and outputs the Kiat Engi
 
 ### AI Daily Briefing (GO / NO-GO + Session Recommendation)
 ```bash
-python antigravity_core.py
+python core_antigravity_core.py
 ```
 Fetches live telemetry, runs the physiological engine, computes exact hours elapsed since last run (PHT-anchored), applies the 6-tier recovery gate and priority stack, consults the configured LLM (Gemini or Claude), and outputs a full clinical coaching briefing with training status, biomechanics commentary, and a specific session recommendation.
 
 ### Generate and Upload a Workout to Garmin Calendar
 ```bash
-python workout_generator.py
+python actuator_workout_generator.py
 ```
 
 ### 3-Week Rolling Block Audit
 ```bash
-python block_auditor.py
+python core_block_auditor.py
 ```
 
 ### Exhaustive Run Analysis Report
 ```bash
 # Analyze yesterday's run (default)
-python run_analysis.py
+python core_run_analysis.py
 
 # Analyze a specific date
-python run_analysis.py 2026-05-23
+python core_run_analysis.py 2026-05-23
 ```
 Fetches all lap telemetry from Garmin Connect, computes TRIMP, PA:HR decoupling, Cardiac Drift, EPOC, and Max HR Drop using the athlete's verified personal zones. Outputs an 11-section Markdown coaching report.
 
 ### Send Weekly Report Email
 ```bash
-python send_report_email.py
+python actuator_send_report_email.py
 ```
 Generates a dark-mode HTML email with the full run analysis, Kiat Engine vitals, advanced HR metrics, and the weekly training plan, then sends it to the configured Gmail address via SMTP App Password.
 
@@ -348,7 +348,7 @@ Generates a dark-mode HTML email with the full run analysis, Kiat Engine vitals,
 
 ## 🧪 Kiat Engine Self-Test
 ```bash
-python physiological_engine.py
+python core_physiological_engine.py
 ```
 Runs a built-in simulation with synthetic telemetry to verify all scoring functions, ACWR calculations, state machine transitions, and FBI form collapse detection. No Garmin connection required.
 

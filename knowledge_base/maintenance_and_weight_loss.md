@@ -34,10 +34,10 @@ To maintain high readiness while chasing weight loss, use this simple weekly ske
 
 | Run Type | Distance / Duration | Intensity | Primary Benefit |
 |---|---|---|---|
-| **Easy Aerobic** | 8–10 km | Zone 2 (145–162 bpm) | Mitochondria, base maintenance |
-| **Intervals or Tempos** | 8–10 km (incl. WU/CD) | Zone 3–4 (163–196 bpm) | Preserves VO2 max & speed ceiling |
+| **Easy Aerobic** | 8–10 km | Zone 2 (162–174 bpm) | Mitochondria, base maintenance |
+| **Intervals or Tempos** | 8–10 km (incl. WU/CD) | Zone 3–4 (175–191 bpm) | Preserves VO2 max & speed ceiling |
 | **CNS Reset / Recovery**| 6–8 km | Zone 1 (100–144 bpm) | Active recovery, structural loading |
-| **Short Long Run** | 12–15 km | Zone 2 (145–162 bpm) | Fat oxidation, structural durability |
+| **Short Long Run** | 12–15 km | Zone 2 (162–174 bpm) | Fat oxidation, structural durability |
 | **Total** | **34–43 km** | **~80% Easy / ~20% Hard** | **High readiness, zero burnout** |
 
 ---
@@ -110,6 +110,6 @@ An extended LSD shifts your training stress. Make these immediate adjustments to
 1. **The 48h Recovery Window:** The 24 hours before and 24 hours after a >21 km LSD must be strictly low-stress.
    - *Day Before:* Rest or 30-40 min very easy recovery spin/jog.
    - *Day After:* STRICT REST or 45 min very light recovery cycling (Zone 1, HR < 135 bpm).
-2. **Zone 2 Ceiling is Absolute:** Run the entire extended distance strictly inside **Zone 2 (145–162 bpm)**. No tempo or marathon-pace finishes on Week B extended days. Adding speed to distance in a maintenance phase is an unnecessary stress compound.
+2. **Zone 2 Ceiling is Absolute:** Run the entire extended distance strictly inside **Zone 2 (162–174 bpm)**. No tempo or marathon-pace finishes on Week B extended days. Adding speed to distance in a maintenance phase is an unnecessary stress compound.
 3. **Cadence Awareness:** As fatigue sets in after km 18, cadence naturally drops. Keep focus on maintaining a light, quick turnover (**≥ 168 spm**) to avoid heavy heel-striking as you fatigue.
 

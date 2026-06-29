@@ -19,7 +19,7 @@ HR Zones (LTHR Method — Primary | Updated June 6 2026 | LTHR: ~191 bpm | RHR: 
   Zone 3 (Tempo):         174–181 bpm   (91–95% LTHR)
   Zone 4 (Threshold):     181–191 bpm   (95–100% LTHR)
   Zone 5 (VO2 Max):       >191 bpm      (>100% LTHR)
-Aerobic Base Target: 145–162 bpm (RESTORED — LTHR method validates this range).
+Aerobic Base Target: 162–174 bpm (RESTORED — LTHR method validates this range).
 MAF Cross-check (180−age): 155 bpm ceiling — conservative floor for pure aerobic base work.
 STRICT EASY RUN CAP: 162 bpm. The Karvonen-only derivation of 156 bpm was incorrect and is DEPRECATED.
 Note: The sensation of Zone 2 feeling "excruciatingly slow" is physiologically correct and expected for a trained athlete with LTHR of 191 bpm. The shuffle pace is the zone working as intended.
@@ -118,17 +118,17 @@ Furthermore, consuming this 20–40g dose of high-quality protein as soon as pos
 Action Plan: Consume this protein dose alongside your carbohydrates as soon as possible—ideally within the first 30 minutes to 2 hours following the end of your session—to kickstart the recovery window before your next training bout
 6. Heart Rate Training Zones (Verified by Jan 2026 Data)
 Protocol: The "162 Cap" Rule. Derived from athlete's steady-state data (Avg HR 151-157) and 10K Race data (Avg HR 175).
-Zone 1 (Recovery): < 145 bpm
+Zone 1 (Recovery): < 162 bpm
 Usage: Warm-ups, cool-downs, and recovery jogs.
 Zone 2 (Aerobic Base - The "Forever Pace"): 145 – 162 bpm
 Usage: 80% of weekly volume. (Long Runs, Easy Runs).
 Benchmark: Athlete naturally settles at 151–157 bpm when feeling "good."
 Hard Rule: If HR exceeds 162 bpm on an easy day, you are running too fast. Walk if necessary to reset.
-Zone 3 (Marathon Tempo / Grey Zone): 163 – 184 bpm
+Zone 3 (Marathon Tempo / Grey Zone): 175 – 181 bpm
 Usage: "No Man's Land." Avoid unless specifically prescribed for Marathon Pace work.
-Zone 4 (Threshold / Race Power): 185 – 196 bpm
+Zone 4 (Threshold / Race Power): 182 – 191 bpm
 Usage: 10K Pace intervals. (Matches athlete's ability to hold high % of Max HR during competition).
-Zone 5 (Anaerobic / Max): 197+ bpm
+Zone 5 (Anaerobic / Max): 192+ bpm
 Usage: Maximum velocity / finishing kicks.
 1.7. Heart Rate Variability (HRV) & Recovery Metrics
 Primary Metric: Root Mean Square of Successive Differences (RMSSD) is the gold standard for tracking parasympathetic (recovery) nervous system activity.
@@ -290,7 +290,7 @@ state machine that cross-references ACWR and HRV every session.
 
 5.4 Running Economy Index (REI)
 Measures how efficiently energy translates to forward speed during Zone 2 laps
-(HR 145–162 bpm).
+(HR 162-174 bpm).
 
   Primary (Power available):
     REI = (Speed in m/s) ÷ (Normalized Power in W) × 1000

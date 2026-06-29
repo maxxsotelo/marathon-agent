@@ -701,26 +701,26 @@ if __name__ == "__main__":
     parser.add_argument(
         "--skip-check",
         action="store_true",
-        help="[EMERGENCY ONLY] Skip pre_schedule_check.py gate. "
+        help="[EMERGENCY ONLY] Skip sensor_pre_schedule_check.py gate. "
              "This must never be used routinely. Every use is a protocol violation."
     )
 
     args = parser.parse_args()
 
     # ── MANDATORY PRE-SCHEDULE GATE (RULE 00) ──────────────────────────────
-    # This block runs pre_schedule_check.py before EVERY --upload.
+    # This block runs sensor_pre_schedule_check.py before EVERY --upload.
     # It cannot be removed. --skip-check exists for true emergencies only
     # and prints a loud warning when used.
     if args.upload:
         if args.skip_check:
             print("[!!!!] --skip-check flag used. PROTOCOL VIOLATION.")
-            print("       This bypasses pre_schedule_check.py. Every use must be")
+            print("       This bypasses sensor_pre_schedule_check.py. Every use must be")
             print("       explicitly justified in the session log. Do not use routinely.")
         else:
-            print("[GATE] Running mandatory pre_schedule_check.py...")
+            print("[GATE] Running mandatory sensor_pre_schedule_check.py...")
             check_script = os.path.join(
                 os.path.dirname(os.path.abspath(__file__)),
-                "pre_schedule_check.py"
+                "sensor_pre_schedule_check.py"
             )
             result = subprocess.run(
                 [sys.executable, check_script,

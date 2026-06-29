@@ -1,5 +1,5 @@
 """
-physiological_engine.py — Kiat Engine (Kiat 傑 | "To Surpass")
+core_physiological_engine.py — Kiat Engine (Kiat 傑 | "To Surpass")
 ===============================================================
 Athlete: Max | Age: 25 | Weight: 75.5 kg | Location: Marikina, PH
 Hardware: Garmin Forerunner 165 | Engine: Kiat (Hokkien: to surpass, go beyond)
@@ -568,13 +568,13 @@ class PhysiologicalEngine:
         REI = Speed (m/s) / Normalized Power (W) × 1000  [Power mode]
         Fallback: Speed (m/s) / HR (bpm) × 1000          [HR mode]
 
-        Only computed over active Zone 2 laps (HR 145–162 bpm).
+        Only computed over active Zone 2 laps (HR 162-174 bpm).
         Returns (rei_value, mode_label).
         """
         zone2_laps = [
             l for l in laps
             if l.intensity_type == "ACTIVE"
-            and 145 <= l.avg_hr <= ZONE2_CAP_BPM
+            and 162 <= l.avg_hr <= ZONE2_CAP_BPM
         ]
         if not zone2_laps:
             zone2_laps = [l for l in laps if l.intensity_type == "ACTIVE"]

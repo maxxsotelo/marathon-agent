@@ -8,7 +8,7 @@ TOKEN_STORE = os.path.expanduser("~/.garminconnect")
 client = Garmin(os.getenv("GARMIN_EMAIL"), os.getenv("GARMIN_PASSWORD"))
 client.login(TOKEN_STORE)
 
-activities = client.get_activities_by_date("2026-05-27", "2026-05-27")
+activities = client.get_activities_by_date("2026-06-24", "2026-06-24")
 strength_id = None
 for act in activities:
     if act.get("activityType", {}).get("typeKey") == "strength_training":
@@ -32,7 +32,7 @@ for s in active_sets:
     grouped[(cat, name)].append(s)
 
 print("=" * 65)
-print("STRENGTH SESSION BREAKDOWN — Loaded Diper (May 27, 2026)")
+print("STRENGTH SESSION BREAKDOWN — June 24, 2026")
 print("=" * 65)
 
 total_reps  = 0

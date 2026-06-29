@@ -1,5 +1,5 @@
 """
-biometrics_trend.py
+actuator_biometrics_trend.py
 ===================
 Fetches 30 days of biometric data from Garmin Connect and renders a
 multi-panel trend chart covering:
@@ -11,9 +11,9 @@ multi-panel trend chart covering:
   • Weight (kg)
 
 Usage:
-  python biometrics_trend.py              # renders + saves biometrics_trend.png
-  python biometrics_trend.py --days 14   # override lookback window
-  python biometrics_trend.py --show      # open interactive matplotlib window
+  python actuator_biometrics_trend.py              # renders + saves biometrics_trend.png
+  python actuator_biometrics_trend.py --days 14   # override lookback window
+  python actuator_biometrics_trend.py --show      # open interactive matplotlib window
 """
 
 import os

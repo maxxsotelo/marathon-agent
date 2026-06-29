@@ -1,5 +1,5 @@
 """
-run_analysis.py — Exhaustive Run Analysis Report Generator v3
+core_run_analysis.py — Exhaustive Run Analysis Report Generator v3
 Pulls every available field from Garmin lap DTOs and the top-level activity summary.
 Uses MAX'S REAL HEART RATE ZONES (from operating_manual.md), not Garmin's native zones.
 Includes advanced HR metrics: TRIMP (Banister), PA:HR Decoupling, Peak EPOC,
@@ -47,7 +47,10 @@ NEXT_DAY    = (date.fromisoformat(TARGET_DATE) + timedelta(days=1)).isoformat()
 # FETCH DATA
 # ============================================================
 acts = client.get_activities_by_date(TARGET_DATE, NEXT_DAY)
-run  = next((a for a in acts if a.get("activityType", {}).get("typeKey") == "running"), None)
+if len(sys.argv) > 2:
+    run = next((a for a in acts if str(a.get("activityId")) == sys.argv[2]), None)
+else:
+    run  = max((a for a in acts if a.get("activityType", {}).get("typeKey") == "running"), key=lambda x: x.get("distance", 0), default=None)
 if not run:
     print(f"No running activity found on {TARGET_DATE}.")
     sys.exit(0)
@@ -267,7 +270,7 @@ for i in range(1, len(active_laps)):
 
 # Session-level EPOC (the scientifically defensible number to report)
 session_duration_min = sum(l.get("duration", 0) for l in active_laps) / 60
-session_avg_hr       = sum(l.get("averageHR", 0) or 0 for l in active_laps) / len(active_laps) if active_laps else avg_hr
+session_avg_hr       = sum(l.get("averageHR", 0) or 0 for l in active_laps) / len(active_laps) if active_laps else run.get("averageHR", 0)
 pct_hrmax_session    = (session_avg_hr / HR_MAX) * 100
 # Knuttgen model — returns mL/kg, realistic range 5-60 mL/kg for most runs
 total_epoc = 0.096 * math.exp(0.0284 * pct_hrmax_session) * session_duration_min
@@ -558,11 +561,11 @@ L("")
 L("| Zone | Definition | Boundary | Time | % of Active Run | Energy System |")
 L("| :--- | :--- | :--- | :--- | :--- | :--- |")
 zone_labels = {
-    1: ("Recovery",    "<145 bpm",     "Fat oxidation, minimal stimulus"),
-    2: ("Aerobic",     "145-162 bpm",  "Primary fat + some carb. Builds mitochondria."),
-    3: ("Grey/MP",     "163-184 bpm",  "Mixed fuel. Glycogen burning begins. Marathon pace territory."),
-    4: ("Threshold",   "185-196 bpm",  "Primarily glycolytic. High CNS stress."),
-    5: ("Anaerobic",   "197+ bpm",     "Maximum glycolytic + PCr system. Unsustainable."),
+    1: ("Easy_Aerobic", "<162 bpm",     "Fat oxidation, minimal stimulus"),
+    2: ("Extensive",    "162-174 bpm",  "Primary fat + some carb. Builds mitochondria."),
+    3: ("Tempo",        "175-181 bpm",  "Mixed fuel. Glycogen burning begins. Marathon pace territory."),
+    4: ("Threshold",    "182-191 bpm",  "Primarily glycolytic. High CNS stress."),
+    5: ("VO2_Max",      "192+ bpm",     "Maximum glycolytic + PCr system. Unsustainable."),
 }
 for z, (zlabel, zbnd, zenergy) in zone_labels.items():
     t = zone_times_real[z]
@@ -735,7 +738,7 @@ for i, lap in enumerate(laps):
     mhr   = lap.get("maxHR", 0) or 0
     
     flags = []
-    if hr > 162:  flags.append(f"HR BREACH: {hr:.0f} bpm — above 162 cap (Z2 ceiling)")
+    if hr > 174:  flags.append(f"HR BREACH: {hr:.0f} bpm — above 174 cap (Z2 ceiling)")
     if hr > 185:  flags.append(f"THRESHOLD: {hr:.0f} bpm — Zone 4, heavy CNS load")
     if gct > 310: flags.append(f"HIGH GCT: {gct:.0f}ms — energy leaking into ground (braking/fatigue)")
     if gct > 0 and gct < 260: flags.append(f"ELITE GCT: {gct:.0f}ms — powerful elastic rebound")
@@ -767,7 +770,10 @@ if pahr_decoupling is not None:
     coupling = abs(pahr_decoupling)
     L(f"**PA:HR Decoupling:** {pahr_decoupling:.1f}% — {'Excellent aerobic coupling. This was a true Zone 2 run.' if coupling < 5 else 'Moderate decoupling — Heat Tax and the fast finish pulled HR disproportionately above pace in the second half.' if coupling < 15 else 'Heavy decoupling — the run exceeded your aerobic ceiling for extended periods.'}")
     L("")
-L(f"**Cardiac Drift:** +{hr_drift:.1f} bpm — {'Severe thermal stress. Plasma volume loss was high.' if hr_drift > 15 else 'Significant drift. Heat Tax was active.' if hr_drift > 10 else 'Moderate drift — manageable.' if hr_drift > 5 else 'Minimal drift — excellent thermoregulation.'}")
+if hr_drift is not None:
+    L(f"**Cardiac Drift:** +{hr_drift:.1f} bpm — {'Severe thermal stress. Plasma volume loss was high.' if hr_drift > 15 else 'Significant drift. Heat Tax was active.' if hr_drift > 10 else 'Moderate drift — manageable.' if hr_drift > 5 else 'Minimal drift — excellent thermoregulation.'}")
+else:
+    L("**Cardiac Drift:** N/A (run too short to calculate drift)")
 L("")
 L(f"**EPOC (Session):** {total_epoc:.1f} mL/kg — {'Prioritize protein + carbohydrate co-ingestion within the next 2 hours to accelerate recovery.' if total_epoc > 30 else 'Standard post-run nutrition is sufficient.'} Hardest single lap: Lap {peak_epoc_lap}.")
 L("")
@@ -778,9 +784,11 @@ L("**Recovery Directive:** See ACWR status in today's Kiat Engine briefing for f
 # -------------------------------------------
 report_text = "\n".join(lines)
 date_str    = TARGET_DATE.replace("-", "")
-output_path = rf"C:\Users\Max\.gemini\antigravity\brain\491e4690-66cd-499d-9776-017b0087dbe4\artifacts\run_analysis_{date_str}.md"
+output_path = rf"scratch\run_analysis_{run['activityId']}_{date_str}.md"
 with open(output_path, "w", encoding="utf-8") as f:
     f.write(report_text)
 
 print(f"[OK] Report written to: {output_path}")
-print(f"[OK] Total TRIMP: {total_trimp:.1f} AU | PA:HR Decoupling: {pahr_decoupling:.1f}% | HR Drift: +{hr_drift:.1f} bpm | Total EPOC: {total_epoc:.1f} mL/kg")
+pahr_str = f"{pahr_decoupling:.1f}%" if pahr_decoupling is not None else "N/A"
+hrd_str = f"+{hr_drift:.1f} bpm" if hr_drift is not None else "N/A"
+print(f"[OK] Total TRIMP: {total_trimp:.1f} AU | PA:HR Decoupling: {pahr_str} | HR Drift: {hrd_str} | Total EPOC: {total_epoc:.1f} mL/kg")

@@ -47,7 +47,7 @@ Work these sessions in order of priority within your weekly block:
 - **What:** 5–8 × 600m–1200m at ~5K pace with 1:1 work-to-rest ratio
 - **When:** Once per week, only after completing a proper warm-up
 - **Purpose:** Raises the ceiling — elevates maximal oxygen uptake so all paces feel easier.
-- **Heart rate target:** Zone 4 (for this athlete: 185–196 bpm) by the end of each rep
+- **Heart rate target:** Zone 4 (for this athlete: 182–191 bpm) by the end of each rep
 - **Pace target:** 4:30–5:00 /km depending on heat and fatigue
 - **Key rule:** The last rep should feel like the hardest, but form should NOT break down. If you are collapsing, the rep length is too long.
 - **Progressive overload:** Add one rep every 2 weeks, not more pace.
@@ -56,7 +56,7 @@ Work these sessions in order of priority within your weekly block:
 - **What:** 20–40 minutes of sustained running at "comfortably hard" effort
 - **When:** Once per week, typically mid-week
 - **Purpose:** Raises the lactate threshold — the pace you can sustain before lactic acid accumulates faster than it clears.
-- **Heart rate target:** Zone 3 upper (163–180 bpm for this athlete)
+- **Heart rate target:** Zone 3 upper (175–181 bpm for this athlete)
 - **Pace target:** ~5:20–5:50 /km (heat-adjusted)
 - **Variants:**
   - *Classic tempo:* Single sustained block (25–40 min)
@@ -64,7 +64,7 @@ Work these sessions in order of priority within your weekly block:
   - *Progressive tempo:* Start at the bottom of Zone 3 and drift to the top over 30 min
 
 ### D. Long Run (Aerobic Ceiling & Fat Adaptation)
-- **What:** 75–120 min at Zone 2 (145–162 bpm for this athlete)
+- **What:** 75–120 min at Zone 2 (162–174 bpm for this athlete)
 - **When:** Once per week, typically on the weekend
 - **Purpose:** Builds mitochondrial density, fat oxidation capacity, glycogen sparing, and mental durability.
 - **Key protocol:** Run the first 70% strictly in Zone 2. The final 30% can drift to Zone 3 (marathon effort) to simulate race-end fatigue.

@@ -1,8 +1,8 @@
 """
-marathon_plan.py - Antigravity Marathon Training Master Plan
+brain_marathon_plan.py - Antigravity Marathon Training Master Plan
 SOURCE OF TRUTH for all marathon training block decisions.
 AGENTS MUST CHECK THIS FILE (Rule 02) before prescribing weekly sessions.
-Run: python marathon_plan.py  to see current block status.
+Run: python brain_marathon_plan.py  to see current block status.
 
 Race:      Capas / New Clark City Marathon (TBD - waiting for official announcement)
 Planning:  ~Nov 30, 2026 (adjust once confirmed)

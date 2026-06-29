@@ -1,11 +1,11 @@
 """
-pre_schedule_check.py — Antigravity Mandatory Pre-Scheduling Gate
+sensor_pre_schedule_check.py — Antigravity Mandatory Pre-Scheduling Gate
 =================================================================
 RULE 00 of AGENT_SCHEDULING_PROTOCOL.md mandates that this script is run
 BEFORE any workout is scheduled to Garmin Connect.
 
 This script:
-1. Loads today's session from current_week_plan.py
+1. Loads today's session from brain_current_week_plan.py
 2. Pulls live ACWR from audit_acwr.py logic
 3. Loads last 8 weeks of mileage history
 4. Reads operating_manual.md for current HR zones
@@ -13,9 +13,9 @@ This script:
 6. Returns exit code 1 (blocks scheduling) if ACWR > 1.5 or a veto condition exists
 
 Usage:
-    python pre_schedule_check.py --type easy --duration 70
+    python sensor_pre_schedule_check.py --type easy --duration 70
 
-The agent MUST run this before calling workout_generator.py --upload.
+The agent MUST run this before calling actuator_workout_generator.py --upload.
 If this script exits with code 1, do NOT proceed with scheduling.
 """
 
@@ -30,7 +30,7 @@ load_dotenv(r"c:\Users\Max\OneDrive - De La Salle University - Manila\marathon-a
 
 # ── CURRENT WEEK PLAN ──────────────────────────────────────────────────────────
 try:
-    from current_week_plan import plan
+    from brain_current_week_plan import plan
     PLAN_LOADED = True
 except Exception as e:
     PLAN_LOADED = False
@@ -55,30 +55,17 @@ def trimp_banister(dur_min, hr_avg):
     r = (hr_avg - HR_REST) / (HR_MAX - HR_REST)
     return round(dur_min * r * 0.64 * math.exp(1.92 * r), 2)
 
-# ── ACWR ───────────────────────────────────────────────────────────────────────
+# ── ACWR (Mechanical Tolerance) ──────────────────────────────────────────
+from core_tolerance_engine import calculate_mechanical_load
+
 def compute_acwr():
-    today = date.today()
-    acts = client.get_activities_by_date(
-        (today - timedelta(days=60)).strftime("%Y-%m-%d"),
-        today.strftime("%Y-%m-%d"),
-        "running"
-    )
-    acute_start  = today - timedelta(days=7)
-    chronic_start = today - timedelta(days=28)
-
-    acute_km = 0.0
-    chronic_km = 0.0
-    for act in acts:
-        dt = datetime.strptime(act["startTimeLocal"], "%Y-%m-%d %H:%M:%S").date()
-        km = (act.get("distance") or 0) / 1000
-        if dt >= acute_start:
-            acute_km += km
-        if dt >= chronic_start:
-            chronic_km += km
-
-    chronic_weekly = chronic_km / 4
-    acwr = round(acute_km / chronic_weekly, 3) if chronic_weekly > 0 else 0
-    return acute_km, chronic_weekly, acwr
+    tol_data = calculate_mechanical_load(client)
+    # Return (acute_km, chronic_weekly, acwr) to keep backward compatibility 
+    # with the rest of sensor_pre_schedule_check.py's projection math
+    acute = tol_data["acute_distance_km"]
+    chronic_weekly = tol_data["chronic_avg_km_day"] * 7  # Extrapolate to weekly
+    acwr = tol_data["mechanical_acwr"]
+    return acute, chronic_weekly, acwr
 
 # ── WEEKLY HISTORY ─────────────────────────────────────────────────────────────
 def compute_weekly_history():
@@ -102,7 +89,7 @@ def compute_weekly_history():
 # ── MAIN ───────────────────────────────────────────────────────────────────────
 def main():
     parser = argparse.ArgumentParser(
-        description="Antigravity pre-scheduling justification gate. Run before workout_generator.py."
+        description="Antigravity pre-scheduling justification gate. Run before actuator_workout_generator.py."
     )
     parser.add_argument("--type",     required=True,
                         choices=["easy", "long_run", "tempo", "intervals", "recovery"],
@@ -125,8 +112,8 @@ def main():
     veto_reason = ""
 
     if not PLAN_LOADED:
-        print(f"  [WARN] Could not load current_week_plan.py: {PLAN_ERROR}")
-        print("         Update current_week_plan.py every Sunday with the new week's plan.")
+        print(f"  [WARN] Could not load brain_current_week_plan.py: {PLAN_ERROR}")
+        print("         Update brain_current_week_plan.py every Sunday with the new week's plan.")
         planned_session = None
     else:
         print(f"  Week: {plan['meta']['week']}")
@@ -161,23 +148,44 @@ def main():
     print("\n[2] ACWR GATE (Verified Calculation)")
     try:
         acute, chronic_weekly, acwr = compute_acwr()
-        print(f"  Acute Load  (7d):  {round(acute, 2)} km")
-        print(f"  Chronic Avg (28d): {round(chronic_weekly, 2)} km/week")
-        print(f"  ACWR:              {acwr}")
+        
+        # Estimate projected distance based on duration and intensity
+        pace_map = {
+            "recovery": 7.0,
+            "easy": 6.0,
+            "marathon": 5.5,
+            "tempo": 5.0,
+            "threshold": 4.5,
+            "vo2max": 4.0
+        }
+        intensity = getattr(args, "intensity", "easy")
+        if not intensity: intensity = "easy"
+        est_pace = pace_map.get(intensity, 6.0)
+        dur = float(getattr(args, "duration", 0))
+        proj_dist = dur / est_pace
+        
+        proj_acute = acute + proj_dist
+        proj_acwr = round(proj_acute / chronic_weekly, 3) if chronic_weekly > 0 else 0
+        
+        print(f"  Current Acute (7d): {round(acute, 2)} km")
+        print(f"  Chronic Avg (28d):  {round(chronic_weekly, 2)} km/week")
+        print(f"  Current ACWR:       {acwr}")
+        print(f"  Projected Distance: ~{round(proj_dist, 2)} km (based on {intensity} pace)")
+        print(f"  Projected ACWR:     {proj_acwr}")
 
-        if acwr > 1.5:
-            print("  [VETO] ACWR > 1.5 — SPEED VETO ENGAGED. Do not schedule intervals/tempo.")
-            if args.type in ["intervals", "tempo"]:
+        if proj_acwr > 1.5:
+            print(f"  [VETO] Projected ACWR > 1.5. Proposed run of {round(proj_dist,1)}km pushes ACWR into Danger Zone.")
+            veto = True
+            veto_reason = f"Projected ACWR is {proj_acwr} (> 1.500). Run pushes chassis into Severe Danger Zone."
+        elif proj_acwr > 1.3:
+            print("  [CAUTION] Projected ACWR in caution zone (1.3–1.5). Reduce volume in next 3–5 days.")
+            if args.type in ["intervals", "tempo"] and acwr > 1.4:
                 veto = True
-                veto_reason = f"ACWR is {acwr} (> 1.5). Speed veto active. Only easy/recovery allowed."
-            else:
-                print("         Easy/recovery runs still permitted.")
-        elif acwr > 1.3:
-            print("  [CAUTION] ACWR in caution zone (1.3–1.5). Reduce volume in next 3–5 days.")
-        elif acwr >= 0.8:
-            print("  [OK] ACWR in Sweet Spot (0.8–1.3). Load is safe.")
+                veto_reason = f"Current ACWR is {acwr} (> 1.4). Speed veto active. Only easy/recovery allowed until ACWR drops below 1.4."
+        elif proj_acwr >= 0.8:
+            print("  [OK] Projected ACWR in Sweet Spot (0.8–1.3). Load is safe.")
         else:
-            print("  [LOW] ACWR below 0.8 — underloading. Adding volume is appropriate.")
+            print("  [LOW] Projected ACWR below 0.8 — underloading. Adding volume is appropriate.")
     except Exception as e:
         print(f"  [ERROR] Could not compute ACWR: {e}")
         acwr = None
@@ -222,7 +230,7 @@ def main():
     else:
         print(f"  VERDICT: [CLEARED]")
         print(f"  Workout: {args.type} | {args.duration} min | {args.intensity}")
-        print("  Proceed with: python workout_generator.py "
+        print("  Proceed with: python actuator_workout_generator.py "
               f"{args.type} {args.duration} --intensity {args.intensity} "
               "--date YYYY-MM-DD --upload")
         print("=" * 65)

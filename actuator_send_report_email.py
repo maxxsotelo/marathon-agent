@@ -1,5 +1,5 @@
 """
-send_report_email.py — Antigravity Weekly Report Email Sender
+actuator_send_report_email.py — Antigravity Weekly Report Email Sender
 Sends the exhaustive run analysis + weekly training recommendations to maxxsotelo@gmail.com
 """
 
@@ -191,10 +191,10 @@ html = """
         <th>Zone</th><th>Boundary</th><th>Time</th><th>% of Run</th><th>Energy System</th>
       </tr>
       <tr><td class="z1"><b>Z1: Recovery</b></td><td>&lt;145 bpm</td><td>~68m</td><td>~49%</td><td>Fat oxidation only</td></tr>
-      <tr><td class="z2"><b>Z2: Aerobic</b></td><td>145-162 bpm</td><td>~54m</td><td>~39%</td><td>Fat + carb. Mitochondria stimulus.</td></tr>
-      <tr><td class="z3"><b>Z3: Grey/MP</b></td><td>163-184 bpm</td><td>~16m</td><td>~11%</td><td>Glycolytic. Fast finish laps.</td></tr>
-      <tr><td class="z4"><b>Z4: Threshold</b></td><td>185-196 bpm</td><td>0m</td><td>0%</td><td>&mdash;</td></tr>
-      <tr><td class="z5"><b>Z5: Anaerobic</b></td><td>197+ bpm</td><td>0m</td><td>0%</td><td>&mdash;</td></tr>
+      <tr><td class="z2"><b>Z2: Aerobic</b></td><td>162-174 bpm</td><td>~54m</td><td>~39%</td><td>Fat + carb. Mitochondria stimulus.</td></tr>
+      <tr><td class="z3"><b>Z3: Grey/MP</b></td><td>175-181 bpm</td><td>~16m</td><td>~11%</td><td>Glycolytic. Fast finish laps.</td></tr>
+      <tr><td class="z4"><b>Z4: Threshold</b></td><td>182-191 bpm</td><td>0m</td><td>0%</td><td>&mdash;</td></tr>
+      <tr><td class="z5"><b>Z5: Anaerobic</b></td><td>192+ bpm</td><td>0m</td><td>0%</td><td>&mdash;</td></tr>
     </table>
   </div>
 
