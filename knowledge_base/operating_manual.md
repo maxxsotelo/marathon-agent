@@ -7,7 +7,7 @@ Marathon Shape: 52% (Indicative of undeveloped endurance base).
 Coach Instruction: Use Garmin for interval speed potential, but use Runalyze for Marathon Pacing strategies. Do not set race targets based on Garmin's optimism.
 Resting HR: 39–42 bpm (Indicative of high athletic heart adaptation)
 Max HR: 206 bpm. This has went up from 201bpm to 206bpm because of an 8 x 600m VO2 Max session.  
-Weight: 75.5 kg (75.45 kg as of June 5, 2026) | Height: 175 cm
+Weight: 72.35 kg | Height: 175 cm
 Goal Weight: 68–72 kg (Sweet spot for running economy at this height)
 Life Context (Updated: June 2026): Finished school. Transitioning to employment at the Bangko Sentral ng Pilipinas (BSP) in Malate mid-June to July 2026. Will be relocating to Malate or nearby. Note: BSP has an excellent work-life balance reputation (strict no-overtime culture), which is a massive advantage.
 Training Preference: Highly open to "Double Run" days (e.g., 5km morning / 5km evening) to hit volume. The athlete prefers splitting volume to free up continuous evening blocks for relationship time (girlfriend) and life balance. The Malate location (near Roxas Blvd/CCP Complex) is excellent for this. Work stress should be lower than initially modeled due to the absence of forced overtime. The pre-employment period (now through mid-June) remains the highest-leverage fitness-building window of the year.
@@ -340,7 +340,7 @@ When there is no race date, the goal shifts from "Peaking" to "Raising the Floor
 7.2 Weekly Structure & Load Management
 - ACWR Target: Maintain a strict Sweet Spot (0.9 to 1.15). Do not push into functional overreaching (>1.3) because there is no taper planned.
 - Volume Distribution: 80/20 Rule strictly enforced.
-  - 80% Aerobic Base (Zone 2, Cap 162 bpm)
+  - 80% Aerobic Base (Zone 2): 162–174 bpm (Strict Cap).
   - 20% Quality (Threshold, VO2 Max, or Strides)
 
 7.3 The Long Run Cap

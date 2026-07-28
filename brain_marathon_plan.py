@@ -6,7 +6,7 @@ Run: python brain_marathon_plan.py  to see current block status.
 
 Race:      Capas / New Clark City Marathon (TBD - waiting for official announcement)
 Planning:  ~Nov 30, 2026 (adjust once confirmed)
-Athlete:   Max | Goal weight: 70.0 kg | Current: 74.4 kg
+Athlete:   Max | Goal weight: 70.0 kg | Current: 72.35 kg
 Generated: 2026-06-18
 """
 import os
@@ -21,7 +21,7 @@ RACE_DISTANCE = 42.195
 
 ATHLETE = {
     "name": "Max",
-    "current_weight": 74.4,
+    "current_weight": 72.35,
     "goal_weight":    70.0,
     "current_vo2max": 52.0,
     "lthr": 191,

@@ -41,7 +41,7 @@ LTHR_LOW_BPM        = 190     # Lactate Threshold HR lower bound
 LTHR_HIGH_BPM       = 196     # Lactate Threshold HR upper bound
 MAX_HR_BPM          = 206     # Verified Max HR
 HR_REST_BPM         = 40      # Resting HR (midpoint of 39-42 bpm baseline)
-ATHLETE_WEIGHT_KG   = 75.5    # Current bodyweight
+ATHLETE_WEIGHT_KG   = 72.0    # Current bodyweight
 
 # ACWR Safety Thresholds
 ACWR_SWEET_LOW      = 0.8

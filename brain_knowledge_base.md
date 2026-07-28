@@ -1,6 +1,6 @@
 # ANTIGRAVITY — Knowledge Base
 # Athlete: Max Sotelo
-# Last Updated: June 27, 2026
+# Last Updated: July 19, 2026
 # Engine: Kiat Engine v2
 
 ---
@@ -56,11 +56,11 @@ These are the fingerprints of fast-twitch neuromuscular capacity that most endur
 | LTHR | 196 bpm | Joe Friel 30-min field test (Apple Watch S7, Lap 2 avg) | Aug 21, 2025 |
 | LTHR corroboration | 190-197 bpm observed at comfortable + reserve | Jun 11, 2026 Fartlek |
 | Zone 2 Talk Test (verified) | 162–174 bpm confirmed Z2 — held full phone conversation + shouted at 5:40/km | Jun 27, 2026 UPD run |
-| VO2 Max (Garmin est.) | 55 ml/kg/min | Garmin FR165 (watch display) | Jun 27, 2026 — new all-time high |
+| VO2 Max (Garmin est.) | **57 ml/kg/min** | Garmin FR165 — New all-time high. Jumped from 56 after Jul 26 long run. | Jul 26, 2026 |
 | Resting HR | ~50 bpm (estimate) | - | - |
-| Weight | 73.35 kg | Morning weigh-in | Jun 26, 2026 |
+| Weight | 70.2 kg | Morning weigh-in (Water weight drop suspected from massive carb burn, but effectively at target) | Jul 24, 2026 |
 | Weight Target | 70.0 kg | Body recomp goal | ~Sep 2026 |
-| Weight Loss Rate | 0.62 kg/week | Actual measured rate | Jun 2026 |
+| Weight Loss Rate | -1.3 kg in 4 days (Jul 20→Jul 24) | 0.2 kg remaining to target. | Jul 2026 |
 
 **VO2 Max 12-Month Trajectory (Jul 2025 – Jun 2026, Garmin Connect):**
 
@@ -75,7 +75,8 @@ These are the fingerprints of fast-twitch neuromuscular capacity that most endur
 | Mar 2026 | ~54.8 | Pre-April peak |
 | Apr 2026 | ~53.8 | Minor dip (likely load reduction or illness) |
 | May 2026 | ~54.0 | Recovery and rebuild |
-| Jun 2026 | **55.0** | **New all-time high — current** |
+| Jun 2026 | ~55.0 | New high — Superior category unlocked |
+| Jul 2026 | **56.0** | **New all-time high — post Jul 14 track run** |
 
 **Agent Interpretation:** VO2 Max has risen +4.5 ml/kg/min since the Nov 2025 low. The trend is consistently upward with no plateau visible. The base-building block is actively expanding aerobic ceiling. Expect continued growth as quality sessions begin.
 
@@ -133,6 +134,9 @@ valid and beneficial, but more conservative than required.
 - Objective: Force cardiovascular system to operate under muscular fatigue, mimicking km 30-42 of marathon.
 - Evidence: Jun 13 Legs (LP 123 kg) then Jun 14 Long Run (15 km, pace held in final 3 laps).
 - Do NOT apply this protocol in recovery weeks or when Achilles is symptomatic.
+- **INTENSITY CAP (Updated Jul 19, 2026):** Pre-Fatigue Leg session must be 60-70% of max load. NO failure sets. DOMS-inducing volume is a protocol violation. Target is neuromuscular fatigue (heavy legs), NOT structural soreness (pain at km 1). If athlete is debating stopping within first 12 km due to leg pain, the pre-fatigue was too aggressive.
+- **Walking Load Modifier:** If athlete has significant incidental walking volume on the pre-fatigue day (e.g., going out all day), reduce gym load by additional 20-30%. Walking + heavy gym + long run = excessive accumulated fatigue.
+- **Non-negotiable exception to load cap:** Seated Calf Raises (4x20 @ 70kg, 3s eccentric) remain at full load regardless — this is tendon bulletproofing, not muscle fatigue induction.
 
 ### Rule 6: Achilles Bulletproofing Protocol
 - Seated Calf Raises: 4x20 at 70 kg, 3-second eccentric (lowering phase) is standard practice in Legs + Core sessions.
@@ -167,8 +171,10 @@ valid and beneficial, but more conservative than required.
 | Item | Status | Notes |
 |---|---|---|
 | Garmin Forerunner 165 | Active | Primary training watch |
-| Adidas Boston 12 | 772 km as of Jun 14 | Retire at 850-900 km. Do NOT use for target marathon. |
-| Adidas Ultraboost 5x | Active | Gym and casual use. Not for running sessions. |
+| Adidas Boston 12 (Pair 1) | ~947 km | Active (High Mileage). Used for easy runs. Retirement limit: 1000km. **53km remaining.** |
+| Adidas Boston 12 (Pair 2) | ~144 km | Active. Used for Long Runs / Quality. |
+| Adidas Adizero Evo SL | ~20 km | Active. Used for speed sessions / hot weather intervals. |
+| Adidas Ultraboost 5x | Active | Used for Recovery runs. Also gym and casual use. |
 
 ---
 
@@ -184,12 +190,16 @@ valid and beneficial, but more conservative than required.
 
 | Metric | Value | Date |
 |---|---|---|
-| Best long run (all-time block) | 21.53 km | May 31, 2026 |
-| Best long run (post-setback) | 15.00 km | Jun 14, 2026 |
+| Longest run this block (all-time: 30km x2) | 22.21 km | Jul 19, 2026 |
 | Best Fartlek surge pace | 3:44/km at 190 bpm | Jun 11, 2026 |
 | Zone 2 avg HR (outdoor, HI 33°C) | 151 bpm at 6:22/km | Jun 14, 2026 |
 | ACWR (current) | 1.23 (Optimal) | Jun 14, 2026 |
 | Chronic weekly avg (28d) | 32.9 km/wk | Jun 14, 2026 |
+| Half Marathons + completed (21km or longer) | **17** | Jul 26, 2026 |
+| HM Distance PR (Elapsed) | **~1:55:00** (21.32km, crowded track, dead shoes, pee break) | Jul 26, 2026 |
+| HM Distance PR (Pure Running Time) | **1:48:52** @ 5:06/km | Jul 26, 2026 |
+| Previous HM best (moving time) | 1:58:26 for 22.21km @ 5:22/km, UP Campus, peak heat, elevation | Jul 19, 2026 |
+| Sub-50 10km | **ACHIEVED in training** — embedded in 6x800m VO2 Max session | Jul 16, 2026 |
 
 ---
 
@@ -198,7 +208,7 @@ valid and beneficial, but more conservative than required.
 | Goal | Target | Timeline | Confidence |
 |---|---|---|---|
 | Sub-3 Marathon | 4:15/km for 42.2 km | TBD (marathon entry) | Contingent on speed phase unlocking VO2Max potential |
-| Half Marathon sub-2 | < 2:00:00 / 5:40/km | Near-term — next race attempt | **VERY HIGH** — ran 5:28/km avg for 18.31km dehydrated in 35C heat (Jun 27) |
+| Half Marathon sub-2 (official race) | < 2:00:00 / 5:40/km | Next race entry | **ACHIEVED IN TRAINING** (Jul 19, 2026) — 1:59:36 moving time on pre-fatigued legs, 190m elevation, peak heat. Official race pace projection: ~1:50–1:53 on fresh legs. |
 | Weight Target | 70.0 kg | ~September 2026 (~12 weeks) | On track |
 | 5k/10k Speed Reserve | 5k pace to 3:55-4:10/km | During marathon block | Building |
 

@@ -6,7 +6,7 @@ client = Garmin(email=os.getenv("GARMIN_EMAIL"), password=os.getenv("GARMIN_PASS
 client.login(TOKEN_STORE)
 
 try:
-    client.delete_workout("1610505373")
-    print("Successfully deleted workout 1610505373")
+    client.delete_workout("1618771101")
+    print("Successfully deleted workout 1618771101")
 except Exception as e:
     print(f"Failed to delete: {e}")
