@@ -11,12 +11,14 @@ from typing import Dict, Any
 ACWR_WARNING_THRESHOLD = 1.3
 ACWR_DANGER_THRESHOLD = 1.5
 
-def calculate_mechanical_load(client) -> Dict[str, Any]:
+def calculate_mechanical_load(client, target_date: date = None) -> Dict[str, Any]:
     """
     Fetches running activities over the past 28 days to calculate Mechanical ACWR.
     Returns a dictionary with ACWR, acute load, chronic load, and safety flags.
     """
-    today = date.today()
+    if target_date is None:
+        target_date = date.today()
+    today = target_date
     start_chronic = today - timedelta(days=27)
     
     # Fetch activities for the last 28 days

@@ -722,11 +722,16 @@ if __name__ == "__main__":
                 os.path.dirname(os.path.abspath(__file__)),
                 "sensor_pre_schedule_check.py"
             )
+            cmd = [
+                sys.executable, check_script,
+                "--type",      args.type,
+                "--duration",  str(args.duration),
+                "--intensity", args.intensity,
+            ]
+            if args.date:
+                cmd.extend(["--date", args.date])
             result = subprocess.run(
-                [sys.executable, check_script,
-                 "--type",      args.type,
-                 "--duration",  str(args.duration),
-                 "--intensity", args.intensity],
+                cmd,
                 capture_output=False  # let it print directly to terminal
             )
             if result.returncode != 0:

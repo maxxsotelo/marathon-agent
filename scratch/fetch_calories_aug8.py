@@ -1,5 +1,5 @@
 """
-fetch_calories.py
+fetch_calories_aug8.py
 """
 import os, sys, json
 from datetime import date
@@ -12,11 +12,11 @@ TOKEN_STORE = os.path.expanduser("~/.garminconnect")
 client = Garmin(os.getenv("GARMIN_EMAIL"), os.getenv("GARMIN_PASSWORD"))
 client.login(TOKEN_STORE)
 
-today = date(2026, 8, 7).isoformat()
+today = date(2026, 8, 8).isoformat()
 
 try:
     stats = client.get_user_summary(today)
-    print("=== DAILY CALORIC SUMMARY ===")
+    print("=== DAILY CALORIC SUMMARY (AUG 8) ===")
     print(f"Total Kilocalories: {stats.get('totalKilocalories')}")
     print(f"Active Kilocalories: {stats.get('activeKilocalories')}")
     print(f"BMR Kilocalories: {stats.get('bmrKilocalories')}")

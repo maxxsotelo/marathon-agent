@@ -1,6 +1,6 @@
 # ANTIGRAVITY — Knowledge Base
 # Athlete: Max Sotelo
-# Last Updated: July 19, 2026
+# Last Updated: August 14, 2026
 # Engine: Kiat Engine v2
 
 ---
@@ -10,6 +10,16 @@
 - **Running Surface:** Max runs OUTSIDE by default. Never suggest a treadmill for running sessions unless the user explicitly asks or weather makes outdoor running dangerous.
 - **Zone Default:** Zone 2 (162–174 bpm) is the default for all non-recovery aerobic runs. See Rule 9.
 - **Incline Cues:** Do NOT prescribe treadmill incline percentages. Incline/terrain is self-selected outdoors.
+- **User Preferences & Psychology:**
+    - **Asserts Autonomy:** Often states "I have my own agency" or "I won't listen to you." Do not argue. Present the physiological data (ACWR, HRV, TE) and enforce the hard rules (like the mechanical load VETO), but acknowledge his agency.
+    - **Social Adrenaline Responder:** The user gets massive sympathetic nervous system spikes (surge of energy/adrenaline) when training with others, often masking deep fatigue. This is a superpower, but it means on Race Day, the crowd and other runners will likely cause him to go out way too fast. We must strictly manage his pacing in the first 5km of any race.
+    - **Gym & Facility Infrastructure (Updated Sep 15, 2026):** Max now has direct access to: (1) **Anytime Fitness Taft** (1-year membership locked in as of Sep 14, 2026), (2) Free on-site Condo Gym, (3) Free on-site BSP Employee Gym, and (4) Free on-site Condo Swimming Pool (closed Mondays). Excellent for zero-impact active recovery flushes and 24/7 strength training.
+    - **Terrain & Surface Selection (Flexible Hybrid Protocol):** Max loves running OUTSIDE on roads, tracks, and campuses whenever weather and timing permit. The **NordicTrack S20i Treadmill is a strategic tactical option for Long Runs (20k–35k)** to be deployed when weather is stormy/flooded, when family/household schedules require staying close to home, or when frictionless in-run fueling (console bottles/gels) is desired.
+    - **Time of Day Preference:** Max runs in the AFTERNOON / EVENING by default. NEVER prescribe or assume early morning runs (e.g. 5:30 AM / 6:00 AM) unless the user explicitly states he plans to run in the morning.
+    - **ADHD & Neuro-Profile (High-Stimulation Requirement):** Max has ADHD. Low-stimulation, repetitive tasks (like long static treadmill runs or multi-lap repetitive loops) cause severe dopamine crashes and mental restlessness. 
+    - **Optic Flow & Cycling Engine Foundation:** Max has an elite cycling endurance background (effortlessly crushes 50k–100k rides fasted, former Strava Local Legend on Ordoñez loop). The high-speed visual stimulation (**optic flow** at 25–40 km/h) and changing sights provide continuous dopamine release that eliminates boredom. This deep cycling aerobic engine is the physiological foundation of his VO2Max 58 and 42 bpm RHR.
+    - **Audiobook & Media Profile:** Max CANNOT listen to audiobooks (slow/monotone pacing causes acute irritation). Prefers fast-tempo stimulation, visual engagement (fast-paced videos on treadmill), high-BPM music, or complex outdoor navigation with changing scenery and tangible landmarks.
+    - **Athletic Floor Achieved (Fueling Transition):** Athlete successfully reached calibrated athletic floor of 67.8 kg as of Sep 11, 2026 (~10-12% body fat, clear abdominal wall/serratus). Mandatory aggressive deficit phase is officially concluded. Transition to high-performance fueling (~2,500–2,800+ kcal on training days, 5–7 g/kg carbs) to protect muscle mass, support BSP cognitive demands, and fuel marathon adaptations.
 
 ---
 
@@ -41,10 +51,12 @@ These are the fingerprints of fast-twitch neuromuscular capacity that most endur
 - We now actively track **Mechanical Load** (distance) separately from Metabolic Load (EPOC/HR).
 - If the Mechanical ACWR spikes >1.3, this triggers a **WARNING**.
 - If the Mechanical ACWR spikes >1.5, this triggers a **STRUCTURAL DELOAD** (mandatory replacement of running with Z1 cycling or complete rest) to prevent tendon/joint injuries, regardless of HRV or subjective feeling.
+- **Right Knee IT Band Friction (Aug 9, 2026):** User experienced lateral (outer) right knee pain during a 22km treadmill run. **CLEARED (Aug 12, 2026):** Passed 5km outdoor diagnostic test in monsoon conditions with zero pain. The 72-hour structural deload successfully flushed the acute inflammation.
 
 **Shoe Tracking & Mileage Limits**
-- **Adidas Boston 12s (Everyday / Long Run / Rain):** Currently at ~837+ km. They are nearing the end of their lifecycle but still have pop. Hard retirement limit is set at **1000 km**. Use these for slow Zone 2 base runs, long runs on forgiving surfaces, and rainy conditions (due to Continental rubber grip).
-- **Adidas EVO SLs (Speed / Quality):** New and fresh. Use exclusively for speed work, tempo blocks, dry weather, and race simulations.
+- **Adidas Boston 12s (Treadmill Speed Repeats & Junk/Rain Miles):** Retired from outdoor road long runs due to foam compression (>1,015 km). However, **field-verified on Sep 9, 2026:** Excellent for **indoor treadmill speed/threshold repeats (≤10 km)** like 5x1k! The sprung treadmill deck compensates for the compacted foam, while the stiff EnergyRods provide great mechanical pop and turnover at 14–15 km/h with zero foot pain. **STRICT RULE:** Never use for outdoor road pounding or Long Runs (15k+).
+- **Adidas EVO SLs (Speed / Quality / Race Simulation):** Pristine and fresh. Preserved today by using the Boston 12s on the treadmill! Reserved for outdoor tempos, dry road speed, and race-pace simulations.
+- **Sprinting Spikes (Maximal Speed):** User has expressed a desire to return to pure sprinting. Spikes carry massive Achilles/hamstring risk for marathoners. Require at least 2 weeks of dedicated Plyometric prep (bounding, depth jumps) before clearing spikes on a track. Reserved for late Build II or Peak blocks.
 
 ---
 
@@ -56,13 +68,13 @@ These are the fingerprints of fast-twitch neuromuscular capacity that most endur
 | LTHR | 196 bpm | Joe Friel 30-min field test (Apple Watch S7, Lap 2 avg) | Aug 21, 2025 |
 | LTHR corroboration | 190-197 bpm observed at comfortable + reserve | Jun 11, 2026 Fartlek |
 | Zone 2 Talk Test (verified) | 162–174 bpm confirmed Z2 — held full phone conversation + shouted at 5:40/km | Jun 27, 2026 UPD run |
-| VO2 Max (Garmin est.) | **57 ml/kg/min** | Garmin FR165 — New all-time high. Jumped from 56 after Jul 26 long run. | Jul 26, 2026 |
+| VO2 Max (Garmin est.) | **58 ml/kg/min** | Garmin FR165 — New all-time high. Jumped from 57 after Aug 15 monsoon long run (149 bpm avg @ 5:25/km). | Aug 15, 2026 |
 | Resting HR | ~50 bpm (estimate) | - | - |
-| Weight | 70.2 kg | Morning weigh-in (Water weight drop suspected from massive carb burn, but effectively at target) | Jul 24, 2026 |
-| Weight Target | 70.0 kg | Body recomp goal | ~Sep 2026 |
-| Weight Loss Rate | -1.3 kg in 4 days (Jul 20→Jul 24) | 0.2 kg remaining to target. | Jul 2026 |
+| Weight | **68.65 kg** | Morning weigh-in (**New cycle low!** Only 1.65 kg to 67.0 kg athletic floor). | Aug 29, 2026 |
+| Weight Target | **<= 67.0 kg** | Extended Q4 race weight target (**1.65 kg remaining** to reach target). | Aug 2026 |
+| Weight Loss Rate | -5.75 kg total down since Jun 22 (74.4kg -> 68.65kg) | Progressing toward 67.0 kg floor. | Aug 2026 |
 
-**VO2 Max 12-Month Trajectory (Jul 2025 – Jun 2026, Garmin Connect):**
+**VO2 Max 12-Month Trajectory (Jul 2025 – Aug 2026, Garmin Connect):**
 
 | Period | VO2 Max (est.) | Notes |
 |---|---|---|
@@ -76,9 +88,10 @@ These are the fingerprints of fast-twitch neuromuscular capacity that most endur
 | Apr 2026 | ~53.8 | Minor dip (likely load reduction or illness) |
 | May 2026 | ~54.0 | Recovery and rebuild |
 | Jun 2026 | ~55.0 | New high — Superior category unlocked |
-| Jul 2026 | **56.0** | **New all-time high — post Jul 14 track run** |
+| Jul 2026 | ~57.0 | New high — post Jul 26 Santa Elena long run |
+| Aug 2026 | **58.0** | **New all-time high — post Aug 15 monsoon long run (149 bpm avg @ 5:25/km for 20.64km)** |
 
-**Agent Interpretation:** VO2 Max has risen +4.5 ml/kg/min since the Nov 2025 low. The trend is consistently upward with no plateau visible. The base-building block is actively expanding aerobic ceiling. Expect continued growth as quality sessions begin.
+**Agent Interpretation:** VO2 Max has risen +7.5 ml/kg/min since the Nov 2025 low. The trend is consistently upward with no plateau visible. The aerobic base is performing at an elite efficiency level (149 bpm avg over 20+ km). Expect continued breakthroughs as marathon-specific threshold work begins.
 
 ---
 
@@ -147,7 +160,8 @@ valid and beneficial, but more conservative than required.
 - Runs < 90 min: Semi-fasted running approved. Eat post-run. Drives fat oxidation adaptation.
 - Runs >= 90 min: Mandatory 30-40g carbs 45-60 min pre-run. Fuel at 45-50 min mid-run.
 - Caloric deficit must come from meals furthest from training windows, never from reducing around sessions.
-- Protein: Keep high throughout. Heavy lifting + restricted calories = muscle catabolism risk without adequate protein.
+- Protein: Keep at a realistic floor of **105–115g daily** (1.5–1.7g/kg for 68.9 kg) with current home foods (eggs, Greek yogurt, canned tuna), scaling to 125–140g once protein powder is introduced. Heavy lifting + restricted calories = muscle catabolism risk without adequate protein.
+- **Race Weight Target ($\le$ 68.0 kg) Protocol:** Until the athlete reaches $\le$ 68.0 kg (0.9 kg remaining as of Aug 19, 2026), every daily briefing must set a specific caloric intake ceiling and deficit goal. On rest and low-volume recovery days, enforce a strict **1,800–2,000 kcal intake ceiling** to prevent rest-day overeating from erasing training-day deficits.
 
 ### Rule 8: The Muscular vs. Cardiovascular Limiter (Tired Legs Protocol)
 - **The Rule:** Never force the pace just to hit a Zone 2 heart rate target.
@@ -171,10 +185,12 @@ valid and beneficial, but more conservative than required.
 | Item | Status | Notes |
 |---|---|---|
 | Garmin Forerunner 165 | Active | Primary training watch |
-| Adidas Boston 12 (Pair 1) | ~947 km | Active (High Mileage). Used for easy runs. Retirement limit: 1000km. **53km remaining.** |
-| Adidas Boston 12 (Pair 2) | ~144 km | Active. Used for Long Runs / Quality. |
-| Adidas Adizero Evo SL | ~20 km | Active. Used for speed sessions / hot weather intervals. |
+| Adidas Boston 12 (Pair 1) | ~1,085 km | Active (Veteran Workhorse / Treadmill ONLY). Surpassed 1,000 km. Retired from road impact; dedicated purely to cushioned treadmill sessions. |
+| Adidas Boston 12 (Pair 2) | ~168 km | **DISCONTINUED FOR RUNNING (Sizing Hazard):** Size 10.5 is too large. Foot slides and EnergyRods flex point aligns under plantar arch instead of MTP ball of foot, causing severe midfoot strain/pain. Relegate to casual walking only. |
+| Adidas Adizero Evo SL | ~20 km | Active (Primary Speed / Long Run / Quality Shoe). Proper fit. |
+| Adidas Supernova Rise 2 | ~610 km | Active (Treadmill / Daily Aerobic / Recovery). Dreamstrike+ foam with non-rigid foam Support Rods. Safe comfort cruiser. |
 | Adidas Ultraboost 5x | Active | Used for Recovery runs. Also gym and casual use. |
+| Adidas Ultraboost 1.0 | Active | Used for Gym, casual wear, and short recovery walking/jogs. |
 
 ---
 
@@ -190,16 +206,49 @@ valid and beneficial, but more conservative than required.
 
 | Metric | Value | Date |
 |---|---|---|
-| Longest run this block (all-time: 30km x2) | 22.21 km | Jul 19, 2026 |
-| Best Fartlek surge pace | 3:44/km at 190 bpm | Jun 11, 2026 |
+| Longest run this block (all-time: 30.39km) | **25.02 km** (Treadmill Double Block: 20.01k + 5.01k, Sep 6) | Sep 6, 2026 |
+| Best surge/kick pace | **3:59/km** finish kick (typhoon, dead foam, post-9km aerobic, 191 bpm) | Aug 5, 2026 |
+| Best Lap pace (track) | **4:14/km** (Lap 12 of typhoon run) | Aug 5, 2026 |
 | Zone 2 avg HR (outdoor, HI 33°C) | 151 bpm at 6:22/km | Jun 14, 2026 |
-| ACWR (current) | 1.23 (Optimal) | Jun 14, 2026 |
-| Chronic weekly avg (28d) | 32.9 km/wk | Jun 14, 2026 |
-| Half Marathons + completed (21km or longer) | **17** | Jul 26, 2026 |
+| ACWR (current) | 1.07 (Optimal Sweet Spot) | Sep 6, 2026 |
+| Chronic weekly avg (28d) | 39.4 km/wk | Sep 6, 2026 |
+| Half Marathons + completed (20k/21km+) | **21** (includes Sep 6 25.02km Peak Build long run) | Sep 6, 2026 |
 | HM Distance PR (Elapsed) | **~1:55:00** (21.32km, crowded track, dead shoes, pee break) | Jul 26, 2026 |
 | HM Distance PR (Pure Running Time) | **1:48:52** @ 5:06/km | Jul 26, 2026 |
 | Previous HM best (moving time) | 1:58:26 for 22.21km @ 5:22/km, UP Campus, peak heat, elevation | Jul 19, 2026 |
 | Sub-50 10km | **ACHIEVED in training** — embedded in 6x800m VO2 Max session | Jul 16, 2026 |
+| **5k PR (Strava + Garmin)** | **🏅 BROKEN TWICE — Aug 5 then Aug 6, 2026** — Broken on the typhoon run (Aug 5), then broken AGAIN the very next day during the threshold block. Dead Boston 12s, wet track, typhoon conditions, pre-fatigued legs both times. | Aug 6, 2026 |
+| **1-Mile PR (Garmin)** | **🏅 NEW PR — Aug 5, 2026** — Set mid-typhoon run, confirmed by Garmin | Aug 5, 2026 |
+| **10k PR (Strava only)** | **🏅 NEW PR — Aug 5, 2026** — Set across km 1-10 of typhoon run; Garmin does not track 10k PR bucket | Aug 5, 2026 |
+
+### All-Time Verified Sprint & Top Speed Leaderboard (Garmin Verified)
+
+| Rank | Peak Speed | Pace Equiv. | Peak Power | Max Cadence | Max HR | Date | Activity Name / Context | Activity ID |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- | :---: |
+| 🥇 **1** | **26.57 km/h** | **2:15 /km** | **662 W** | **250 spm** | 164 bpm | Jan 12, 2026 | **Marikina Heights Downhill Ego Duel:** Supposed easy run that turned into a dogfight when a former sprinter tried to overtake. Max surged at 26.6 km/h on a downhill-into-uphill to drop him, then tailed him at threshold until the runner gassed out. | `21521026548` |
+| 🥈 **2** | **25.83 km/h** | **2:19 /km** | **810 W** | 182 spm | **206 bpm** | Apr 28, 2026 | **8×600m Track Rep 8:** Final interval sprint kick at 7.15 km. Triggered all-time observed Max HR (206 bpm) and 810W peak power. | `22688509672` |
+| 🥉 **3** | **24.66 km/h** | **2:26 /km** | **654 W** | **216 spm** | 186 bpm | Feb 03, 2026 | **Santa Elena Strides:** 12-second sustained high-velocity stride surge (held 22.0 to 24.66 km/h continuously). | `21749199994` |
+| **4** | **24.15 km/h** | **2:29 /km** | **591 W** | **250 spm** | 170 bpm | Aug 09, 2026 | **Treadmill High-Cadence Burst:** Extreme neuromuscular turnover drill (250 spm on belt). | `23910792333` |
+| **5** | **23.75 km/h** | **2:31 /km** | **672 W** | 193 spm | 199 bpm | Sep 02, 2026 | **MSC Track 5k Finish Kick:** 100m straightaway kick in Adidas EVO SLs at 7.55 km under 37.6°C Heat Index. | `24207449127` |
+| **6** | **23.28 km/h** | **2:34 /km** | **558 W** | **250 spm** | 171 bpm | Aug 23, 2026 | **NordicTrack S20i Stride:** Controlled finish surge on the treadmill during 24km milestone run. | `24085939149` |
+| **7** | **20.22 km/h** | **2:58 /km** | **583 W** | 203 spm | 171 bpm | Aug 18, 2026 | **Barefoot 400m Reps:** 826m barefoot reps with sister. Achieved sub-200ms Ground Contact Time (196 ms) and 1.65m stride length. | `24019103877` |
+
+### Legendary Cycling Lore & Aerobic Foundations (Strava Verified)
+- **May 22, 2021 — 217.45 km Ultra Double Century ("Long story"):**
+  - **Stats:** **217.45 km (135.1 Miles)** | **9:56:08 moving time (17:38:15 elapsed)** | **+2,370m mountain elevation gain** | **5,301 kJ energy** | 148W avg power on a **Make 26er mountain bike**.
+  - **The "Unkillable Cockroach" Feat:** Battled brutal midday tropical heat, then endured torrential monsoon downpours starting at Km 150 while climbing Teresa mountain passes in the dark.
+  - **Significance:** Demonstrates elite, ultra-endurance psychological resilience, non-stop 10-hour fat-metabolism capacity, and iron willpower.
+- **Oct 29, 2020 — 108.25 km Water-Only Century ("TRAFFIC TRAFFIC TRAFFIC"):**
+  - **Stats:** 108.25 km | 5:15:53 moving time | +479m elevation | 2,036 kJ on vintage **Miyata 912**.
+  - **Fueling:** **100% Zero-Calorie / Water Only** — Rode from Marikina all the way to Laguna and back through heavy Alabang traffic on literally water alone.
+- **Oct 15, 2020 — 101.09 km Fasted Century Ride ("100kms before breakfast"):**
+  - **Stats:** 101.09 km | 4:50:46 moving time | +601m elevation gain | 64.8 km/h max speed | 1,830 kJ on vintage steel **Miyata 912**.
+  - **Insane Context:** Executed entirely as **loops under/around a mall** during 2020 pandemic restrictions; wheel spokes snapped at Km 70 and Max still finished the 100k fasted on a wobbling wheel!
+- **Apr 25, 2021 — 40.56 km Fasted Antipolo Mountain Climb ("Antipolo Ride before breakfast"):**
+  - **Stats:** 40.56 km | 1:38:05 moving time | **+549m vertical climbing** | **189 W avg power** | 24.8 km/h avg speed | 1,111 kJ on vintage steel **Miyata 912**.
+  - **Significance:** Demonstrates immense lactate clearance, threshold power (189W sustained for 1.6h), and mountain aerobic capacity.
+
+*Note on GPS Glitches:* The single-point spike of 31.24 km/h in Parang (Aug 2, 2026, Act ID: 23818954705) was forensically verified as a 1-second GPS multipath artifact (0 cadence with +11m positional jump). The records above reflect true continuous multi-second physical sprinting.
 
 ---
 
@@ -208,9 +257,10 @@ valid and beneficial, but more conservative than required.
 | Goal | Target | Timeline | Confidence |
 |---|---|---|---|
 | Sub-3 Marathon | 4:15/km for 42.2 km | TBD (marathon entry) | Contingent on speed phase unlocking VO2Max potential |
-| Half Marathon sub-2 (official race) | < 2:00:00 / 5:40/km | Next race entry | **ACHIEVED IN TRAINING** (Jul 19, 2026) — 1:59:36 moving time on pre-fatigued legs, 190m elevation, peak heat. Official race pace projection: ~1:50–1:53 on fresh legs. |
-| Weight Target | 70.0 kg | ~September 2026 (~12 weeks) | On track |
-| 5k/10k Speed Reserve | 5k pace to 3:55-4:10/km | During marathon block | Building |
+| Half Marathon sub-2 (official race) | < 2:00:00 / 5:40/km | Next race entry | **ACHIEVED IN TRAINING** (Jul 19, 2026) — 1:59:36 moving time on pre-fatigued legs. |
+| Peak Long Run Target | **32.0 – 35.0 km (20–22 Miles)** | Peak Marathon Block (Week 15) | **High** — Athlete has 30.39km all-time base, now running sub-48 10k & sub-1:49 HM at 68.6kg. |
+| Weight Target | <= 67.0 kg | ~September/October 2026 | On track (68.65 kg current) |
+| 5k/10k Speed Reserve | 5k pace to 3:55-4:10/km | During marathon block | Building (22:16 5k split on Sep 2) |
 
 **Garmin Marathon Prediction (Jun 27, 2026):** 3:49:44 — NOTE: This reflects current training state (Zone 2 base phase), NOT aerobic ceiling. VDOT-theoretical marathon time for VO2Max 55 is ~3:08–3:15. The gap is unlocked through threshold/speed sessions in the later training block.
 

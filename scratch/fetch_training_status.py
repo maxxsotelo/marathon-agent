@@ -1,5 +1,5 @@
 """
-fetch_calories.py
+fetch_training_status.py
 """
 import os, sys, json
 from datetime import date
@@ -15,10 +15,19 @@ client.login(TOKEN_STORE)
 today = date(2026, 8, 7).isoformat()
 
 try:
+    status = client.get_training_status(today)
+    print("=== TRAINING STATUS ===")
+    print(f"Status: {status.get('trainingStatus')}")
+    print(f"Load: {status.get('loadStatus')}")
+    print(f"Recovery Hours: {status.get('recoveryTime')}")
+except Exception as e:
+    print(f"Status failed: {e}")
+
+try:
     stats = client.get_user_summary(today)
-    print("=== DAILY CALORIC SUMMARY ===")
-    print(f"Total Kilocalories: {stats.get('totalKilocalories')}")
-    print(f"Active Kilocalories: {stats.get('activeKilocalories')}")
-    print(f"BMR Kilocalories: {stats.get('bmrKilocalories')}")
+    print("\n=== USER SUMMARY ===")
+    print(f"Sleep Score: {stats.get('sleepScore')}")
+    print(f"Sleep Hours: {stats.get('totalSleepSeconds', 0)/3600:.2f}")
+    print(f"Body Battery (High): {stats.get('highestBodyBattery')}")
 except Exception as e:
     print(f"Summary failed: {e}")

@@ -21,9 +21,9 @@ RACE_DISTANCE = 42.195
 
 ATHLETE = {
     "name": "Max",
-    "current_weight": 72.35,
-    "goal_weight":    70.0,
-    "current_vo2max": 52.0,
+    "current_weight": 68.9,
+    "goal_weight":    68.0,
+    "current_vo2max": 58.0,
     "lthr": 191,
     "rhr":  39,
     "max_hr": 206,

@@ -58,8 +58,8 @@ def trimp_banister(dur_min, hr_avg):
 # ── ACWR (Mechanical Tolerance) ──────────────────────────────────────────
 from core_tolerance_engine import calculate_mechanical_load
 
-def compute_acwr():
-    tol_data = calculate_mechanical_load(client)
+def compute_acwr(target_date: date = None):
+    tol_data = calculate_mechanical_load(client, target_date=target_date)
     # Return (acute_km, chronic_weekly, acwr) to keep backward compatibility 
     # with the rest of sensor_pre_schedule_check.py's projection math
     acute = tol_data["acute_distance_km"]
@@ -98,12 +98,15 @@ def main():
                         help="Intended duration in minutes")
     parser.add_argument("--intensity", default="easy",
                         choices=["recovery", "easy", "marathon", "threshold", "vo2max"])
+    parser.add_argument("--date", default=None,
+                        help="Target schedule date (YYYY-MM-DD). Defaults to today.")
     args = parser.parse_args()
 
-    today_str = date.today().strftime("%Y-%m-%d")
+    target_date = date.fromisoformat(args.date) if args.date else date.today()
+    today_str = target_date.strftime("%Y-%m-%d")
     print("=" * 65)
     print("  ANTIGRAVITY PRE-SCHEDULE JUSTIFICATION REPORT")
-    print(f"  Date: {today_str} | Requested: {args.type} {args.duration}min @{args.intensity}")
+    print(f"  Target Date: {today_str} | Requested: {args.type} {args.duration}min @{args.intensity}")
     print("=" * 65)
 
     # ── 1. Weekly Plan Check ───────────────────────────────────────────
@@ -147,7 +150,7 @@ def main():
     # ── 2. ACWR Gate ───────────────────────────────────────────────────
     print("\n[2] ACWR GATE (Verified Calculation)")
     try:
-        acute, chronic_weekly, acwr = compute_acwr()
+        acute, chronic_weekly, acwr = compute_acwr(target_date=target_date)
         
         # Estimate projected distance based on duration and intensity
         pace_map = {
