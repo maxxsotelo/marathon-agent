@@ -5,8 +5,12 @@
 [![Python Version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Garmin Integration](https://img.shields.io/badge/Garmin-Connect-brightgreen.svg)](https://connect.garmin.com)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/maxxsotelo/marathon-agent/blob/main/marathon_cloud_runner.ipynb)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/maxxsotelo/marathon-agent)
 [![Data Modeling: Pydantic V2](https://img.shields.io/badge/Data%20Modeling-Pydantic%20V2-red.svg)](https://docs.pydantic.dev/)
 [![Multi-LLM](https://img.shields.io/badge/LLM-Gemini%20%7C%20Claude-orange.svg)](https://deepmind.google/technologies/gemini/)
+
+> ☁️ **Cloud Execution:** Run this entire coaching pipeline from your phone or browser with **zero local PC required** via [Google Colab](https://colab.research.google.com/github/maxxsotelo/marathon-agent/blob/main/marathon_cloud_runner.ipynb), [GitHub Actions](https://github.com/maxxsotelo/marathon-agent/actions), or [GitHub Codespaces](https://codespaces.new/maxxsotelo/marathon-agent).
 
 `marathon-agent` is an intelligent personal coaching system that bridges the gap between raw biometric logs and real-world training execution. Co-engineered in partnership with an **AI Coding Agent**, it pulls physical data (HRV, Sleep Architecture, Strength Session Loads) from Garmin Connect, runs the **Kiat Engine** — a custom physiological intelligence layer — to compute premium coaching metrics beyond the athlete's hardware capabilities, and automatically generates and schedules structured, physiology-calibrated running workouts directly to the Garmin watch calendar.
 

@@ -1,0 +1,80 @@
+﻿name: Marathon Agent Cloud Runner
+
+on:
+  schedule:
+    # 5:00 AM Philippine Time (UTC+8) is 21:00 UTC of previous day
+    - cron: '0 21 * * *'
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to perform'
+        required: true
+        default: 'audit'
+        type: choice
+        options:
+          - audit
+          - pre_schedule_check
+          - generate_workout
+          - send_email_report
+      target_date:
+        description: 'Target date (YYYY-MM-DD), default is today'
+        required: false
+        default: ''
+      duration:
+        description: 'Workout duration in minutes (for pre_schedule_check)'
+        required: false
+        default: '45'
+      intensity:
+        description: 'Workout intensity'
+        required: false
+        default: 'easy'
+        type: choice
+        options:
+          - recovery
+          - easy
+          - marathon
+          - threshold
+          - vo2max
+
+jobs:
+  run-marathon-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Execute Marathon Agent Action
+        env:
+          GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
+          GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          MFP_EMAIL: ${{ secrets.MFP_EMAIL }}
+          MFP_PASSWORD: ${{ secrets.MFP_PASSWORD }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: |
+          ACTION="${{ github.event.inputs.action || 'audit' }}"
+          DATE_ARG=""
+          if [ -n "${{ github.event.inputs.target_date }}" ]; then
+            DATE_ARG="--date ${{ github.event.inputs.target_date }}"
+          fi
+
+          if [ "$ACTION" = "audit" ]; then
+            python sensor_fetch_garmin.py
+          elif [ "$ACTION" = "pre_schedule_check" ]; then
+            python sensor_pre_schedule_check.py --duration ${{ github.event.inputs.duration || '45' }} --intensity ${{ github.event.inputs.intensity || 'easy' }} $DATE_ARG
+          elif [ "$ACTION" = "generate_workout" ]; then
+            python actuator_workout_generator.py
+          elif [ "$ACTION" = "send_email_report" ]; then
+            python actuator_send_report_email.py
+          fi
