@@ -1,82 +1,82 @@
-# CURRENT WEEKLY PLAN
+﻿# CURRENT WEEKLY PLAN
 # This file is the single source of truth for the active training week.
-# Updated for Week 13 (Sep 14 - Sep 20, 2026) - BUILD II BRIDGE (BSP Onboarding & AF Taft Integration)
+# Updated for Week 14 (Sep 21 - Sep 27, 2026) - BUILD II / PEAK STEP-UP
 
-week_start = "2026-09-14"
-week_end   = "2026-09-20"
-generated  = "2026-09-15"
+week_start = "2026-09-21"
+week_end   = "2026-09-27"
+generated  = "2026-09-21"
 
 plan = {
     "meta": {
-        "week":        "September 14 – September 20, 2026",
-        "phase":       "Build II Bridge | Week 13 (BSP Onboarding & AF Taft Integration)",
-        "load_target": "45–48 km | Long Run: 18.0–20.0 km",
-        "objective":   "Seamlessly adapt training to new life at Bangko Sentral ng Pilipinas (BSP), new condo, and newly unlocked 1-year Anytime Fitness Taft membership. Maintain threshold speed reserve, integrate condo pool, and bank 47 km volume with optimal 1.12 ACWR.",
-        "acwr_context":"ACWR is optimal at 1.12. Morning vitals pristine (Body Battery 92, RHR 40 bpm).",
-        "zone_update": "Zone 2 ceiling: 174 bpm (floor 162 bpm). LTHR: 196 bpm. Max HR: 206 bpm.",
-        "injury_note": "Zero structural symptoms. Use Adidas EVO SL for road runs, Boston 12s for treadmill or rain.",
-        "facility_note":"New facilities: Anytime Fitness Taft (1-yr membership confirmed), Condo Pool (closed Mon), and BSP Employee Gym.",
+        "week":        "September 21 – September 27, 2026",
+        "phase":       "Build II / Peak | Week 14 (Endurance Step-Up & Threshold Sharpness)",
+        "load_target": "50–52 km | Long Run: 24.0 km",
+        "objective":   "Building on Week 13's 45.88 km volume and Saturday's 20.07 km rolling hill milestone (+179m). Step up volume cleanly into Build II with a controlled 24.0 km long run on Sunday, sharpen threshold speed on Wednesday (5x1,000m), and maintain mechanical ACWR safely at ~1.08–1.12.",
+        "acwr_context":"Mechanical ACWR starts at 0.907. Vitals pristine (HRV 105 ms, RHR 40 bpm, 91m deep sleep).",
+        "zone_update": "Zone 2: 162–174 bpm. Threshold: 181–191 bpm. LTHR: 191 bpm. Max HR: 206 bpm.",
+        "injury_note": "Zero structural symptoms. Use Adidas EVO SL for road runs/tempo, Puma Velocity Nitro 3 for treadmill and easy miles.",
+        "facility_note":"Anytime Fitness Taft (primary gym/treadmill), Condo Pool (Tue-Sun), and BSP Employee Gym.",
     },
     "days": {
-        "2026-09-14": {
-            "label":   "Monday | Day 1 at BSP + AF Taft Test Run",
-            "session": "3.00 km Treadmill @ 5:32/km (Avg HR 145, TE 2.2) + Malate Walking",
-            "detail":  "Day 1 at BSP completed. Acquired 1-yr Anytime Fitness Taft membership and logged 3k shakeout + 16,394 steps. Completed.",
-            "run_km":  3.0,
-            "gym":     True,
-            "pool":    False,
-            "plyo":    False,
-        },
-        "2026-09-15": {
-            "label":   "Tuesday | Treadmill Hills & Heavy Pulling Double",
-            "session": "6.29 km Treadmill (5:19/km, 1.3k of 2-7% hills, HR 155, TE 3.2) + 38m Upper Pulling",
-            "detail":  "6.29 km cruise at AF Taft + heavy lat pulldowns, seated cable rows, face pulls, lateral raises. 18,735 steps, 1,030 active kcal. Completed.",
-            "run_km":  6.29,
-            "gym":     True,
-            "pool":    False,
-            "plyo":    False,
-        },
-        "2026-09-16": {
-            "label":   "Wednesday | Quality Threshold Anchor",
-            "session": "8.0 km Total (2k WU + 4x1,000m Threshold @ 14.0-14.6 km/h + 2k CD)",
-            "detail":  "Sharpen sub-3:00 speed reserve at AF Taft or outdoor loop. 90s float recovery between reps. Fast-twitch maintenance.",
-            "run_km":  8.0,
+        "2026-09-21": {
+            "label":   "Monday | Active Recovery Flush / Shakeout",
+            "session": "4.0 – 5.0 km Easy Shakeout (<150 bpm) OR Full Rest (Walking commutes logged)",
+            "detail":  "Post-weekend recovery following Saturday's 20.07 km run and Sunday's 3k shakeout. Run 4k easy at AF Taft or take full rest. Low intensity only.",
+            "run_km":  4.0,
             "gym":     False,
             "pool":    False,
             "plyo":    False,
         },
-        "2026-09-17": {
-            "label":   "Thursday | Inaugural Condo Pool Flush + Strength",
-            "session": "30–40m Zero-Impact Pool Swim / Hydrotherapy + Upper Body Strength",
-            "detail":  "First deployment of the condo pool! Hydrostatic compression flushes calves/Achilles. Upper body push/pull at AF Taft or BSP gym.",
+        "2026-09-22": {
+            "label":   "Tuesday | Aerobic Base Cruise + Upper Push",
+            "session": "7.0 km Zone 2 Aerobic Cruise (162–172 bpm) + Upper Body Push & Core at AF Taft",
+            "detail":  "Controlled steady aerobic running. Keep cadence snappy (175+ spm). Pair with chest/shoulder/tricep strength at AF Taft.",
+            "run_km":  7.0,
+            "gym":     True,
+            "pool":    False,
+            "plyo":    False,
+        },
+        "2026-09-23": {
+            "label":   "Wednesday | Quality Threshold Speed Anchor",
+            "session": "8.5 km Total (2k WU + 5 x 1,000m Threshold @ 4:15–4:25/km with 90s jog recovery + 1.5k CD)",
+            "detail":  "The weekly speed anchor. Sharpen lactate clearance and marathon pace reserve. Treadmill (1.0% incline) at AF Taft or outdoor route.",
+            "run_km":  8.5,
+            "gym":     False,
+            "pool":    False,
+            "plyo":    False,
+        },
+        "2026-09-24": {
+            "label":   "Thursday | Condo Pool Hydrotherapy Flush + Upper Pull",
+            "session": "35m Condo Pool Swim / Decompression + Upper Pull Strength (0.0 km Running Impact)",
+            "detail":  "0.0 ground reaction force. Hydrostatic pool flush reduces calf and Achilles tightness. Upper pull (lat pulldowns, rows) at AF Taft or BSP gym.",
             "run_km":  0.0,
             "gym":     True,
             "pool":    True,
             "plyo":    False,
         },
-        "2026-09-18": {
-            "label":   "Friday | Aerobic Foundation Cruise",
-            "session": "6.0 – 7.0 km Zone 2 Aerobic Cruise (162–172 bpm)",
-            "detail":  "Cap off your first week at the BSP with smooth aerobic miles. Relaxed mental reset.",
-            "run_km":  6.5,
+        "2026-09-25": {
+            "label":   "Friday | Aerobic Foundation + Neuromuscular Strides",
+            "session": "7.5 km Zone 2 Aerobic Cruise (162–172 bpm) + 4 x 100m Relaxed Strides",
+            "detail":  "Smooth aerobic volume with light strides at the end to open up the hips and prime neuromuscular turnover before the weekend.",
+            "run_km":  7.5,
             "gym":     False,
             "pool":    False,
             "plyo":    False,
         },
-        "2026-09-19": {
-            "label":   "Saturday | Pre-Long Run Shakeout",
-            "session": "4.5 – 5.0 km Zone 1 Easy (<150 bpm) + 4x100m Light Strides",
-            "detail":  "Short neuromuscular turnover. Carb load and hydrate for Sunday's anchor long run.",
-            "run_km":  5.0,
+        "2026-09-26": {
+            "label":   "Saturday | Pre-Long Run Priming Shakeout",
+            "session": "4.0 km Zone 1 Easy Shakeout (<148 bpm) + Mobility & Core",
+            "detail":  "Short, effortless shakeout to keep legs loose. Hydrate and eat high carbohydrates (rice/sweet potato) to fully top off glycogen for Sunday's 24k.",
+            "run_km":  4.0,
             "gym":     False,
             "pool":    False,
             "plyo":    False,
         },
-        "2026-09-20": {
-            "label":   "Sunday | Aerobic Endurance Long Run",
-            "session": "18.0 – 20.0 km Steady Zone 2 Long Run",
-            "detail":  "The settled endurance anchor now that Week 1 is in the books! In-run fueling practice (gels and electrolytes).",
-            "run_km":  19.0,
+        "2026-09-27": {
+            "label":   "Sunday | Build II Milestone Long Run (24K)",
+            "session": "24.0 km Progressive Aerobic Long Run (Zone 2, 162–172 bpm)",
+            "detail":  "The cornerstone endurance anchor of Build II. Push 4 km beyond last week's 20k milestone. Full race nutrition simulation: take 3–4 gels at Km 7, 13, 18 with water/electrolytes.",
+            "run_km":  24.0,
             "gym":     False,
             "pool":    False,
             "plyo":    False,
