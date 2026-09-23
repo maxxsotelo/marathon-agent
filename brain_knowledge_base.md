@@ -58,6 +58,16 @@ These are the fingerprints of fast-twitch neuromuscular capacity that most endur
 - **Adidas EVO SLs (Speed / Quality / Race Simulation):** Pristine and fresh. Preserved today by using the Boston 12s on the treadmill! Reserved for outdoor tempos, dry road speed, and race-pace simulations.
 - **Sprinting Spikes (Maximal Speed):** User has expressed a desire to return to pure sprinting. Spikes carry massive Achilles/hamstring risk for marathoners. Require at least 2 weeks of dedicated Plyometric prep (bounding, depth jumps) before clearing spikes on a track. Reserved for late Build II or Peak blocks.
 
+## 0d. TRAINING FACILITIES, LOGISTICS & GYM PROTOCOLS
+
+- **Anytime Fitness Taft & BSP Employee Gym:** Primary weekday indoor running (treadmills) and hypertrophy strength hubs during workdays at the Bangko Sentral ng Pilipinas.
+- **Condo Pool (Manila):** Free access Tuesday through Sunday (closed Mondays). Utilized for 30–40 min active recovery hydrotherapy flushes with zero ground reaction force when staying in Manila.
+- **Marikina Base & Travel (Thursdays & Weekends):** Max regularly travels home to Marikina on Thursdays for the weekend.
+  - **MANDATORY RULE:** **NEVER schedule pool swims on Thursdays or weekends.** The condo pool is in Manila and unavailable in Marikina.
+  - Thursday recovery in Marikina must be **Indoor Bike Flush (30–40m @ <125 bpm)** and/or **Upper Body Pull Strength**.
+- **Saturday Long Run Shift Protocol:** When spending weekends in Marikina, Max often shifts the Long Run to **Saturday morning** (Marikina Riverbanks flat loops or flat road routes) to free up Sunday for family and passive recovery. The agent must automatically pivot Friday into a 4 km priming shakeout and Sunday into an active recovery flush.
+- **Treadmill Contention & Indoor Bike Split Protocol:** During peak gym rush hours when treadmills are 100% occupied, Max hops on the stationary or recumbent bike for 10–25 minutes at low resistance (Zone 1, <125 bpm) rather than standing idle. This is an officially sanctioned active aerobic flush: it maintains elevated core temperature, promotes concentric leg blood flow, and counts toward total aerobic volume with zero bone/tendon impact.
+
 ---
 
 ## 1. PHYSIOLOGICAL PROFILE
