@@ -1,4 +1,4 @@
-﻿# CURRENT WEEKLY PLAN
+# CURRENT WEEKLY PLAN
 # This file is the single source of truth for the active training week.
 # Updated for Week 14 (Sep 21 - Sep 27, 2026) - BUILD II / PEAK STEP-UP
 
@@ -37,10 +37,10 @@ plan = {
             "plyo":    False,
         },
         "2026-09-23": {
-            "label":   "Wednesday | Quality Threshold Speed Anchor",
-            "session": "8.5 km Total (2k WU + 5 x 1,000m Threshold @ 4:15–4:25/km with 90s jog recovery + 1.5k CD)",
-            "detail":  "The weekly speed anchor. Sharpen lactate clearance and marathon pace reserve. Treadmill (1.0% incline) at AF Taft or outdoor route.",
-            "run_km":  8.5,
+            "label":   "Wednesday | Speed Abort & Calf Protection Flush",
+            "session": "3.50 km Treadmill @ 136 bpm (TE 2.0) + 9.3m Spin [Speed Aborted]",
+            "detail":  "Woke up with right calf tightness. Wisely aborted 5x1k speed session after 3.5k easy jogging (<148 bpm) to prevent acute strain.",
+            "run_km":  3.5,
             "gym":     False,
             "pool":    False,
             "plyo":    False,
@@ -48,17 +48,17 @@ plan = {
         "2026-09-24": {
             "label":   "Thursday | Condo Pool Hydrotherapy Flush + Upper Pull",
             "session": "35m Condo Pool Swim / Decompression + Upper Pull Strength (0.0 km Running Impact)",
-            "detail":  "0.0 ground reaction force. Hydrostatic pool flush reduces calf and Achilles tightness. Upper pull (lat pulldowns, rows) at AF Taft or BSP gym.",
+            "detail":  "0.0 ground reaction force. Hydrostatic pool flush flushes calf micro-edema. Upper pull (lat pulldowns, rows) at AF Taft or BSP gym.",
             "run_km":  0.0,
             "gym":     True,
             "pool":    True,
             "plyo":    False,
         },
         "2026-09-25": {
-            "label":   "Friday | Aerobic Foundation + Neuromuscular Strides",
-            "session": "7.5 km Zone 2 Aerobic Cruise (162–172 bpm) + 4 x 100m Relaxed Strides",
-            "detail":  "Smooth aerobic volume with light strides at the end to open up the hips and prime neuromuscular turnover before the weekend.",
-            "run_km":  7.5,
+            "label":   "Friday | Flat Aerobic Base Cruise (Calf Safe)",
+            "session": "5.5 km Flat Treadmill Cruise (0.0% incline, <155 bpm) [Strides Vetoed]",
+            "detail":  "Flat aerobic cruise in Puma Velocity Nitro 3s. High-speed strides strictly vetoed to eliminate eccentric toe-off strain on the right calf.",
+            "run_km":  5.5,
             "gym":     False,
             "pool":    False,
             "plyo":    False,
@@ -73,10 +73,10 @@ plan = {
             "plyo":    False,
         },
         "2026-09-27": {
-            "label":   "Sunday | Build II Milestone Long Run (24K)",
-            "session": "24.0 km Progressive Aerobic Long Run (Zone 2, 162–172 bpm)",
-            "detail":  "The cornerstone endurance anchor of Build II. Push 4 km beyond last week's 20k milestone. Full race nutrition simulation: take 3–4 gels at Km 7, 13, 18 with water/electrolytes.",
-            "run_km":  24.0,
+            "label":   "Sunday | Build II Milestone Long Run (Calibrated 20-22K)",
+            "session": "20.0 – 22.0 km Flat Progressive Aerobic Long Run (Zone 2, 162–172 bpm)",
+            "detail":  "The cornerstone endurance anchor of Build II. Calibrated to 20-22k flat to protect right calf. Full race nutrition simulation: take 3 gels at Km 7, 13, 18 with water/electrolytes.",
+            "run_km":  21.0,
             "gym":     False,
             "pool":    False,
             "plyo":    False,

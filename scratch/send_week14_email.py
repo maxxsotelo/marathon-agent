@@ -11,46 +11,47 @@ FROM_EMAIL  = os.getenv("GARMIN_EMAIL")
 APP_PASS    = os.getenv("GMAIL_APP_PASSWORD")
 TO_EMAIL    = "maxxsotelo@gmail.com"
 
-subject = "🏃‍♂️ Antigravity Coaching | Week 14 Training Blueprint (Build II Step-Up & 24K Target)"
+subject = "🏃‍♂️ Antigravity Coaching | Week 14 Audit & Calf Recovery Protocol"
 
 plain_text = """
-Antigravity Coaching Telemetry & Training Blueprint
-Athlete: Max Sotelo | Date: Monday, September 21, 2026
-Subject: Week 14 Training Blueprint (Build II Step-Up & 24K Target)
+Antigravity Coaching Telemetry & Training Audit
+Athlete: Max Sotelo | Date: Thursday, September 24, 2026
+Subject: Week 14 Mid-Week Audit & Right Calf Recovery Protocol
 
-Good afternoon Max,
+Good morning Max,
 
-Here is your full audit and Week 14 Training Blueprint (Sep 21 – Sep 27, 2026) based on your verified Garmin telemetry.
+Here is your full mid-week telemetry audit and adjusted roadmap following your Wednesday calf tightness.
 
-=== 1. EXHAUSTIVE TELEMETRY AUDIT (PAST 7 DAYS) ===
-- Mon Sep 14: 3.00 km Treadmill Shakeout (16.6m, Avg HR 145, TE 2.2)
-- Tue Sep 15: 6.29 km Treadmill (34.9m, Avg HR 155, TE 3.4, 1.3k hill climb) + 38m Heavy Pull Strength
-- Wed Sep 16: 7.00 km Threshold Speed (36.2m, Avg HR 156, Max HR 186 bpm, TE 3.1/1.9) + 15.8m Strength
-- Thu Sep 17: 0.00 km Running (1.04 km walking, rest day honored)
-- Fri Sep 18: 6.52 km Lunch Run (34.9m, Avg HR 144, TE 2.6) + 18.6m Recumbent Spin + 88.7m Pull Strength
-- Sat Sep 19: 20.07 km Rolling Hill Simulation (1:47:48, 5:22/km, Avg HR 150, Max HR 173, +179m climbed, TE 3.4) + 29.3m Arm Pump
-- Sun Sep 20: 3.00 km Shakeout (17.5m, Avg HR 134, TE 2.0) + 40.9m Strength + 109m Cardio
-Total Week 13 Volume: 45.88 km (Cleanly hit our 45-48 km target!)
+=== 1. MID-WEEK TELEMETRY AUDIT (SEP 21 - SEP 24) ===
+- Mon Sep 21: 1.40 km Shakeout Run (Avg HR 127, TE 0.8) + 18m Cardio + 2.16 km Walking
+- Tue Sep 22: 7.00 km Treadmill @ 1-2.5% Incline (37.2m, Avg HR 150, Max HR 165, TE 2.9) + 46m Upper Push & Core
+- Wed Sep 23: 3.50 km Treadmill (20.3m, Avg HR 136, Max HR 148, TE 2.0) + 9.3m Spin + 2.45 km Walking
+  * Tactical Note: Calves tightened up; you aborted the 5x1k speed session after 3.5k easy jogging. Elite decision!
+Total Running Banked (Mon-Wed): 11.99 km (~12.0 km)
+Mechanical ACWR: 0.882 (Safe Sweet Spot: 41.58 km acute / 188.61 km chronic)
 
-=== 2. CORE ENGINES & CURRENT VITALS (SEP 21, 2026) ===
-- Mechanical ACWR: 0.907 (Acute: 42.88 km, Chronic: 189.05 km - Optimal Sweet Spot)
-- Overnight HRV: 105 ms (Balanced)
-- Resting HR: 40 bpm
-- Sleep Architecture: Score 79 (6.38 hours, 91 minutes Deep Sleep - 24% deep!)
-- Body Battery: Recharged 68 points, sitting at 50/100 mid-afternoon.
+=== 2. ROOT-CAUSE ANALYSIS OF RIGHT CALF TIGHTNESS ===
+1. Double-Incline Loading: Saturday's 20.07 km rolling hill simulation (+179m climbed) followed 72 hours later by Tuesday's 7.00 km at 1-2.5% incline overloaded the gastrocnemius-soleus complex.
+2. Concrete Commuting: 6.7 km of walking on hard pavement in street shoes between condo, BSP, and AF Taft added unmonitored ground reaction force.
+3. Nocturnal Cramp: Points to electrolyte shift (magnesium/sodium) exacerbated by tropical heat and air-conditioned sleep.
 
-=== 3. WEEK 14 BLUEPRINT: BUILD II STEP-UP (SEP 21 - SEP 27) ===
-Target Weekly Volume: 50.0 - 52.0 km | Sunday Long Run: 24.0 km | ACWR: ~1.10
+=== 3. ADJUSTED WEEK 14 ROADMAP (CALF RECOVERY) ===
+- THU SEP 24 (TODAY): 0.0 KM RUNNING IMPACT
+  * Primary: W14D4 Condo Pool Flush [35m] (Garmin ID: 1705207018) - Hydrostatic pressure flushes calf micro-edema with 0 ground shock.
+  * Strength: W14D4 Upper Pull & Core (Garmin ID: 1705207056) - Lat pulldowns, rows, face pulls. Strict veto on legs.
+  * Rehab: 400mg Magnesium tonight, add electrolytes to water, gentle straight/bent-knee wall calf stretches.
 
-- MON SEP 21 (TODAY): Easy Shakeout (4.0 km) OR Full Rest (walking commutes logged)
-- TUE SEP 22: 7.0 km Zone 2 Aerobic Cruise (162-172 bpm) + Upper Body Push & Core at AF Taft
-- WED SEP 23: Quality Threshold Anchor: 8.5 km Total (2k Warmup + 5x1,000m @ 4:15-4:25/km with 90s jog + 1.5k Cooldown)
-- THU SEP 24: Condo Pool Hydrotherapy Flush (35m swim/flutter kick) + Upper Body Pull Strength (0.0 km running impact)
-- FRI SEP 25: 7.5 km Zone 2 Foundation Cruise + 4x100m Strides
-- SAT SEP 26: 4.0 km Pre-Long Run Priming Shakeout + Carb Load
-- SUN SEP 27: Build II Milestone Long Run (24.0 km Zone 2 progressive, practice 3-4 energy gels with hydration)
+- FRI SEP 25: 5.0 - 6.0 KM FLAT AEROBIC CRUISE
+  * Treadmill at 0.0% or 0.5% incline (NO HILLS). HR strictly < 155 bpm.
+  * VETO: Strides cancelled to eliminate high eccentric toe-off strain. Shoes: Puma Velocity Nitro 3.
 
-Full details committed to brain_current_week_plan.py.
+- SAT SEP 26: 4.0 KM PRE-LONG RUN SHAKEOUT & CARB LOAD
+  * Effortless 4 km shakeout (or full rest if calf is still sensitive). Carb load with extra rice, sweet potatoes, and sodium.
+
+- SUN SEP 27: 20.0 - 22.0 KM BUILD II MILESTONE LONG RUN
+  * Adjusted down from 24k to 20-22k flat Zone 2 cruise. Full race fueling practice (3 gels at Km 7, 13, 18).
+
+All workouts are already synchronized directly to your Garmin watch calendar.
 """
 
 html_content = """
@@ -65,6 +66,7 @@ html_content = """
   .subtitle { color: #94a3b8; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 24px; }
   h2 { color: #00d4aa; font-size: 16px; margin-top: 24px; border-bottom: 1px solid #334155; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
   p, li { color: #cbd5e1; font-size: 14px; line-height: 1.6; }
+  .alert-box { background-color: #172554; border-left: 4px solid #38bdf8; padding: 14px; border-radius: 6px; margin: 16px 0; font-size: 13px; color: #bae6fd; }
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
   .card { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 14px; }
   .card-label { font-size: 11px; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px; }
@@ -83,87 +85,84 @@ html_content = """
 </head>
 <body>
 <div class="container">
-  <h1>🏃‍♂️ Week 14 Training Blueprint</h1>
-  <div class="subtitle">Antigravity Coaching • Build II Step-Up (Sep 21 – Sep 27, 2026)</div>
+  <h1>🏃‍♂️ Week 14 Audit & Calf Recovery Protocol</h1>
+  <div class="subtitle">Antigravity Coaching • Build II Calibration (Sep 21 – Sep 27, 2026)</div>
 
-  <h2>1. Telemetry & Engine Vitals Audit</h2>
+  <div class="alert-box">
+    <strong>Tactical Commendation:</strong> Bailing on Wednesday's 5x1,000m speed repeats after 3.5k easy jogging when your calf tightened was an <strong>elite coaching decision</strong>. Forcing threshold intervals on a spasming calf is the #1 way runners tear their soleus or Achilles.
+  </div>
+
+  <h2>1. Telemetry & Engine Vitals</h2>
   <div class="grid">
     <div class="card">
       <div class="card-label">Mechanical ACWR</div>
-      <div class="card-value">0.907</div>
+      <div class="card-value">0.882</div>
       <div class="card-sub">Optimal Sweet Spot (Safe)</div>
     </div>
     <div class="card">
       <div class="card-label">Overnight HRV</div>
-      <div class="card-value">105 ms</div>
-      <div class="card-sub">Balanced (Baseline 101–137 ms)</div>
+      <div class="card-value">114–121 ms</div>
+      <div class="card-sub">Balanced (Strong Recovery)</div>
     </div>
     <div class="card">
       <div class="card-label">Resting Heart Rate</div>
-      <div class="card-value">40 bpm</div>
+      <div class="card-value">38–40 bpm</div>
       <div class="card-sub">Elite parasympathetic tone</div>
     </div>
     <div class="card">
-      <div class="card-label">Deep Sleep Last Night</div>
-      <div class="card-value">91 mins (24%)</div>
-      <div class="card-sub">Score 79 (Complete recovery)</div>
+      <div class="card-label">Volume Banked (Mon–Wed)</div>
+      <div class="card-value">11.99 km</div>
+      <div class="card-sub">Mon 1.4k + Tue 7k + Wed 3.5k</div>
     </div>
   </div>
 
-  <h2>2. Week 13 Recap: 45.88 km Banked</h2>
-  <p>You cleanly hit our 45–48 km target last week, highlighted by Saturday's <strong>20.07 km rolling hill simulation (+179m climbed in 1:47:48 @ 5:22/km)</strong> with an avg HR of 150 bpm.</p>
+  <h2>2. Root-Cause: The Double-Incline Mechanism</h2>
+  <ul>
+    <li><strong>Saturday Sep 19:</strong> 20.07 km Rolling Hill simulation (+179m climbed) shifted heavy mechanical load to the gastrocnemius/soleus.</li>
+    <li><strong>Tuesday Sep 22:</strong> 7.00 km at 1.0–2.5% treadmill incline re-loaded calves before deep eccentric remodeling was complete.</li>
+    <li><strong>Concrete Impact:</strong> 6.7 km of walking in street shoes across Manila sidewalks added sustained micro-shocks.</li>
+    <li><strong>Nocturnal Cramp:</strong> Points to electrolyte depletion (magnesium/sodium) in tropical humidity + air-conditioned sleep.</li>
+  </ul>
 
-  <h2>3. Week 14 Day-by-Day Blueprint (50–52 km Target)</h2>
+  <h2>3. Adjusted Plan for Rest of Week 14</h2>
   <table>
     <thead>
       <tr>
         <th>Day</th>
-        <th>Session & Intensity</th>
+        <th>Adjusted Session</th>
         <th style="text-align: right;">Distance</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><span class="day-badge">MON · SEP 21</span>Today</td>
-        <td><strong>Active Recovery Shakeout / Rest</strong><br>Keep HR &lt; 150 bpm at AF Taft or take full rest after 1.2k walking commutes.</td>
-        <td style="text-align: right;"><span class="dist-badge">4.0 km</span></td>
-      </tr>
-      <tr>
-        <td><span class="day-badge">TUE · SEP 22</span>Tuesday</td>
-        <td><strong>Zone 2 Aerobic Base Cruise + Upper Push</strong><br>162–172 bpm. Follow with chest, shoulders, triceps & core at AF Taft.</td>
-        <td style="text-align: right;"><span class="dist-badge">7.0 km</span></td>
-      </tr>
-      <tr>
-        <td><span class="day-badge">WED · SEP 23</span>Wednesday</td>
-        <td><strong>Quality Threshold Speed Anchor</strong><br>2k Warmup + 5x1,000m @ 4:15–4:25/km (90s jog) + 1.5k Cooldown.</td>
-        <td style="text-align: right;"><span class="dist-badge dist-quality">8.5 km</span></td>
-      </tr>
-      <tr>
-        <td><span class="day-badge">THU · SEP 24</span>Thursday</td>
-        <td><strong>Condo Pool Flush + Upper Pull</strong><br>35m hydrotherapy swim flush + lat pulldowns & rows. 0.0 ground reaction force.</td>
+        <td><span class="day-badge">THU · SEP 24</span>Today</td>
+        <td><strong>Condo Pool Flush + Upper Pull (0.0 km Run)</strong><br>35m hydrotherapy swim flush (Garmin ID: 1705207018) + lat pulldowns & rows. Zero ground impact.</td>
         <td style="text-align: right;"><span class="dist-badge dist-rest">0.0 km</span></td>
       </tr>
       <tr>
         <td><span class="day-badge">FRI · SEP 25</span>Friday</td>
-        <td><strong>Aerobic Foundation Cruise + Strides</strong><br>Zone 2 cruising + 4x100m relaxed strides for hip mobility and turnover.</td>
-        <td style="text-align: right;"><span class="dist-badge">7.5 km</span></td>
+        <td><strong>Flat Aerobic Base Cruise (Strides Vetoed)</strong><br>5.0–6.0 km flat treadmill (0.0% or 0.5% incline, NO HILLS) @ &lt;155 bpm. Strides canceled to eliminate toe-off strain.</td>
+        <td style="text-align: right;"><span class="dist-badge">5.5 km</span></td>
       </tr>
       <tr>
         <td><span class="day-badge">SAT · SEP 26</span>Saturday</td>
-        <td><strong>Pre-Long Run Priming Shakeout</strong><br>Effortless 4k shakeout. High complex carbohydrate fueling day (rice/sweet potato).</td>
+        <td><strong>Pre-Long Run Priming Shakeout</strong><br>Easy 4.0 km shakeout (<148 bpm). High complex carb & sodium fueling day.</td>
         <td style="text-align: right;"><span class="dist-badge">4.0 km</span></td>
       </tr>
       <tr>
         <td><span class="day-badge">SUN · SEP 27</span>Sunday</td>
-        <td><strong>Build II Milestone Long Run (24K)</strong><br>Cornerstone endurance anchor. Practice in-run fueling (3–4 gels at Km 7, 13, 18).</td>
-        <td style="text-align: right;"><span class="dist-badge dist-long">24.0 km</span></td>
+        <td><strong>Build II Long Run Calibration (20–22 km)</strong><br>Adjusted down from 24k to 20–22k flat Zone 2 cruise. Full race fueling practice (3 gels at Km 7, 13, 18).</td>
+        <td style="text-align: right;"><span class="dist-badge dist-long">21.0 km</span></td>
       </tr>
     </tbody>
   </table>
 
-  <p style="margin-top: 16px; font-size: 13px;">
-    <strong>Projected Volume:</strong> <strong>~51.0 km</strong> · <strong>Projected ACWR:</strong> <strong>~1.10</strong> (Optimal Sweet Spot).
-  </p>
+  <h2>4. Calf Recovery Protocol</h2>
+  <ol>
+    <li><strong>Electrolytes & Hydration:</strong> Take 400 mg Magnesium glycinate tonight. Add electrolyte powder/sodium to your water bottle today.</li>
+    <li><strong>Hydrostatic Pool Flush:</strong> Today's 35m pool swim compresses the lower leg to rapidly flush micro-edema without joint impact.</li>
+    <li><strong>Soft Tissue & Stretches:</strong> Foam roll the meaty belly of the calf/soleus (avoid the Achilles). 30s straight-knee and 30s bent-knee wall calf stretches.</li>
+  </ol>
 
   <div class="footer">
     Antigravity AI Coaching System • Generated for Max Sotelo • Bangko Sentral ng Pilipinas & AF Taft Edition
@@ -188,7 +187,7 @@ def send():
         server.ehlo()
         server.login(FROM_EMAIL, APP_PASS)
         server.sendmail(FROM_EMAIL, [TO_EMAIL], msg.as_string())
-    print(f"[OK] Successfully emailed Week 14 Blueprint to {TO_EMAIL}!")
+    print(f"[OK] Successfully emailed Week 14 Audit & Calf Protocol to {TO_EMAIL}!")
 
 if __name__ == "__main__":
     send()
