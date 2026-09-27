@@ -78,13 +78,12 @@ These are the fingerprints of fast-twitch neuromuscular capacity that most endur
 | LTHR | 196 bpm | Joe Friel 30-min field test (Apple Watch S7, Lap 2 avg) | Aug 21, 2025 |
 | LTHR corroboration | 190-197 bpm observed at comfortable + reserve | Jun 11, 2026 Fartlek |
 | Zone 2 Talk Test (verified) | 162–174 bpm confirmed Z2 — held full phone conversation + shouted at 5:40/km | Jun 27, 2026 UPD run |
-| VO2 Max (Garmin est.) | **58 ml/kg/min** | Garmin FR165 — New all-time high. Jumped from 57 after Aug 15 monsoon long run (149 bpm avg @ 5:25/km). | Aug 15, 2026 |
-| Resting HR | ~50 bpm (estimate) | - | - |
+| VO2 Max (Garmin est.) | **59 ml/kg/min** | **Garmin FR165 — NEW ALL-TIME HIGH.** Reached 59 after Sep 26 21km run (1h48m @ ~5:08/km under high heat index in Adidas EVO SLs). | Sep 26, 2026 |
+| Resting HR | **38–40 bpm** | Garmin FR165 live wellness | Sep 2026 |
 | Weight | **68.65 kg** | Morning weigh-in (**New cycle low!** Only 1.65 kg to 67.0 kg athletic floor). | Aug 29, 2026 |
 | Weight Target | **<= 67.0 kg** | Extended Q4 race weight target (**1.65 kg remaining** to reach target). | Aug 2026 |
-| Weight Loss Rate | -5.75 kg total down since Jun 22 (74.4kg -> 68.65kg) | Progressing toward 67.0 kg floor. | Aug 2026 |
 
-**VO2 Max 12-Month Trajectory (Jul 2025 – Aug 2026, Garmin Connect):**
+**VO2 Max 12-Month Trajectory (Jul 2025 – Sep 2026, Garmin Connect):**
 
 | Period | VO2 Max (est.) | Notes |
 |---|---|---|
@@ -99,9 +98,12 @@ These are the fingerprints of fast-twitch neuromuscular capacity that most endur
 | May 2026 | ~54.0 | Recovery and rebuild |
 | Jun 2026 | ~55.0 | New high — Superior category unlocked |
 | Jul 2026 | ~57.0 | New high — post Jul 26 Santa Elena long run |
-| Aug 2026 | **58.0** | **New all-time high — post Aug 15 monsoon long run (149 bpm avg @ 5:25/km for 20.64km)** |
+| Aug 2026 | 58.0 | New high — post Aug 15 monsoon long run |
+| Sep 2026 | **59.0** | **NEW ALL-TIME HIGH — Reached 59 post Sep 26 21km run (1h48m in heat, EVO SLs)** |
 
-**Agent Interpretation:** VO2 Max has risen +7.5 ml/kg/min since the Nov 2025 low. The trend is consistently upward with no plateau visible. The aerobic base is performing at an elite efficiency level (149 bpm avg over 20+ km). Expect continued breakthroughs as marathon-specific threshold work begins.
+**Agent Interpretation:** VO2 Max has reached **59 ml/kg/min**, up +8.5 points from the 50.5 low. The aerobic engine is operating at an elite efficiency level. Matched 21k HM training PB (1h48m) under un-tapered, pre-fatigued, high-heat conditions in Adidas EVO SLs.
+
+**Athlete Long Run History Context (Corrected):** Max has an all-time long run base of **30.39 km** and has completed multiple 25k–30k long runs (25.13 km, 26.2 km, 30.39 km). A 20k–21k run is routine aerobic maintenance volume for his baseline capacity, not a ceiling milestone.
 
 ---
 

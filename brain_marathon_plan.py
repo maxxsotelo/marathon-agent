@@ -23,7 +23,7 @@ ATHLETE = {
     "name": "Max",
     "current_weight": 68.9,
     "goal_weight":    68.0,
-    "current_vo2max": 58.0,
+    "current_vo2max": 59.0,
     "lthr": 191,
     "rhr":  39,
     "max_hr": 206,
