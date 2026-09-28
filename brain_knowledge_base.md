@@ -103,7 +103,7 @@ These are the fingerprints of fast-twitch neuromuscular capacity that most endur
 
 **Agent Interpretation:** VO2 Max has reached **59 ml/kg/min**, up +8.5 points from the 50.5 low. The aerobic engine is operating at an elite efficiency level. Matched 21k HM training PB (1h48m) under un-tapered, pre-fatigued, high-heat conditions in Adidas EVO SLs.
 
-**Athlete Long Run History Context (Corrected):** Max has an all-time long run base of **30.39 km** and has completed multiple 25k–30k long runs (25.13 km, 26.2 km, 30.39 km). A 20k–21k run is routine aerobic maintenance volume for his baseline capacity, not a ceiling milestone.
+**Athlete Long Run History Context (Verified via Garmin API):** Max completed 2x 30ks in early 2026: **30.39 km on Jan 31, 2026** ('Awful but first 30k') and **30.33 km on Mar 15, 2026** ('My second 30k'). In August 2026, long runs were 20.64 km (Aug 15), 24.02 km (Aug 23), and 22.0 km (Aug 29). A 20k–21k run is routine aerobic maintenance volume for his baseline capacity, not a ceiling milestone.
 
 ---
 
