@@ -53,10 +53,12 @@ These are the fingerprints of fast-twitch neuromuscular capacity that most endur
 - If the Mechanical ACWR spikes >1.5, this triggers a **STRUCTURAL DELOAD** (mandatory replacement of running with Z1 cycling or complete rest) to prevent tendon/joint injuries, regardless of HRV or subjective feeling.
 - **Right Knee IT Band Friction (Aug 9, 2026):** User experienced lateral (outer) right knee pain during a 22km treadmill run. **CLEARED (Aug 12, 2026):** Passed 5km outdoor diagnostic test in monsoon conditions with zero pain. The 72-hour structural deload successfully flushed the acute inflammation.
 
-**Shoe Tracking & Mileage Limits**
-- **Adidas Boston 12s (Treadmill Speed Repeats & Junk/Rain Miles):** Retired from outdoor road long runs due to foam compression (>1,015 km). However, **field-verified on Sep 9, 2026:** Excellent for **indoor treadmill speed/threshold repeats (≤10 km)** like 5x1k! The sprung treadmill deck compensates for the compacted foam, while the stiff EnergyRods provide great mechanical pop and turnover at 14–15 km/h with zero foot pain. **STRICT RULE:** Never use for outdoor road pounding or Long Runs (15k+).
-- **Adidas EVO SLs (Speed / Quality / Race Simulation):** Pristine and fresh. Preserved today by using the Boston 12s on the treadmill! Reserved for outdoor tempos, dry road speed, and race-pace simulations.
-- **Sprinting Spikes (Maximal Speed):** User has expressed a desire to return to pure sprinting. Spikes carry massive Achilles/hamstring risk for marathoners. Require at least 2 weeks of dedicated Plyometric prep (bounding, depth jumps) before clearing spikes on a track. Reserved for late Build II or Peak blocks.
+**Shoe Tracking & Active 3-Shoe Rotation (Updated Sep 29, 2026)**
+- **Adidas Supernova Hyperboost Edge (New Aerobic Daily Trainer):** Primary workhorse for Zone 2 aerobic cruises (6k–16k). Perfect blend of responsive Dreamstrike+/Hyperboost foam and smooth ride protection. High versatility.
+- **Adidas Ultraboost 5X (Max Cushion & Recovery):** Plump max-cushion recovery trainer. Ideal for light recovery shakeouts (4k), post-long run flushes, and heavy-legged easy days.
+- **Adidas Adizero EVO SL (Speed / Quality / Race Simulation):** Ultra-lightweight, super-responsive quality trainer. Reserved for road tempo runs, threshold intervals, and race-pace marathon long run simulations (used for 21k HM PB match).
+- **Adidas Boston 12 (Oversized):** **OFFICIALLY RETIRED & REMOVED FROM ROTATION.** Purged due to oversized fit and high mileage (>1,015 km).
+- **Sprinting Spikes (Maximal Speed):** User has expressed a desire to return to pure sprinting. Spikes carry massive Achilles/hamstring risk for marathoners. Require at least 2 weeks of dedicated Plyometric prep before clearing spikes on a track.
 
 ## 0d. TRAINING FACILITIES, LOGISTICS & GYM PROTOCOLS
 
