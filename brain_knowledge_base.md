@@ -54,7 +54,7 @@ These are the fingerprints of fast-twitch neuromuscular capacity that most endur
 - **Right Knee IT Band Friction (Aug 9, 2026):** User experienced lateral (outer) right knee pain during a 22km treadmill run. **CLEARED (Aug 12, 2026):** Passed 5km outdoor diagnostic test in monsoon conditions with zero pain. The 72-hour structural deload successfully flushed the acute inflammation.
 
 **Shoe Tracking & Active 3-Shoe Rotation (Updated Sep 29, 2026)**
-- **Adidas Supernova Hyperboost Edge (New Aerobic Daily Trainer):** Primary workhorse for Zone 2 aerobic cruises (6k–16k). Perfect blend of responsive Dreamstrike+/Hyperboost foam and smooth ride protection. High versatility.
+- **Adidas Supernova Hyperboost Edge (New Aerobic Daily Trainer):** Acquired pre-owned with an assumed **100 km initial baseline mileage**. Primary workhorse for Zone 2 aerobic cruises (6k–16k). Perfect blend of responsive Dreamstrike+/Hyperboost foam and smooth ride protection. High versatility.
 - **Adidas Ultraboost 5X (Max Cushion & Recovery):** Plump max-cushion recovery trainer. Ideal for light recovery shakeouts (4k), post-long run flushes, and heavy-legged easy days.
 - **Adidas Adizero EVO SL (Speed / Quality / Race Simulation):** Ultra-lightweight, super-responsive quality trainer. Reserved for road tempo runs, threshold intervals, and race-pace marathon long run simulations (used for 21k HM PB match).
 - **Adidas Boston 12 (Oversized):** **OFFICIALLY RETIRED & REMOVED FROM ROTATION.** Purged due to oversized fit and high mileage (>1,015 km).
