@@ -4,7 +4,7 @@
 
 week_start = "2026-09-28"
 week_end   = "2026-10-04"
-generated  = "2026-09-29"
+generated  = "2026-10-01"
 
 plan = {
     "meta": {
@@ -12,7 +12,7 @@ plan = {
         "phase":       "Active Recovery Cutback | Week 15 (Neuromuscular & Tendon Remodeling)",
         "load_target": "38–40 km | Long Run: 16.0 km",
         "objective":   "Allow quad fasciculations and knee crepitus to fully resolve after Saturday's 21.39 km HM PB match in high heat. 30k long run deferred to Week 16 (Oct 11). Keep all running strictly in Zone 2 with zero high-intensity speed repeats.",
-        "acwr_context":"Mechanical ACWR safely controlled (~1.12). VO2 Max hit 59 ml/kg/min (all-time high). Tuesday 6.14k run completed in Hyperboost Edge (106.14k total).",
+        "acwr_context":"Mechanical ACWR safely controlled (~1.12). VO2 Max hit 59 ml/kg/min (all-time high). Thursday coached pull + bike flush completed on Oct 1.",
         "zone_update": "Zone 1: <162 bpm. Zone 2: 162–174 bpm. Max HR: 206 bpm.",
         "injury_note": "Painless quad fasciculations & knee crepitus management: 400mg Magnesium Glycinate daily + hydration electrolytes + outer quad foam rolling.",
         "facility_note":"Anytime Fitness Taft, Condo Gym, Marikina Indoor Bike on Thursday.",
@@ -37,18 +37,18 @@ plan = {
             "plyo":    False,
         },
         "2026-09-30": {
-            "label":   "Wednesday | Zone 2 Cruise + Strides [7.5K] + Core, Prehab & Grip [AF Taft]",
-            "session": "7.5 km: 6.0 km Zone 2 Cruise + 4x100m Strides + 30m Core/Prehab/Grip Gym Session",
-            "detail":  "Run: 6.0k Z2 (162-172 bpm) + 4x100m strides (3:45-3:55/km). Gym: Rotational cable woodchoppers, hanging leg raises, rotator cuff prehab, forearms/wrist curls, side planks. PRESERVES 100% OF UPPER BACK/BICEPS FOR THURSDAY PULL.",
-            "run_km":  7.5,
+            "label":   "Wednesday | Zone 2 Cruise + Strides [6.78K] + Core/Prehab [COMPLETED]",
+            "session": "COMPLETED: 6.78 km @ 5:39/km (Strides at 9.3-10.0 mph, TE 3.1) + Core/Prehab (29.7m)",
+            "detail":  "Flawless Zone 2 control (Avg HR 150 bpm) + 4x100m strides + 30m rotational core, leg raises, rotator cuff prehab, and forearms.",
+            "run_km":  6.78,
             "gym":     True,
             "pool":    False,
             "plyo":    False,
         },
         "2026-10-01": {
-            "label":   "Thursday | Marikina Indoor Bike Flush [35m] + Upper Pull Strength",
-            "session": "35m Indoor Bike Flush (Zone 1, <125 bpm, 85-90 rpm) + Upper Pull Strength",
-            "detail":  "Marikina logistics: 35m light spinning (0.0 ground reaction force) + Lat pulldowns, rows, rear delts, bicep curls, and core. (NO SWIMMING).",
+            "label":   "Thursday | Coached Upper Pull (66m) + Bike Flush (27m) + Core [COMPLETED]",
+            "session": "COMPLETED: Coached Pull (66.4m, 301 kcal) + Indoor Bike Flush (26.8m, 146 kcal) + Leg Raises (6m)",
+            "detail":  "Marikina Base: Coached Pull Day with Coach Kent (Lats, Upper Back, Rear Delts, Biceps) + 26.8m Indoor Bike Flush (Avg HR 104 bpm) + Hanging Leg Raises. 0.0 RUN IMPACT.",
             "run_km":  0.0,
             "gym":     True,
             "pool":    False,
