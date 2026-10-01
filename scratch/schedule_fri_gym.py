@@ -27,43 +27,43 @@ def make_strength_step(order, name):
             "stepType": {"stepTypeId": 5, "stepTypeKey": "rest"},
             "endCondition": _LAP,
             "targetType": _NO_TARGET,
-            "description": "Rest (45s, Press LAP when ready)"
+            "description": "Rest (60-90s, Press LAP when ready)"
         }
     ]
 
 fri_gym_steps = []
 ex_o = 1
 
-# 1. Banded Terminal Knee Extensions (TKEs for VMO) - 3 sets x 15 reps
-for s in range(3):
-    fri_gym_steps.extend(make_strength_step(ex_o, f"Banded TKEs (VMO Knee Activation) - Set {s+1}/3"))
+# 1. DB Bench Press / Incline DB Press - 4 sets x 8-10 reps (RPE 8)
+for s in range(4):
+    fri_gym_steps.extend(make_strength_step(ex_o, f"Incline DB Chest Press - Set {s+1}/4 (RPE 8.0)"))
     ex_o += 1
 
-# 2. Glute Bridge Iso-Holds - 3 sets x 30s
-for s in range(3):
-    fri_gym_steps.extend(make_strength_step(ex_o, f"Glute Bridge Iso-Holds (Pre-Run Activation) - Set {s+1}/3"))
+# 2. Incline DB Bicep Curls / Hammer Curls - 4 sets x 10-12 reps (RPE 8.5)
+for s in range(4):
+    fri_gym_steps.extend(make_strength_step(ex_o, f"DB Hammer Curls (Bicep/Brachialis Pump) - Set {s+1}/4"))
     ex_o += 1
 
-# 3. Light Cable Chest Crossovers / DB Pump - 3 sets x 12 reps (RPE 6 light)
-for s in range(3):
-    fri_gym_steps.extend(make_strength_step(ex_o, f"Light Cable Flyes / Chest Pump (RPE 6) - Set {s+1}/3"))
+# 3. Overhead Cable Tricep Extensions - 4 sets x 10-12 reps (RPE 8.5)
+for s in range(4):
+    fri_gym_steps.extend(make_strength_step(ex_o, f"Overhead Cable Tricep Extensions - Set {s+1}/4"))
     ex_o += 1
 
-# 4. Lat Pulls / Dead Hangs (Spinal Decompression) - 3 sets x 45s
-for s in range(3):
-    fri_gym_steps.extend(make_strength_step(ex_o, f"Bar Dead Hangs (Spinal Decompression) - Set {s+1}/3"))
+# 4. DB Lateral Raises (Drop Sets) - 4 sets x 12-15 reps (RPE 8.5)
+for s in range(4):
+    fri_gym_steps.extend(make_strength_step(ex_o, f"DB Lateral Raises (Shoulder Pump) - Set {s+1}/4"))
     ex_o += 1
 
-# 5. Core Planks & Outer Quad Foam Rolling - 3 sets
-for s in range(3):
-    fri_gym_steps.extend(make_strength_step(ex_o, f"Plank Hold (45s) & Quad Roll - Set {s+1}/3"))
+# 5. Hanging Leg Raises / Cable Crunch - 4 sets x 12-15 reps (Near Failure)
+for s in range(4):
+    fri_gym_steps.extend(make_strength_step(ex_o, f"Hanging Leg Raises / Cable Crunch - Set {s+1}/4"))
     ex_o += 1
 
 w_fri_gym = {
-    "workoutName": "W15D5: Pre-Long Run Priming & Mobility [25m]",
-    "description": "Pre-Long Run Gym Priming: VMO knee TKEs, glute activation, bar dead hangs (spinal decompression), light chest flyes (RPE 6), planks, and quad foam rolling. ZERO LEG WEIGHT LIFTING.",
+    "workoutName": "W15D5: Upper Hypertrophy & Arm/Chest Pump [45m]",
+    "description": "Friday Hard Upper Hypertrophy: Incline DB Press, DB Hammer Curls, Overhead Tricep Extensions, DB Lateral Raises, Hanging Leg Raises. ZERO LEG LOADING (Legs reserved 100% for Saturday 16k LR).",
     "sportType": {"sportTypeId": 5, "sportTypeKey": "strength_training"},
-    "estimatedDurationInSecs": 1500,
+    "estimatedDurationInSecs": 2700,
     "workoutSegments": [{
         "segmentOrder": 1,
         "sportType": {"sportTypeId": 5, "sportTypeKey": "strength_training"},
@@ -71,11 +71,11 @@ w_fri_gym = {
     }]
 }
 
-print("Uploading and scheduling Friday Priming Gym workout...")
+print("Uploading and scheduling Hard Upper Hypertrophy workout for Friday...")
 try:
     res = client.upload_workout(w_fri_gym)
     wid = res.get("workoutId")
     client.schedule_workout(wid, "2026-10-02")
-    print(f"[OK] Scheduled 'W15D5: Pre-Long Run Priming & Mobility' (ID: {wid}) for 2026-10-02!")
+    print(f"[OK] Scheduled 'W15D5: Upper Hypertrophy & Arm/Chest Pump' (ID: {wid}) for 2026-10-02!")
 except Exception as e:
     print(f"[ERR] Failed: {e}")

@@ -55,9 +55,9 @@ plan = {
             "plyo":    False,
         },
         "2026-10-02": {
-            "label":   "Friday | Pre-Long Run Shakeout [4K] + Priming Gym Session [25m]",
-            "session": "4.0 km Flat Easy Shakeout (<148 bpm, Zone 1) + 25m Pre-Long Run Priming & Mobility Gym Session",
-            "detail":  "Run: 4.0 km easy flat shakeout in Ultraboost 5X. Gym: Banded TKEs (VMO knee activation), glute bridge iso-holds, bar dead hangs (spinal decompression), light cable flyes (RPE 6), planks, and quad foam rolling. ZERO LEG WEIGHT LIFTING.",
+            "label":   "Friday | Pre-Long Run Shakeout [4K] + Upper Hypertrophy Gym [45m]",
+            "session": "4.0 km Flat Easy Shakeout (<148 bpm, Zone 1) + 45m Upper Hypertrophy & Arm/Chest Pump",
+            "detail":  "Run: 4.0 km easy flat shakeout in Ultraboost 5X. Gym: Incline DB Bench Press (4x8-10), DB Hammer Curls (4x10-12), Overhead Cable Tricep Extensions (4x10-12), DB Lateral Raises (4x12-15), Hanging Leg Raises (4x to failure). ZERO LEG LOADING.",
             "run_km":  4.0,
             "gym":     True,
             "pool":    False,
